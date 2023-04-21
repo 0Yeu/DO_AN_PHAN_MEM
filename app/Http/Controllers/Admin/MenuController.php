@@ -3,17 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MenuCreateFormRequest;
+use App\Http\Service\Menu\MenuService;
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $menuService;
+    public function __construct(MenuService $menuService)
+    {
+        $this->menuService = $menuService;
+    }
+
     public function index()
     {
         //
-        return view('admin.home');
+        return view('admin/menu/listDanhMuc',[
+            'title'=>'Danh sách danh mục hàng cứu trợ',
+            'menus'=>$this->menuService->getTop10()
+        ]);
     }
 
     /**
@@ -22,14 +33,19 @@ class MainController extends Controller
     public function create()
     {
         //
+        return view("admin.menu.addDanhMuc",[
+            'title'=>'Thêm danh mục mới'
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MenuCreateFormRequest $request)
     {
         //
+        $resuilt = $this->menuService->create($request);
+        return redirect()->route('listDanhMuc');
     }
 
     /**

@@ -17,13 +17,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return (new LoginController)->index();
-});
+})->name('login');
 
 Route::post('/store', function (Illuminate\Http\Request $request) {
     return (new LoginController)->store($request);
 });
 
-Route::get('/admin', function () {
-    return (new MainController)->index();
-})->name('admin');
+Route::middleware(['auth'])->group(function(){
 
+    Route::prefix('admin')-> group(function (){
+        Route::get('/', function () {
+            return (new MainController)->index();
+        })->name('admin');
+
+        Route::prefix('menu')->group(function (){
+            Route::get('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'create']);
+            Route::post('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'store']);
+            Route::get('listDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'index'])->name('listDanhMuc');
+        });
+
+    });
+});
