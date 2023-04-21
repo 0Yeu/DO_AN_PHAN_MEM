@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Users\LoginController;
+use App\Http\Controllers\Admin\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return (new LoginController)->index();
 });
+
+Route::post('/store', function (Illuminate\Http\Request $request) {
+    return (new LoginController)->store($request);
+});
+
+Route::get('/admin', function () {
+    return (new MainController)->index();
+})->name('admin');
+
