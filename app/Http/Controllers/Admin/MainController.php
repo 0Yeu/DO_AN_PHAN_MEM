@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
@@ -13,7 +15,11 @@ class MainController extends Controller
     public function index()
     {
         //
-        return view('admin.home');
+        $BaiDangs = DB::table('BaiDang')->get();
+        return view('admin.home',[
+            'title'=>'Trang quản trị',
+            'BaiDangs'=> $BaiDangs
+        ]);
     }
 
     /**

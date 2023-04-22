@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class NguoiDung extends User implements Authenticatable 
+class NguoiDung extends User implements Authenticatable
 {
     use HasFactory;
     protected $table = 'NguoiDung';
     protected $primaryKey = 'idNguoiDung';
     protected $fillable = [
+        'hoTen',
         'idquyen',
         'taiKhoan',
         'matKhau',
@@ -41,7 +42,9 @@ class NguoiDung extends User implements Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    public function getTenNguoiDung(){
+        return $this->hoTen;
+    }
     public function getAuthIdentifierName()
     {
         return 'idNguoiDung';
@@ -66,5 +69,5 @@ class NguoiDung extends User implements Authenticatable
     {
         return 'remember_token';
     }
-    
+
 }

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Service\Menu;
+use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -25,5 +26,20 @@ class MenuService{
         return $data = DB::table('DanhMucHangCuuTro')
             ->orderBy('idDanhMuc', 'asc')
             ->paginate(10);
+    }
+    public function edit($request){
+        DB::table('DanhSachDanhMuc')
+            ->where('idDanhMuc', $request->query('idDanhMuc'))
+            ->update(['name' => 'New Name', 'email' => 'newemail@example.com']);
+
+    }
+    public function destroy($request){
+        $menu = DB::table('DanhMucHangCuuTro')
+            ->where('idDanhMuc', $request->query('idDanhMuc'));
+
+        if ($menu){
+            return DB::table('DanhMucHangCuuTro')->where('idDanhMuc', '=', $request->query('idDanhMuc'))->delete();
+        }
+        return false;
     }
 }

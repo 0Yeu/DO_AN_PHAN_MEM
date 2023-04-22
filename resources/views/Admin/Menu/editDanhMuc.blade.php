@@ -6,12 +6,17 @@
     <form action="" method="POST">
         <div class="card-body">
             <div class="form-group">
+                <label for="">Mã Danh Mục</label>
+                <input type="text" name="idDanhMuc" class="form-control" id="" value="{{$menus->idDanhMuc}}" readonly>
+            </div>
+
+            <div class="form-group">
                 <label for="">Tên danh mục</label>
-                <input type="text" name="tenDanhMuc" class="form-control" id="" placeholder="Tên danh mục">
+                <input type="text" name="tenDanhMuc" class="form-control" id="" value="{{$menus->tenDanhMuc}}">
             </div>
             <div class="form-group">
                 <label for="">Mô tả</label>
-                <textarea class="form-control" name="content" id="content" placeholder="Mô tả"></textarea>
+                <textarea class="form-control" name="moTa" id="content">{{$menus->moTa}}</textarea>
             </div>
         </div>
         <!-- /.card-body -->

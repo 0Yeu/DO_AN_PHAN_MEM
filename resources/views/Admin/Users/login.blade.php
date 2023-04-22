@@ -4,6 +4,9 @@
     @include('admin.head')
 </head>
 <body class="hold-transition login-page">
+<div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="/template/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+</div>
 <div class="login-box">
   <div class="login-logo">
     <a href="../../index2.html"><b>Admin</b>LTE</a>
@@ -14,7 +17,7 @@
       <p class="login-box-msg">Sign in to start your session</p>
 
       @include('admin.alert')
-      <form action="/store" method="POST">  
+      <form action="/store" method="POST">
         <div class="input-group mb-3">
           <input type="email" name='email' class="form-control" placeholder="Email">
           <div class="input-group-append">

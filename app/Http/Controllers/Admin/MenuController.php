@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MenuCreateFormRequest;
 use App\Http\Service\Menu\MenuService;
+use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -45,23 +47,38 @@ class MenuController extends Controller
     {
         //
         $resuilt = $this->menuService->create($request);
-        return redirect()->route('listDanhMuc');
+        return redirect()->route('listDanhMuc',[
+            'title'=>'Danh sách danh mục hàng cứu trợ',
+            'menus'=>$this->menuService->getTop10()
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
         //
+        $menu = DB::table('DanhMucHangCuuTro')
+            ->where('idDanhMuc', $request->query('idDanhMuc'))
+            ->first();
+        return view('admin.menu.editDanhMuc',[
+            'title'=>'Chỉnh sửa danh mục',
+            'menus'=>$menu,
+        ]);
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
+        DB::table('DanhMucHangCuuTro')
+            ->where('idDanhMuc', $request->idDanhMuc)
+            ->update(['tenDanhMuc' => $request->tenDanhMuc, 'moTa' => $request->moTa ]);
+        return redirect()->route('listDanhMuc');
     }
 
     /**
@@ -75,8 +92,13 @@ class MenuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         //
+        $resuilt= $this->menuService->destroy($request);
+        if ($resuilt==true){
+            return redirect()->route('listDanhMuc');
+        }
+        return redirect()->route('listDanhMuc');
     }
 }

@@ -17,8 +17,11 @@
                 <td>{{ $item->tenDanhMuc }}</td>
                 <td>{{ $item->moTa }}</td>
                 <td>
-                    <a class="btn btn-warning" href="/editDanhMuc?idDanhMuc={{$item->idDanhMuc}}">Chỉnh sửa</a>
-                    <a class="btn btn-danger" href="/deleteDanhMuc?idDanhMuc={{$item->idDanhMuc}}">Xóa</a>
+                    <a class="btn btn-warning" href="/admin/menu/editDanhMuc?idDanhMuc={{$item->idDanhMuc}}">Chỉnh sửa</a>
+                    <a class="btn btn-danger" href="/admin/menu/destroy?idDanhMuc={{$item->idDanhMuc}}">Xóa
+                        <i class="fas fa-trash"></i>
+                    </a>
+
                 </td>
             </tr>
         @endforeach

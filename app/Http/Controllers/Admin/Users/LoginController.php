@@ -43,8 +43,9 @@ class LoginController extends Controller
         ->where('idQuyen',1)
         ->first();
 
+
         if ($user && Hash::check($request->password,$user->matKhau)){
-            Auth::loginUsingId($user->idNguoiDung,$request->input('remember'));
+            Auth::loginUsingId($user->idNguoiDung);
             if (Auth::check()){
                 return redirect()->route('admin');
             }else{
@@ -89,5 +90,10 @@ class LoginController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
