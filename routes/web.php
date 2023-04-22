@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Users\LoginController;
 use App\Http\Controllers\Admin\MainController;
+use App\Models\Image;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckQuyen;
 
@@ -46,7 +47,13 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
         });
         Route::prefix('taoBaiDang')->group(function (){
             Route::get('/',[\App\Http\Controllers\Admin\BaiDangController::class,'create']);
-            Route::POST('/',[\App\Http\Controllers\Admin\BaiDangController::class,'store']);
+            Route::post('/', function (Illuminate\Http\Request $request) {
+                return (new \App\Http\Controllers\Admin\BaiDangController())->store($request);
+            });
+            Route::get('/edt',[\App\Http\Controllers\Admin\BaiDangController::class,'show']);
+            Route::post('/edt',[\App\Http\Controllers\Admin\BaiDangController::class,'edit']);
+            Route::get('/del', [\App\Http\Controllers\Admin\BaiDangController::class, 'destroy']);
+
         });
 
     });

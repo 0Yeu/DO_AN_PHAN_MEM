@@ -37,19 +37,12 @@ class BaiDangController extends Controller
     public function store(Request $request)
     {
         //
-        if ($request->file('hinhAnh')->getError()) {
-            return response()->json(['error' => 'File upload failed'], 400);
-        }
-
-        dd($request->file('hinhAnh'));
-            $image = new Image();
-
-            $image->name = $request->file('hinhAnh')->getClientOriginalName();
-            $image->path = $request->file('hinhAnh')->store('images', 'public');
-
-            $image->save();
-            dd($image->path);
-
+        $request->validate([
+            'hinhanh' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $fileName = $request->file('hinhanh')->getClientOriginalName(); // lấy tên gốc của tệp
+        $fileName = time() . '_' . $fileName;
+        $request->file('hinhanh')->storeAs('public/images', $fileName); // lưu tệp vào thư mục public/images với tên gốc của tệp
         try {
             DB::table('BaiDang')->insert(
                 [
@@ -57,7 +50,7 @@ class BaiDangController extends Controller
                     'idDotLuLut' => $request->input('idDotLuLut'),
                     'ngayBatDau' => $request->input('ngayBatDau'),
                     'ngayKetThuc' => $request->input('ngayKetThuc'),
-                    'hinhAnh' => $image->path,
+                    'hinhAnh' => '../storage/images/' . $fileName,
                     'soTien' => $request->input('soTien'),
                     'noiDung' => $request->input('ghiChu'),
                 ]
@@ -75,17 +68,54 @@ class BaiDangController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
         //
+        $menu = DB::table('BaiDang')
+            ->where('idBaiDang', $request->query('id'))
+            ->first();
+        $dlls = DB::table('DotLuLut')->get();
+        return view('admin.BaiDang.suaBaiDang',[
+            'title'=>'Chỉnh sửa danh mục',
+            'menu'=>$menu,
+            'dlls'=>$dlls
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
         //
+        $request->validate([
+            'hinhanh' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        $fileName = $request->file('hinhanh')->getClientOriginalName(); // lấy tên gốc của tệp
+        $fileName = time() . '_' . $fileName;
+        $request->file('hinhanh')->storeAs('public/images', $fileName); // lưu tệp vào thư mục public/images với tên gốc của tệp
+        try {
+            DB::table('BaiDang')
+                ->where('idBaiDang', $request->input('idBaiDang'))
+                ->update(
+                [
+                    'tenDotCuuTro' => $request->input('tenDotCuuTro'),
+                    'idDotLuLut' => $request->input('idDotLuLut'),
+                    'ngayBatDau' => $request->input('ngayBatDau'),
+                    'ngayKetThuc' => $request->input('ngayKetThuc'),
+                    'hinhAnh' => '../storage/images/' . $fileName,
+                    'soTien' => $request->input('soTien'),
+                    'noiDung' => $request->input('ghiChu'),
+                ]
+            );
+            return redirect()->route('admin');
+            Session::flash('succes','Thêm danh mục thành công');
+        }catch (\ErrorException $e){
+            Session::flash('error',$e->getMessage());
+            dd($e);
+            return redirect()->route('admin');
+        }
+        return redirect()->route('admin');
     }
 
     /**
@@ -99,8 +129,14 @@ class BaiDangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
         //
+        $menu = DB::table('BaiDang')
+            ->where('idBaiDang', $request->id)->first();
+        if ($menu) {
+            DB::table('BaiDang')->where('idBaiDang', '=', $request->id)->delete();
+        }
+        return redirect()->route('admin');
     }
 }

@@ -5,13 +5,17 @@
 @section('content')
 
 
-    <form enctype="multipart/form-data" action="" method="POST" >
+    <form enctype="multipart/form-data" action="/admin/taoBaiDang/edt" method="POST" >
         <div class="card-body">
+            <div class="form-group">
+                <label for="">Mã bài đăng</label>
+                <input type="text" name="idBaiDang" class="form-control" id="" value="{{$menu->idBaiDang}}" readonly placeholder="Tên đợt kêu gọi">
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Tên đợt kêu gọi</label>
-                        <input type="text" name="tenDotCuuTro" class="form-control" id="" placeholder="Tên đợt kêu gọi">
+                        <input type="text" name="tenDotCuuTro" class="form-control" id="" value="{{$menu->tenDotCuuTro}}" placeholder="Tên đợt kêu gọi">
                     </div>
                     <div class="form-group">
                         <label for="">Đợt lũ lụt</label>
@@ -24,30 +28,30 @@
                     </div>
                     <div class="form-group">
                         <label for="">Ngày Kết thúc</label>
-                        <input type="date" name="ngayKetThuc" class="form-control" id="">
+                        <input type="date" name="ngayKetThuc" class="form-control" id="" value="{{$menu->ngayKetThuc}}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Ngày bắt đầu</label>
-                        <input type="date" name="ngayBatDau" class="form-control" id="">
+                        <input type="date" name="ngayBatDau" class="form-control" id="" value="{{$menu->ngayBatDau}}">
                     </div>
                     <div class="form-group">
                         <label for="">Số tiền</label>
-                        <input type="number" name="soTien" class="form-control" id="">
+                        <input type="number" name="soTien" class="form-control" id="" value="{{$menu->soTien}}">
                     </div>
                     <div class="form-group">
                         <label for="hinhanh">Hình ảnh</label>
                         <input type="file" name="hinhanh" class="form-control" id="myFile" accept="image/*">
 
-{{--                        <input type="text" style="display: none" id="previewImg" name="data">--}}
+                        {{--                        <input type="text" style="display: none" id="previewImg" name="data">--}}
                     </div>
                 </div>
-                <img src="" id="previewImg" style="max-width: 200px; max-height: 200px;display: none" >
+                <img src="../../{{$menu->hinhAnh}}" id="previewImg" style="max-width: 200px; max-height: 200px;" >
             </div>
             <div class="form-group">
                 <label for="">Ghi chú</label>
-                <textarea class="form-control" name="ghiChu" id="ghiChu" placeholder="Ghi chú"></textarea>
+                <textarea class="form-control" name="ghiChu" id="ghiChu" placeholder="Ghi chú">{{$menu->noiDung}}</textarea>
             </div>
         </div>
         <!-- /.card-body -->

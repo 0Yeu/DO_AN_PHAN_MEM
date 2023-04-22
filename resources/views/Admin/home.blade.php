@@ -1,6 +1,11 @@
 @extends('admin.main')
 @section('head')
     <script src="ckedit/ckeditor.js"></script>
+    <style>
+        .card-text+p{
+            display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="preloader flex-column justify-content-center align-items-center">
@@ -11,14 +16,15 @@
         <div class="row">
             <?php $i=0 ?>
             @foreach($BaiDangs as $baiDang)
-                <div class="col-lg-4 mb-4">
+                <div class="col-lg-3 mb-3">
                     <div class="card h-100">
-                        <img src="https://via.placeholder.com/350x200" class="card-img-top" alt="...">
+                        <img src="{{$baiDang->hinhAnh}}" class="card-img-top img-fluid" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>
-                            <p class="card-text">{{$baiDang->noiDung}}.</p>
-                            <a href="#" class="btn btn-primary">Xem thêm</a>
+                            <p class="card-text">{!! $baiDang->noiDung !!}</p>
                         </div>
+                        <a href="/admin/taoBaiDang/edt?id={{$baiDang->idBaiDang}}" class="btn btn-primary">Sửa bài đăng</a>
+                        <a href="/admin/taoBaiDang/del?id={{$baiDang->idBaiDang}}" class="btn btn-danger">Xóa bài đăng</a>
                     </div>
                 </div>
             @endforeach
