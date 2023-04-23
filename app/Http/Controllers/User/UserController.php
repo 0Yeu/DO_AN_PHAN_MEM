@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class MainController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +20,7 @@ class MainController extends Controller
 //            'message' => 'Posts retrieved successfully',
 //            'data' => $BaiDangs
 //        ]);
-        return view('admin.home',[
+        return view('user.home',[
             'title'=>'Trang quản trị',
             'BaiDangs'=> $BaiDangs
         ]);

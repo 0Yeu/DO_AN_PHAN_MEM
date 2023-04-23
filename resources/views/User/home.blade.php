@@ -1,4 +1,4 @@
-@extends('Home.main')
+@extends('User.main')
 @section('head')
     <script src="ckedit/ckeditor.js"></script>
     <style>
@@ -25,6 +25,7 @@
                             <p class="card-text">{{ $baiDang->soTien }}</p>
                         </div>
                         <a href="#" class="btn btn-primary">Chi tiết</a>
+                        <a href="#" class="btn btn-warning">Đăng ký ủng hộ</a>
                     </div>
                 </div>
             @endforeach

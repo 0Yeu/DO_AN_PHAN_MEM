@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('admin.head')
+    @include('User.head')
 </head>
 <body>
 <body class="hold-transition sidebar-mini">
@@ -142,7 +142,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  @include('admin.sidebar')
+  @include('User.sidebar')
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -150,7 +150,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-          @include('admin.alert')
+          @include('User.alert')
         <div class="row">
           <!-- left column -->
           <div class="col-md-12 mt-3">
@@ -190,6 +190,6 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-    @include('admin.footer')
+    @include('User.footer')
 </body>
 </html>

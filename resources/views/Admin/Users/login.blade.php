@@ -9,7 +9,7 @@
 </div>
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="/"><b>Admin</b>LTE</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -51,6 +51,7 @@
         </div>
         @csrf
       </form>
+        <a href="register" class="text-center">Register a new membership</a>
     @include('admin.footer')
 </div>
 </html>

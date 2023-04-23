@@ -22,9 +22,25 @@ class LoginController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $request->validate([
+            'tenNguoiDung'=> 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'confirmpass'=>'required_with:password'
+
+        ]);
+        DB::table('NguoiDung')->insert(
+            [
+               'hoTen'=> $request->input('tenNguoiDung'),
+                'taiKhoan'=> $request->input('email'),
+                'email'=>$request->input('email'),
+                'matKhau'=> bcrypt($request->input('password')),
+                'idQuyen'=>'2',
+            ]);
+        return redirect()->route('login');
     }
 
     /**
@@ -40,14 +56,18 @@ class LoginController extends Controller
         ]);
         $user = DB::table('NguoiDung')
         ->where('taiKhoan', $request->input('email'))
-        ->where('idQuyen',1)
         ->first();
 
 
         if ($user && Hash::check($request->password,$user->matKhau)){
             Auth::loginUsingId($user->idNguoiDung);
             if (Auth::check()){
-                return redirect()->route('admin');
+                if ($user->idQuyen=='1'){
+                    return redirect()->route('admin');
+                }else{
+                    return redirect()->route('user');
+                }
+
             }else{
                 return redirect()->back()->withInput()->withErrors([
                     'email' => 'Not Logger',
@@ -63,9 +83,10 @@ class LoginController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
         //
+        return view('Admin.Users.register');
     }
 
     /**
@@ -94,6 +115,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }
