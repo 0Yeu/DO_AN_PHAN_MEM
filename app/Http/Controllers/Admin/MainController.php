@@ -15,7 +15,9 @@ class MainController extends Controller
     public function index()
     {
         //
-        $BaiDangs = DB::table('BaiDang')->get();
+        $BaiDangs = DB::table('BaiDang')
+            ->orderBy('idBaiDang', 'asc')
+            ->paginate(8);
 //        return response()->json([
 //            'success' => true,
 //            'message' => 'Posts retrieved successfully',

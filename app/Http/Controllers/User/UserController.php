@@ -14,7 +14,9 @@ class UserController extends Controller
     public function index()
     {
         //
-        $BaiDangs = DB::table('BaiDang')->get();
+        $BaiDangs = DB::table('BaiDang')
+            ->orderBy('idBaiDang', 'asc')
+            ->paginate(10);
 //        return response()->json([
 //            'success' => true,
 //            'message' => 'Posts retrieved successfully',

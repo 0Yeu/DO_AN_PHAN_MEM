@@ -28,10 +28,17 @@ class CheckQuyen
                 return $next($request);
             }
         }
+        if (Auth::check()){
+            return redirect()->route('user')->withErrors([
+                'message' => 'Bạn không có quyền truy cập vào trang này.'
+            ]);
+        }
+        else{
+            return redirect()->route('home')->withErrors([
+                'message' => 'Bạn không có quyền truy cập vào trang này.'
+            ]);
+        }
 
-        return redirect()->route('home')->withErrors([
-            'message' => 'Bạn không có quyền truy cập vào trang này.'
-        ]);
         return $next($request);
     }
 }
