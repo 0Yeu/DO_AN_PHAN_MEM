@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @include('User.head')
+    @include('admin.head')
 </head>
 <body>
 <body class="hold-transition sidebar-mini">
@@ -14,7 +14,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/admin" class="nav-link">Home</a>
+        <a href="/user" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -150,7 +150,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-          @include('User.alert')
+          @include('admin.alert')
         <div class="row">
           <!-- left column -->
           <div class="col-md-12 mt-3">
@@ -190,6 +190,6 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-    @include('User.footer')
+    @include('admin.footer')
 </body>
 </html>

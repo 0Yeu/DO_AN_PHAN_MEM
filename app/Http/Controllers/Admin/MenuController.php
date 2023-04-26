@@ -50,7 +50,7 @@ class MenuController extends Controller
         return redirect()->route('listDanhMuc',[
             'title'=>'Danh sách danh mục hàng cứu trợ',
             'menus'=>$this->menuService->getTop10()
-        ]);
+        ])->with('success', 'Thêm thành công!');
     }
 
     /**
@@ -78,7 +78,7 @@ class MenuController extends Controller
         DB::table('DanhMucHangCuuTro')
             ->where('idDanhMuc', $request->idDanhMuc)
             ->update(['tenDanhMuc' => $request->tenDanhMuc, 'moTa' => $request->moTa ]);
-        return redirect()->route('listDanhMuc');
+        return redirect()->route('listDanhMuc')->with('success', 'Thêm thành công!');
     }
 
     /**

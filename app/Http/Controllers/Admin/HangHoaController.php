@@ -57,7 +57,7 @@ class HangHoaController extends Controller
         return redirect()->route('listhanghoa',[
             'title'=>'Danh sách danh mục hàng cứu trợ',
             'menus'=>$menus
-        ]);
+        ])->with('success', 'Thêm thành công!');
     }
 
     /**
@@ -92,7 +92,7 @@ class HangHoaController extends Controller
                 'soLuongCon'=>$request->input('soLuongCon'),
                 'moTa' =>$request->input('moTa'),
             ]);
-        return redirect()->route('listhanghoa');
+        return redirect()->route('listhanghoa')->with('success', 'Sửa thành công!');
     }
 
     /**

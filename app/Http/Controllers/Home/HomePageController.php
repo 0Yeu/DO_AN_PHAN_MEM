@@ -13,8 +13,10 @@ class HomePageController extends Controller
      */
     public function index()
     {
-        //
-        $BaiDangs = DB::table('BaiDang')->get();
+        
+        $BaiDangs = DB::table('BaiDang')
+            ->orderBy('idBaiDang', 'asc')
+            ->paginate(10);
         return view("Home.home",[
             'title'=>'HOME',
             'BaiDangs'=> $BaiDangs
