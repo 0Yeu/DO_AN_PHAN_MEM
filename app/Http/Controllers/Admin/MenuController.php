@@ -78,7 +78,7 @@ class MenuController extends Controller
         DB::table('DanhMucHangCuuTro')
             ->where('idDanhMuc', $request->idDanhMuc)
             ->update(['tenDanhMuc' => $request->tenDanhMuc, 'moTa' => $request->moTa ]);
-        return redirect()->route('listDanhMuc')->with('success', 'Thêm thành công!');;
+        return redirect()->route('listDanhMuc')->with('success', 'Thêm thành công!');
     }
 
     /**

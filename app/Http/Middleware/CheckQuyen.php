@@ -38,7 +38,6 @@ class CheckQuyen
                 'message' => 'Bạn không có quyền truy cập vào trang này.'
             ]);
         }
-
         return $next($request);
     }
 }

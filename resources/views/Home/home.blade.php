@@ -48,7 +48,6 @@
             </ul>
         </div>
     </div>
-
 @endsection
 @section('footer')
     <script>
