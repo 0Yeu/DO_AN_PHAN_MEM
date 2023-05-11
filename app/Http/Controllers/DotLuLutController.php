@@ -1,26 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class HomePageController extends Controller
+class DotLuLutController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $BaiDangs = DB::table('BaiDang')
-            ->orderBy('idBaiDang', 'asc')
-            ->paginate(3);
-        return view("Home.home",[
-            'title'=>'HOME',
-            'BaiDangs'=> $BaiDangs
-        ]);
+        //
     }
 
     /**

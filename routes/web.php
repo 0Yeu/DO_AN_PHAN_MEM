@@ -22,6 +22,21 @@ Route::get('/', function () {
 })->name('home');
 
 
+Route::get('/DangKyUngHo', function () {
+    return (new LoginController)->DangKyUngHo();
+})->name('DangKyUngHo');
+Route::post('/GuiUngHo', function (Illuminate\Http\Request $request) {
+    return (new LoginController)->GuiUngHo($request);
+});
+Route::get('/danhsachungho', function () {
+    return (new LoginController)->DanhSachUngHo();
+});
+// Các route chỉ được truy cập bởi user có quyền 1 hoặc 2
+Route::get('/chitietungho', function (Illuminate\Http\Request $request) {
+    return (new LoginController)->ChiTietUngHo($request);
+});
+
+
 Route::get('/login', function () {
     return (new LoginController)->index();
 })->name('login');
@@ -51,13 +66,25 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
             Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
         });
+        Route::prefix('DotLuLut')->group(function (){
+            Route::get('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'create']);
+            Route::post('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'store']);
+            Route::get('listDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'index'])->name('listDanhMuc');
+            Route::get('destroy',[\App\Http\Controllers\Admin\MenuController::class,'destroy']);
+            Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
+            Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
+        });
         Route::prefix('hanghoa')->group(function (){
+//            Route::get('/',[\App\Http\Controllers\Admin\HangHoaController::class,'index'])->name('listhanghoa');
             Route::get('addDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'create']);
             Route::post('addDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'store']);
             Route::get('listDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'index'])->name('listhanghoa');
             Route::get('destroy',[\App\Http\Controllers\Admin\HangHoaController::class,'destroy']);
             Route::get('editDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'show']);
             Route::post('editDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'edit']);
+            Route::get('filterDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'filterDanhMuc']);
+
+
         });
         Route::prefix('taoBaiDang')->group(function (){
             Route::get('/',[\App\Http\Controllers\Admin\BaiDangController::class,'create']);
@@ -81,7 +108,6 @@ Route::middleware(['auth', 'CheckQuyen:2'])->group(function (){
 });
 
 Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
-    // Các route chỉ được truy cập bởi user có quyền 1 hoặc 2
 });
 
 Route::middleware(['auth', 'CheckQuyen:1,2,3'])->group(function (){

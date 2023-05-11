@@ -69,5 +69,9 @@ class NguoiDung extends User implements Authenticatable
     {
         return 'remember_token';
     }
+    public function getIdQuyen()
+    {
+        return $this->idQuyen;
+    }
 
 }

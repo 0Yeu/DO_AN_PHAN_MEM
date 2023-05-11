@@ -14,12 +14,14 @@ class HangHoaController extends Controller
     public function index()
     {
         //
+        $dlls = DB::table('DanhMucHangCuuTro')->get();
         $menus = DB::table('HangCuuTro')
             ->orderBy('idHangCuuTro', 'asc')
             ->paginate(10);
         return view('admin/hanghoa/listDanhMuc',[
             'title'=>'Danh sách danh mục hàng cứu trợ',
-            'menus'=>$menus
+            'menus'=>$menus,
+            'dlls'=>$dlls
         ]);
     }
 
@@ -117,4 +119,22 @@ class HangHoaController extends Controller
         }
         return redirect()->route('listHangHoa');
     }
+    public function filterDanhMuc(Request $request)
+    {
+
+        $idDanhMuc = $request->input('idDanhMuc');
+        $dlls = DB::table('DanhMucHangCuuTro')->get();
+        if($idDanhMuc==-1){
+            $menus = DB::table('hangcuutro')->paginate(10);
+        }else
+            $menus = DB::table('hangcuutro')->where('idDanhMuc', $idDanhMuc)->paginate(10);
+
+        return
+            view('admin/hanghoa/tableDM',[
+                'title'=>'Danh sách danh mục hàng cứu trợ',
+                'menus'=>$menus,
+                'dlls'=>$dlls
+            ]);
+    }
+
 }
