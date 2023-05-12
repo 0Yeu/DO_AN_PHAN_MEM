@@ -44,21 +44,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/admin/menu/listDanhMuc" class="nav-link">
+                <a href="/DangKyUngHo" class="nav-link">
 {{--                  <i class="far fa-circle nav-icon"></i>--}}
-                  <p>Danh mục hàng cứu trợ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/hanghoa/listDanhMuc" class="nav-link">
-{{--                  <i class="far fa-circle nav-icon"></i>--}}
-                  <p>Hàng hóa hỗ trợ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/taoBaiDang/" class="nav-link">
-{{--                  <i class="far fa-circle nav-icon"></i>--}}
-                  <p>Tạo bài đăng</p>
+                  <p>Đăng ký ủng hộ</p>
                 </a>
               </li>
             </ul>

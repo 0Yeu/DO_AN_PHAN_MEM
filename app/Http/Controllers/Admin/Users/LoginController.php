@@ -117,4 +117,69 @@ class LoginController extends Controller
         Auth::logout();
         return redirect()->route('home');
     }
+
+    public function DangKyUngHo()
+    {
+        //
+        $DotLuLut = DB::table('DotLuLut')->get();
+        $HangCT = DB::table('HangCuuTro')->get();
+        return view('Admin.UngHo.toKhai',[
+            'HangCT'=>$HangCT,
+            'DotLuLut'=>$DotLuLut
+        ]);
+    }
+    public function GuiUngHo(Request $request)
+    {
+        //
+        $data = [];
+        $hanghoa = $request->input('hanghoa');
+        $soLuong = $request->input('soluong');
+        $count = count($hanghoa);
+
+        for ($i = 0; $i < $count; $i++) {
+            $product = $hanghoa[$i];
+            $quantity = $soLuong[$i];
+            if (isset($data[$product])) {
+                $data[$product] += $quantity;
+            } else {
+                $data[$product] = $quantity;
+            }
+        }
+        DB::table('UngHo')->insert([
+            'idNguoiDung' => Auth::check() ? Auth::user()->getAuthIdentifier():1,
+            'idDotLuLut' => $request->input('dotlulut'),
+            'thoiGianUngHo' => $request->input('thoigian'),
+            'TrangThaiPheDuyet' => 'Chờ phê duyệt',
+        ]);
+
+        $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
+//        dd($latestUngHo);
+        foreach ($data as $product => $quantity) {
+            echo $product . ' - ' . $quantity;
+            // xử lý với từng product và quality
+            DB::table('ChiTietUngHoHang')->insert(
+                [
+                    'idUngHo'=>$latestUngHo->idUngHo,
+                    'idHangCuuTro' => $product,
+                    'soLuong' => $quantity,
+                    'TrangThaiPheDuyet' => 1,
+                ]
+            );
+        }
+
+        return redirect()->route('home');
+    }
+    public function DanhSachUngHo(){
+        $ungHoList = DB::table('UngHo')->get();
+        return view('Admin.UngHo.danhsach',[
+            'ungHoList'=>$ungHoList
+        ]);
+    }
+    public function ChiTietUngHo(Request $request){
+//        dd($request);
+        $chiTietList = DB::table('chiTietUngHoHang')->where('idUngHo', $request->id)->get();
+        return view('Admin.UngHo.chitiet',[
+            'chiTietList'=>$chiTietList
+        ]);
+    }
 }

@@ -6,12 +6,8 @@
     <form action="" method="POST">
         <div class="card-body">
             <div class="form-group">
-                <label for="">Tên danh mục</label>
-                <input type="text" name="tenDanhMuc" class="form-control" id="" placeholder="Tên danh mục">
-            </div>
-            <div class="form-group">
-                <label for="">Mô tả</label>
-                <textarea class="form-control" name="content" id="content" placeholder="Mô tả"></textarea>
+                <label for="">Loại hộ</label>
+                <input type="text" name="LoaiHoGD" class="form-control" id="" value="{{$menu->LoaiHoGD}}">
             </div>
         </div>
         <!-- /.card-body -->

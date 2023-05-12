@@ -1,25 +1,25 @@
 @extends('Admin.main')
 @section('content')
     @include('admin.alert')
-    <a href="/admin/menu/addDanhMuc" class="btn btn-primary float-right"  style="margin-top: 20px;width: 200px"><i class="fas fa-plus"></i> Thêm danh mục</a>
+    <a href="/admin/mucDoThietHai/addMucDoThietHai" class="btn btn-primary float-right"  style="margin-top: 20px;width: 200px"><i class="fas fa-plus"></i> Thêm mức độ thiệt hại</a>
     <table class="table table table-striped" >
         <thead class="card-header" style="background: #00bb00; margin-top: 20px">
         <tr class="">
-            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mã Danh Mục</th>
-            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Tên danh mục</th>
-            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mô tả</th>
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mã mức độ</th>
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Loại mức độ</th>
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Ghi chú</th>
             <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Trạng thái</th>
         </tr>
         </thead>
         <tbody>
         @foreach($menus as $item)
             <tr>
-                <td>{{ $item->idDanhMuc }}</td>
-                <td>{{ $item->tenDanhMuc}}</td>
-                <td>{!! $item->moTa !!}</td>
+                <td>{{ $item->idMucDoThietHai }}</td>
+                <td>{{ $item->tenMucDo}}</td>
+                <td>{!! $item->ghiChu !!}</td>
                 <td>
-                    <a class="btn btn-warning" href="/admin/menu/editDanhMuc?idDanhMuc={{$item->idDanhMuc}}">Chỉnh sửa</a>
-                    <a class="btn btn-danger" href="/admin/menu/destroy?idDanhMuc={{$item->idDanhMuc}}">Xóa
+                    <a class="btn btn-warning" href="/admin/mucDoThietHai/editMucDoThietHai?idMucDoThietHai={{$item->idMucDoThietHai}}">Chỉnh sửa</a>
+                    <a class="btn btn-danger" href="/admin/mucDoThietHai/destroy?idMucDoThietHai={{$item->idMucDoThietHai}}">Xóa
                         <i class="fas fa-trash"></i>
                     </a>
 
