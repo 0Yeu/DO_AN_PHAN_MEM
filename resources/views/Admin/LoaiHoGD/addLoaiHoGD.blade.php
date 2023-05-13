@@ -6,12 +6,8 @@
     <form action="" method="POST">
         <div class="card-body">
             <div class="form-group">
-                <label for="">Tên đợt lũ lụt</label>
-                <input type="text" name="tenDotLuLut" class="form-control" id="" value="{{$menu->tenDotLuLut}}">
-            </div>
-            <div class="form-group">
-                <label for="">Ngày xảy ra lũ</label>
-                <input type="date" name="thoiGian" class="form-control" id="" value="{{$menu->thoiGian}}">
+                <label for="">Loại hộ gia đình</label>
+                <input type="text" name="LoaiHoGD" class="form-control" id="" placeholder="Loại hộ">
             </div>
         </div>
         <!-- /.card-body -->

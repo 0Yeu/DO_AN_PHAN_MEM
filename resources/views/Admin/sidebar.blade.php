@@ -43,24 +43,48 @@
 {{--              </p>--}}
 {{--            </a>--}}
             <ul class="nav {{-- nav-treeview --}}">
-              <li class="nav-item">
-                <a href="/admin/menu/listDanhMuc" class="nav-link">
-{{--                  <i class="far fa-circle nav-icon"></i>--}}
-                  <p>Danh mục hàng cứu trợ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/hanghoa/listDanhMuc" class="nav-link">
-{{--                  <i class="far fa-circle nav-icon"></i>--}}
-                  <p>Hàng hóa hỗ trợ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/admin/taoBaiDang/" class="nav-link">
-{{--                  <i class="far fa-circle nav-icon"></i>--}}
-                  <p>Tạo bài đăng</p>
-                </a>
-              </li>
+                <li class="nav-item">
+                    <a href="/admin/menu/listDanhMuc" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Danh mục hàng cứu trợ</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/hanghoa/listDanhMuc" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Hàng hóa hỗ trợ</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/mucDoThietHai/listMucDoThietHai" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Mức độ thiệt hại</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/loaiHoGD/listLoaiHoGD" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Loại Hộ gia đình</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/hoGiaDinh/listHoGiaDinh" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Hộ gia đình</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/dotlulut/listDotLuLut" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Đợt lũ lụt</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/taoBaiDang/" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Tạo bài đăng</p>
+                    </a>
+                </li>
             </ul>
 {{--          </li>--}}
             <li class="nav-item">

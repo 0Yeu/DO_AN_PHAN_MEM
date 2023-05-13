@@ -26,7 +26,6 @@
                     <a class="btn btn-danger" href="/admin/hanghoa/destroy?idHangCuuTro={{$item->idHangCuuTro}}">Xóa
                         <i class="fas fa-trash"></i>
                     </a>
-
                 </td>
             </tr>
         @endforeach

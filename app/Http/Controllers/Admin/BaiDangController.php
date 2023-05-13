@@ -54,10 +54,11 @@ class BaiDangController extends Controller
                     'noiDung' => $request->input('ghiChu'),
                 ]
             );
+            Session::flash('success','Thêm bài đăng thành công');
             return redirect()->route('admin');
-            Session::flash('succes','Thêm danh mục thành công');
+
         }catch (\ErrorException $e){
-            Session::flash('error',$e->getMessage());
+            Session::flash('errors',$e->getMessage());
             return redirect()->route('admin');
         }
         return redirect()->route('admin');
@@ -107,10 +108,10 @@ class BaiDangController extends Controller
                             'noiDung' => $request->input('ghiChu'),
                         ]
                     );
+                Session::flash('success','Chỉnh sửa bài đăng thành công');
                 return redirect()->route('admin');
-                Session::flash('succes','Thêm danh mục thành công');
             }catch (\ErrorException $e){
-                Session::flash('error',$e->getMessage());
+                Session::flash('errors',$e->getMessage());
                 dd($e);
                 return redirect()->route('admin');
             }
@@ -128,10 +129,10 @@ class BaiDangController extends Controller
                             'noiDung' => $request->input('ghiChu'),
                         ]
                     );
+                Session::flash('success','Chỉnh sửa bài đăng thành công');
                 return redirect()->route('admin');
-                Session::flash('succes','Thêm danh mục thành công');
             }catch (\ErrorException $e){
-                Session::flash('error',$e->getMessage());
+                Session::flash('errors',$e->getMessage());
                 dd($e);
                 return redirect()->route('admin');
             }
@@ -157,7 +158,12 @@ class BaiDangController extends Controller
         $menu = DB::table('BaiDang')
             ->where('idBaiDang', $request->id)->first();
         if ($menu) {
-            DB::table('BaiDang')->where('idBaiDang', '=', $request->id)->delete();
+            $result=DB::table('BaiDang')->where('idBaiDang', '=', $request->id)->delete();
+        }
+        if ($result) {
+            Session::flash('success', 'Đã xóa');
+        } else {
+            Session::flash('error', 'Có lỗi xảy ra. Không thể cập nhật dữ liệu.');
         }
         return redirect()->route('admin');
     }

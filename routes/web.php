@@ -66,13 +66,21 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
             Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
         });
-        Route::prefix('DotLuLut')->group(function (){
-            Route::get('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'create']);
-            Route::post('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'store']);
-            Route::get('listDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'index'])->name('listDanhMuc');
-            Route::get('destroy',[\App\Http\Controllers\Admin\MenuController::class,'destroy']);
-            Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
-            Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
+//        Route::prefix('DotLuLut')->group(function (){
+//            Route::get('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'create']);
+//            Route::post('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'store']);
+//            Route::get('listDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'index'])->name('listDanhMuc');
+//            Route::get('destroy',[\App\Http\Controllers\Admin\MenuController::class,'destroy']);
+//            Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
+//            Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
+//        });
+        Route::prefix('dotlulut')->group(function (){
+            Route::get('addDotLuLut',[\App\Http\Controllers\Admin\DotLuLutController::class,'create']);
+            Route::post('addDotLuLut',[\App\Http\Controllers\Admin\DotLuLutController::class,'store']);
+            Route::get('listDotLuLut',[\App\Http\Controllers\Admin\DotLuLutController::class,'index'])->name('listDotLuLut');
+            Route::get('destroy',[\App\Http\Controllers\Admin\DotLuLutController::class,'destroy']);
+            Route::get('editDanhMuc',[\App\Http\Controllers\Admin\DotLuLutController::class,'show']);
+            Route::post('editDanhMuc',[\App\Http\Controllers\Admin\DotLuLutController::class,'edit']);
         });
         Route::prefix('hanghoa')->group(function (){
 //            Route::get('/',[\App\Http\Controllers\Admin\HangHoaController::class,'index'])->name('listhanghoa');
@@ -86,6 +94,35 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
 
 
         });
+
+        Route::prefix('mucDoThietHai')->group(function (){
+            Route::get('addMucDoThietHai',[\App\Http\Controllers\Admin\MucDoThietHaiController::class,'create']);
+            Route::post('addMucDoThietHai',[\App\Http\Controllers\Admin\MucDoThietHaiController::class,'store']);
+            Route::get('listMucDoThietHai',[\App\Http\Controllers\Admin\MucDoThietHaiController::class,'index'])->name('listMucDoThietHai');
+            Route::get('destroy',[\App\Http\Controllers\Admin\MucDoThietHaiController::class,'destroy']);
+            Route::get('editMucDoThietHai',[\App\Http\Controllers\Admin\MucDoThietHaiController::class,'show']);
+            Route::post('editMucDoThietHai',[\App\Http\Controllers\Admin\MucDoThietHaiController::class,'edit']);
+        });
+        Route::prefix('hoGiaDinh')->group(function (){
+            Route::get('addHoGiaDinh',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'create']);
+            Route::post('addHoGiaDinh',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'store']);
+            Route::get('listHoGiaDinh',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'index'])->name('listHoGiaDinh');
+            Route::get('destroy',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'destroy']);
+            Route::get('editHoGiaDinh',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'show']);
+            Route::post('editHoGiaDinh',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'edit']);
+            Route::get('filterHGD',[\App\Http\Controllers\Admin\HoGiaDinhController::class,'filterHoGiaDinh']);
+
+
+        });
+        Route::prefix('loaiHoGD')->group(function (){
+            Route::get('addLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'create']);
+            Route::post('addLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'store']);
+            Route::get('listLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'index'])->name('listLoaiHoGD');
+            Route::get('destroy',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'destroy']);
+            Route::get('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'show']);
+            Route::post('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'edit']);
+        });
+
         Route::prefix('taoBaiDang')->group(function (){
             Route::get('/',[\App\Http\Controllers\Admin\BaiDangController::class,'create']);
             Route::post('/', function (Illuminate\Http\Request $request) {

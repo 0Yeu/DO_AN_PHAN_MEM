@@ -6,12 +6,12 @@
     <form action="" method="POST">
         <div class="card-body">
             <div class="form-group">
-                <label for="">Tên đợt lũ lụt</label>
-                <input type="text" name="tenDotLuLut" class="form-control" id="" value="{{$menu->tenDotLuLut}}">
+                <label for="">Tên mức độ</label>
+                <input type="text" name="tenMucDo" class="form-control" id="" value="{{$menu->tenMucDo}}">
             </div>
             <div class="form-group">
-                <label for="">Ngày xảy ra lũ</label>
-                <input type="date" name="thoiGian" class="form-control" id="" value="{{$menu->thoiGian}}">
+                <label for="">Ghi chú</label>
+                <textarea class="form-control" name="ghiChu" id="content" placeholder="Mô tả">{{$menu->ghiChu}}</textarea>
             </div>
         </div>
         <!-- /.card-body -->
