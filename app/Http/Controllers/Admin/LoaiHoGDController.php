@@ -62,7 +62,7 @@ class LoaiHoGDController extends Controller
             'title'=>'Danh sách loại hộ gia đình',
             'menus'=>$menus
         ]);
-        
+
     }
 
     /**
@@ -117,4 +117,5 @@ class LoaiHoGDController extends Controller
         }
         return redirect()->route('listLoaiHoGD');
     }
+
 }

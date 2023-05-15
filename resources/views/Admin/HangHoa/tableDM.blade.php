@@ -20,9 +20,18 @@
             <td>{{ $item->soLuongCon }}</td>
             <td>{!! $item->moTa !!}</td>
             <td>
-                <a class="btn btn-warning" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idHangCuuTro}}">Chỉnh sửa</a>
-                <a class="btn btn-danger" href="/admin/hanghoa/destroy?idHangCuuTro={{$item->idHangCuuTro}}">Xóa
-                    <i class="fas fa-trash"></i>
+                <a class="btn btn-warning" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idHangCuuTro}}">
+                            <span class="material-symbols-outlined">
+                            edit
+                        </span></a>
+                <a class="btn btn-danger" href="/admin/hanghoa/destroy?idHangCuuTro={{$item->idHangCuuTro}}"><span class="material-symbols-outlined">
+                        delete
+                        </span>
+                </a>
+                <a class="btn btn-info" href="#">
+                        <span class="material-symbols-outlined">
+                        history
+                        </span>
                 </a>
 
             </td>

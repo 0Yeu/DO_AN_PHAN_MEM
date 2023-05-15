@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     @include('admin.head')
+    @yield('style')
 </head>
-<body>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->

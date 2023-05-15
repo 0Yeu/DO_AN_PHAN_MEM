@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use MongoDB\Driver\Session;
 
 class LoginController extends Controller
 {
@@ -16,6 +17,10 @@ class LoginController extends Controller
     public function index()
     {
         //
+        if (Auth::check())
+            if (Auth::user()->idQuyen==1){
+                return redirect()->route('admin');
+            }
         return view('Admin.Users.login');
     }
 
@@ -135,7 +140,7 @@ class LoginController extends Controller
         $hanghoa = $request->input('hanghoa');
         $soLuong = $request->input('soluong');
         $count = count($hanghoa);
-
+//        dd($request);
         for ($i = 0; $i < $count; $i++) {
             $product = $hanghoa[$i];
             $quantity = $soLuong[$i];
@@ -184,12 +189,74 @@ class LoginController extends Controller
             ->join('HangCuuTro', 'ChiTietUngHoHang.idHangCuuTro', '=', 'HangCuuTro.idHangCuuTro')
             ->join('UngHo', 'ChiTietUngHoHang.idUngHo', '=', 'UngHo.idUngHo')
             ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
-            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen')
+            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen','NguoiDung.idNguoiDung')
             ->where('ChiTietUngHoHang.idUngHo', $request->id)
             ->get();
 
         return view('Admin.UngHo.chitiet',[
-            'chiTietList'=>$chiTietList
+            'chiTietList'=>$chiTietList,
+            'idUngHo'=>$request->id
+        ]);
+    }
+
+    public function pheDuyet(Request $request)
+    {
+        // Lấy dữ liệu từ Ajax request
+        $idHangCuuTro = $request->input('idHangCuuTro');
+        $soLuongThucNhan = $request->input('soLuongThucNhan');
+        $idUngHo=$request->input('idUngHo');
+
+        // Cập nhật trạng thái và số lượng thực nhận bằng cách sử dụng DB facade
+        DB::table('chiTietungHoHang')
+            ->where('idHangCuuTro', $idHangCuuTro)
+            ->where('idungho', $idUngHo) // Thêm điều kiện idungho
+            ->update([
+                'trangThaiPheDuyet' => 2, // Đã phê duyệt
+                'soLuongThucNhan' => $soLuongThucNhan
+            ]);
+
+
+        // Trả về kết quả thành công (hoặc bất kỳ thông báo nào bạn muốn)
+        return response()->json(['success' => true]);
+    }
+    public function pheDuyetAll(Request $request)
+    {
+        // Lấy dữ liệu từ Ajax request
+        $idHangCuuTroList = $request->input('idHangCuuTroList');
+        $soLuongThucNhanList = $request->input('soLuongThucNhanList');
+        $idUngHo = $request->input('idUngHo');
+
+// Sử dụng vòng lặp for để duyệt qua từng phần tử trong danh sách idHangCuuTroList
+        for ($i = 0; $i < count($soLuongThucNhanList); $i++) {
+            $idHangCuuTro = $idHangCuuTroList[$i];
+            $soLuongThucNhan = $soLuongThucNhanList[$i];
+
+            // Cập nhật trạng thái và số lượng thực nhận bằng cách sử dụng DB facade
+            DB::table('chiTietungHoHang')
+                ->where('idHangCuuTro', $idHangCuuTro)
+                ->where('idungho', $idUngHo) // Thêm điều kiện idungho
+                ->update([
+                    'trangThaiPheDuyet' => 2, // Đã phê duyệt
+                    'soLuongThucNhan' => $soLuongThucNhan
+                ]);
+        }
+
+
+
+        // Trả về kết quả thành công (hoặc bất kỳ thông báo nào bạn muốn
+        return response()->json(['success' => true]);
+    }
+
+    public function KhaiBaoThietHai()
+    {
+        //
+        $DotLuLut = DB::table('DotLuLut')->get();
+        $HangCT = DB::table('HangCuuTro')->get();
+        $MucDos = DB::table('MucDoThietHai')->get();
+        return view('Admin.ToKhai.tokhaithiethai',[
+            'HangCT'=>$HangCT,
+            'DotLuLut'=>$DotLuLut,
+            'MucDos'=>$MucDos
         ]);
     }
 }

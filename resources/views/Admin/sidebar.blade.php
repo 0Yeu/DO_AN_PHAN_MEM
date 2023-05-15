@@ -80,6 +80,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="/admin/phanQuyen/list" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Phân quyền</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/danhsachungho" class="nav-link">
+                        {{--                  <i class="far fa-circle nav-icon"></i>--}}
+                        <p>Danh sách ủng hộ</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="/admin/taoBaiDang/" class="nav-link">
                         {{--                  <i class="far fa-circle nav-icon"></i>--}}
                         <p>Tạo bài đăng</p>

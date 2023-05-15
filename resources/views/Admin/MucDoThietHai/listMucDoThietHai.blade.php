@@ -17,9 +17,12 @@
                 <td>{{ $item->tenMucDo}}</td>
                 <td>{!! $item->ghiChu !!}</td>
                 <td>
-                    <a class="btn btn-warning" href="/admin/mucDoThietHai/editMucDoThietHai?idMucDoThietHai={{$item->idMucDoThietHai}}">Chỉnh sửa</a>
-                    <a class="btn btn-danger" href="/admin/mucDoThietHai/destroy?idMucDoThietHai={{$item->idMucDoThietHai}}">Xóa
-                        <i class="fas fa-trash"></i>
+                    <a class="btn btn-warning" href="/admin/mucDoThietHai/editMucDoThietHai?idMucDoThietHai={{$item->idMucDoThietHai}}"><span class="material-symbols-outlined">
+                            edit
+                        </span></a>
+                    <a class="btn btn-danger" href="/admin/mucDoThietHai/destroy?idMucDoThietHai={{$item->idMucDoThietHai}}"><span class="material-symbols-outlined">
+                        delete
+                        </span>
                     </a>
 
                 </td>

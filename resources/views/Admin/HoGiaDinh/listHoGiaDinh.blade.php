@@ -30,9 +30,12 @@
                     <td>{{ $item->soLuongThanhVien }}</td>
                     <td>{{ $item->diaChi}}</td>
                     <td>
-                        <a class="btn btn-warning" href="/admin/hoGiaDinh/editHoGiaDinh?idHoGiaDinh={{$item->idHoGiaDinh}}">Chỉnh sửa</a>
-                        <a class="btn btn-danger" href="/admin/hoGiaDinh/destroy?idHoGiaDinh={{$item->idHoGiaDinh}}">Xóa
-                            <i class="fas fa-trash"></i>
+                        <a class="btn btn-warning" href="/admin/hoGiaDinh/editHoGiaDinh?idHoGiaDinh={{$item->idHoGiaDinh}}"><span class="material-symbols-outlined">
+                            edit
+                        </span></a>
+                        <a class="btn btn-danger" href="/admin/hoGiaDinh/destroy?idHoGiaDinh={{$item->idHoGiaDinh}}"><span class="material-symbols-outlined">
+                        delete
+                        </span>
                         </a>
 
                     </td>

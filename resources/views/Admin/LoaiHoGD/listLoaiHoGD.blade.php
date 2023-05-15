@@ -16,9 +16,12 @@
                 <td>{{ $item->idLoaiHoGD }}</td>
                 <td>{{ $item->LoaiHoGD}}</td>
                 <td>
-                    <a class="btn btn-warning" href="/admin/loaiHoGD/editLoaiHoGD?idLoaiHoGD={{$item->idLoaiHoGD}}">Chỉnh sửa</a>
-                    <a class="btn btn-danger" href="/admin/loaiHoGD/destroy?idLoaiHoGD={{$item->idLoaiHoGD}}">Xóa
-                        <i class="fas fa-trash"></i>
+                    <a class="btn btn-warning" href="/admin/loaiHoGD/editLoaiHoGD?idLoaiHoGD={{$item->idLoaiHoGD}}"><span class="material-symbols-outlined">
+                            edit
+                        </span></a>
+                    <a class="btn btn-danger" href="/admin/loaiHoGD/destroy?idLoaiHoGD={{$item->idLoaiHoGD}}"><span class="material-symbols-outlined">
+                        delete
+                        </span>
                     </a>
 
                 </td>

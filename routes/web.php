@@ -25,6 +25,9 @@ Route::get('/', function () {
 Route::get('/DangKyUngHo', function () {
     return (new LoginController)->DangKyUngHo();
 })->name('DangKyUngHo');
+Route::get('/KhaiBaoThietHai', function () {
+    return (new LoginController)->KhaiBaoThietHai();
+})->name('KhaiBaoThietHai');
 Route::post('/GuiUngHo', function (Illuminate\Http\Request $request) {
     return (new LoginController)->GuiUngHo($request);
 });
@@ -32,9 +35,9 @@ Route::get('/danhsachungho', function () {
     return (new LoginController)->DanhSachUngHo();
 });
 // Các route chỉ được truy cập bởi user có quyền 1 hoặc 2
-Route::get('/chitietungho', function (Illuminate\Http\Request $request) {
+Route::any('/chitietungho', function (Illuminate\Http\Request $request) {
     return (new LoginController)->ChiTietUngHo($request);
-});
+})->name('chitietungho');;
 
 
 Route::get('/login', function () {
@@ -122,6 +125,35 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::get('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'show']);
             Route::post('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'edit']);
         });
+        Route::prefix('phanQuyen')->group(function (){
+            Route::get('addLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'create']);
+            Route::post('addLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'store']);
+            Route::get('list',[\App\Http\Controllers\Admin\PhanQuyenController::class,'index'])->name('listLoaiHoGD');
+            Route::get('destroy',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'destroy']);
+            Route::get('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'show']);
+            Route::post('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'edit']);
+
+            // Route definition
+            Route::post('validate-password', [App\Http\Controllers\Admin\PhanQuyenController::class,'validatePassword']);
+            Route::post('update-IdQuyen', [App\Http\Controllers\Admin\PhanQuyenController::class,'updateIdQuyen']);
+            Route::get('/search', [App\Http\Controllers\Admin\PhanQuyenController::class,'search']);
+
+
+// UserController.php
+
+        });
+        Route::prefix('PhanBo')->group(function (){
+            Route::get('/', function () {
+                return (new \App\Http\Controllers\Admin\PhanBoController())->duKien();
+            });
+            Route::post('/guiDuKien', function (Illuminate\Http\Request $request) {
+                return (new \App\Http\Controllers\Admin\PhanBoController())->guiPhanBo($request);
+            });
+
+
+// UserController.php
+
+        });
 
         Route::prefix('taoBaiDang')->group(function (){
             Route::get('/',[\App\Http\Controllers\Admin\BaiDangController::class,'create']);
@@ -145,6 +177,8 @@ Route::middleware(['auth', 'CheckQuyen:2'])->group(function (){
 });
 
 Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
+    Route::post('/phe-duyet', [\App\Http\Controllers\Admin\Users\LoginController::class,'pheDuyet'])->name('phe-duyet');
+    Route::post('/phe-duyet-all', [\App\Http\Controllers\Admin\Users\LoginController::class,'pheDuyetAll'])->name('phe-duyet-all');
 });
 
 Route::middleware(['auth', 'CheckQuyen:1,2,3'])->group(function (){
