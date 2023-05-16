@@ -31,7 +31,7 @@
                     </div>
                 </div>
             @endforeach
-        </div> --}}
+        </div>
         {{-- <div class="card-tools float-right">
             <ul class="pagination pagination-sm">
                 @if ($BaiDangs->onFirstPage())
@@ -54,5 +54,5 @@
     <script>
         CKEDITOR.replace( 'content' );
     </script>
-@endsection
+@endsection --}}
 

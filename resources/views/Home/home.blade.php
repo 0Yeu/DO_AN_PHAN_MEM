@@ -19,7 +19,7 @@
                 <div class="col-lg-3 mb-3">
                     <div class="card h-100">
                         <div class="card-img-top">
-                            <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;scale: inherit">
+                            <img src="{{$baiDang->hinhAnh}}" class="img-fluid" style="height: 200px;scale: inherit">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>

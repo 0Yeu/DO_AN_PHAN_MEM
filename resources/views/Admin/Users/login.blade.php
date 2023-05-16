@@ -9,12 +9,12 @@
 </div>
 <div class="login-box">
   <div class="login-logo">
-    <a href="/"><b>Admin</b>LTE</a>
+    <a href="/"><b>Cứu trợ lũ lụt</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg"><b>ĐĂNG NHẬP</b></p>
 
       @include('admin.alert')
       <form action="/store" method="POST">
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" name='password' class="form-control" placeholder="Password">
+          <input type="password" name='password' class="form-control" placeholder="Mật khẩu">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -35,23 +35,23 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-8">
+          <div class="col-7">
             <div class="icheck-primary">
               <input type="checkbox" name="remember" id="remember">
               <label for="remember">
-                Remember Me
+                Nhớ mật khẩu
               </label>
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          <div class="col-5">
+            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
           </div>
           <!-- /.col -->
         </div>
         @csrf
       </form>
-        <a href="register" class="text-center">Register a new membership</a>
+        <a href="register" class="text-center">Đăng ký tài khoản</a>
     @include('admin.footer')
 </div>
 </html>

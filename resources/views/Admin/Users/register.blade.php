@@ -9,16 +9,16 @@
 </div>
 <div class="register-box">
     <div class="register-logo">
-        <a href="/"><b>Admin</b>LTE</a>
+        <a href="/"><b>Cứu trợ lũ lụt</b></a>
     </div>
 
     <div class="card">
         <div class="card-body register-card-body">
-            <p class="login-box-msg">Register a new membership</p>
+            <p class="login-box-msg">Đăng ký</p>
             @include('admin.alert')
             <form action="/create" method="post">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Full name" name="tenNguoiDung">
+                    <input type="text" class="form-control" placeholder="Họ và tên" name="tenNguoiDung">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <input type="password" class="form-control" placeholder="Mật khẩu" name="password">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Retype password" name="confirmpass">
+                    <input type="password" class="form-control" placeholder="Nhập lại mật khẩu" name="confirmpass">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -50,12 +50,12 @@
                     </div>
                 </div>
                     <!-- /.col -->
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
                     <!-- /.col -->
                 @csrf
             </form>
 
-            <a href="login" class="text-center">I already have a membership</a>
+            <a href="login" class="text-center">Bạn đã có tài khoản?</a>
         </div>
         <!-- /.form-box -->
     </div><!-- /.card -->
