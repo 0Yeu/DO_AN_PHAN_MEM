@@ -25,17 +25,25 @@
                             @endforeach
                         </select>
                     </div>
-
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">Địa chỉ</label>
                         <input type="text" name="diaChi" class="form-control" id="" value="{{$menu->diaChi}}">
                     </div>
+                    <div class="form-group">
+                        <label for="idDanhMuc">Xã</label>
+                        <select class="form-control" id="" name="idXa">
+                            <option value="-1">Tất cả</option>
+                            @foreach ($xas as $id)
+                                <option value="{{ $id->idXa }}"  {{ $id->idXa == $menu->idXa ? 'selected' : ''}}>{{$id->tenXa}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                
+
             </div>
-            
+
         </div>
         <!-- /.card-body -->
 
@@ -50,5 +58,5 @@
     <script>
         CKEDITOR.replace('ghiChu');
     </script>
-    
+
 @endsection

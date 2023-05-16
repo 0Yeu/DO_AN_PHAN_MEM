@@ -11,6 +11,15 @@
             @endforeach
         </select>
     </div>
+    <div class="form-group">
+        <label for="idDanhMuc">Xã</label>
+        <select class="form-control" id="selectedIDXa" name="idXa" onchange="filterData()">
+            <option value="-1">Tất cả</option>
+            @foreach ($xas as $id)
+                <option value="{{ $id->idXa }}">{{$id->tenXa}}</option>
+            @endforeach
+        </select>
+    </div>
     <div id="table-data">
         <table class="table table table-striped" >
             <thead class="card-header" style="background: #00bb00; margin-top: 20px">
@@ -70,7 +79,8 @@
 <script>
     function filterData() {
         var idDanhMuc = document.getElementById("selectIDDM").value;
-        var url = "/admin/hoGiaDinh/filterHGD?idLoaiHGD=" + idDanhMuc;
+        var idXa = document.getElementById("selectedIDXa").value;
+        var url = "/admin/hoGiaDinh/filterHGD?idLoaiHGD=" + idDanhMuc+"&idXa="+idXa;
         console.log(url);
         $.ajax({
             url: url,

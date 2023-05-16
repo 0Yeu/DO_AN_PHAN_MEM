@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use MongoDB\Driver\Session;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -32,7 +32,7 @@ class LoginController extends Controller
         //
         $request->validate([
             'tenNguoiDung'=> 'required',
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required',
             'confirmpass'=>'required_with:password'
 
@@ -70,9 +70,12 @@ class LoginController extends Controller
                 if ($user->idQuyen=='1'){
                     return redirect()->route('admin');
                 }else{
-                    return redirect()->route('user');
+                    if ($user->idQuyen=='3'){
+                        return redirect()->route('HoGiaDinh');
+                    }else{
+                        return redirect()->route('user');
+                    }
                 }
-
             }else{
                 return redirect()->back()->withInput()->withErrors([
                     'email' => 'Not Logger',
@@ -126,7 +129,7 @@ class LoginController extends Controller
     public function DangKyUngHo()
     {
         //
-        $DotLuLut = DB::table('DotLuLut')->get();
+        $DotLuLut = DB::table('DotLuLut')->where('ungHo',2)->get();
         $HangCT = DB::table('HangCuuTro')->get();
         return view('Admin.UngHo.toKhai',[
             'HangCT'=>$HangCT,
@@ -250,13 +253,57 @@ class LoginController extends Controller
     public function KhaiBaoThietHai()
     {
         //
-        $DotLuLut = DB::table('DotLuLut')->get();
+        $DotLuLut = DB::table('DotLuLut')->where('khaiBao',2)->get();
         $HangCT = DB::table('HangCuuTro')->get();
-        $MucDos = DB::table('MucDoThietHai')->get();
+        if ($DotLuLut->count()>0){
+            $MucDos = DB::table('MucDoThietHai')->where('idDotLuLut',$DotLuLut[0]->idDotLuLut)->get();
+        }else{
+            $MucDos = DB::table('MucDoThietHai')->where('idDotLuLut',-1)->get();
+        }
+        $result=DB::table('ThietHai')->where('idHoGiaDinh','=',Auth::user()->hoTen)->where('idDotLuLut','=',$DotLuLut[0]->idDotLuLut)->get();
         return view('Admin.ToKhai.tokhaithiethai',[
             'HangCT'=>$HangCT,
             'DotLuLut'=>$DotLuLut,
-            'MucDos'=>$MucDos
+            'MucDos'=>$MucDos,
+            'result'=>$result
         ]);
+    }
+    public function GuiToKhai(Request $request)
+    {
+        //
+//        dd($request);
+        $idHoGiaDinh = $request->input('idHoGiaDinh');
+        $idDotLuLut = $request->input('idDotLuLut');
+        $thietHaiVeTaiSan = $request->input('thietHaiVeTaiSan');
+        $UocTinhTongThietHai = $request->input('UocTinhTongThietHai');
+        $idMucDoThietHai = $request->input('idMucDoThietHai');
+//        dd($idHoGiaDinh,$idDotLuLut,$thietHaiVeTaiSan,$UocTinhTongThietHai,$idMucDoThietHai);
+
+        $result=DB::table('ThietHai')->where('idHoGiaDinh','=',$idHoGiaDinh)->where('idDotLuLut','=',$idDotLuLut)->get();
+        if ($result->count()==0){
+            $abc=DB::table('ThietHai')->insert([
+                'idHoGiaDinh' => $idHoGiaDinh,
+                'idDotLuLut' => $idDotLuLut,
+                'thietHaiVeTaiSan' => $thietHaiVeTaiSan,
+                'uocTinhTongThietHai' => $UocTinhTongThietHai,
+                'idMucDoThietHai'=>$idMucDoThietHai,
+                'trangThaiPheDuyet' =>'Chờ phê duyệt'
+            ]);
+        }else{
+            $abc=DB::table('ThietHai')
+                ->where('idHoGiaDinh','=',$idHoGiaDinh)->where('idDotLuLut','=',$idDotLuLut)
+                ->update([
+                    'thietHaiVeTaiSan' => $thietHaiVeTaiSan,
+                    'uocTinhTongThietHai' => $UocTinhTongThietHai,
+                    'idMucDoThietHai'=>$idMucDoThietHai,
+                    'trangThaiPheDuyet' =>'Chờ phê duyệt'
+            ]);
+        }
+        if ($abc){
+            Session::flash('success','Đã gửi');
+        }else{
+            Session::flash('error','Đã xảy ra lỗi');
+        }
+        return redirect()->route('HoGiaDinh');
     }
 }

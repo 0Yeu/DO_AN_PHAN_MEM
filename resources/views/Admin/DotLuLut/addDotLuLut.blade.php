@@ -14,6 +14,20 @@
                 <input type="date" name="thoiGian" class="form-control" id="">
                 <!-- <textarea class="form-control" name="content" id="content" placeholder="Mô tả"></textarea> -->
             </div>
+            <div class="form-group">
+                <label for="">Cho phép ủng hộ</label>
+                <select class="form-control" name="ungHo">
+                    <option value="1">Không</option>
+                    <option value="2">Có</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Cho phép khai báo</label>
+                <select class="form-control" name="KhaiBao">
+                    <option value="1">Không</option>
+                    <option value="2">Có</option>
+                </select>
+            </div>
         </div>
         <!-- /.card-body -->
 

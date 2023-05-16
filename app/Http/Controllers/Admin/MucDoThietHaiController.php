@@ -21,8 +21,10 @@ class MucDoThietHaiController extends Controller
     }
     public function index()
     {
-        $dlls = DB::table('MucDoThietHai')->get();
+        $dlls = DB::table('DotLuLut')->get();
         $menus = DB::table('MucDoThietHai')
+            ->select('MucDoThietHai.*','DotLuLut.tenDotLuLut')
+            ->join('DotLuLut', 'MucDoThietHai.idDotLuLut', '=', 'DotLuLut.idDotLuLut')
             ->orderBy('idMucDoThietHai', 'asc')
             ->paginate(10);
         return view('admin/mucDoThietHai/listMucDoThietHai',[
@@ -37,7 +39,7 @@ class MucDoThietHaiController extends Controller
      */
     public function create()
     {
-        $dlls = DB::table('MucDoThietHai')->get();
+        $dlls = DB::table('DotLuLut')->get();
         return view("admin.mucDoThietHai.addMucDoThietHai",[
             'title'=>'Thêm loại mức độ',
             'dlls'=>$dlls
@@ -55,6 +57,7 @@ class MucDoThietHaiController extends Controller
             ->paginate(10);
         DB::table('MucDoThietHai')->insert(
             [
+                'idDotLuLut'=>$request->input('idMucDoLuLut'),
                 'tenMucDo' => $request->input('tenMucDo'),
                 'ghiChu' => $request->input('ghiChu'),
             ]
@@ -63,7 +66,7 @@ class MucDoThietHaiController extends Controller
             'title'=>'Danh sách mức độ',
             'menus'=>$menus
         ]);
-        
+
     }
 
     /**
@@ -72,7 +75,7 @@ class MucDoThietHaiController extends Controller
     public function show(Request $request)
     {
         //
-        $dlls = DB::table('MucDoThietHai')->get();
+        $dlls = DB::table('DotLuLut')->get();
         $menu = DB::table('MucDoThietHai')
             ->where('idMucDoThietHai', $request->query('idMucDoThietHai'))
             ->first();
@@ -91,6 +94,7 @@ class MucDoThietHaiController extends Controller
         DB::table('MucDoThietHai')
             ->where('idMucDoThietHai', $request->idMucDoThietHai)
             ->update([
+                'idDotLuLut'=>$request->input('idMucDoLuLut'),
                 'tenMucDo' => $request->input('tenMucDo'),
                 'ghiChu'=>$request->input('ghiChu'),
             ]);

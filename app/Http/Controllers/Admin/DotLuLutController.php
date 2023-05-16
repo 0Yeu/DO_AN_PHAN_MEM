@@ -58,6 +58,8 @@ class DotLuLutController extends Controller
             [
                 'tenDotLuLut' => $request->input('tenDotLuLut'),
                 'thoiGian' => $request->input('thoiGian'),
+                'ungHo'=>$request->input('ungHo'),
+                'khaiBao'=>$request->input('KhaiBao'),
             ]
         );
         if ($result) {
@@ -99,6 +101,8 @@ class DotLuLutController extends Controller
             ->update([
                 'tenDotLuLut' => $request->input('tenDotLuLut'),
                 'thoiGian'=>$request->input('thoiGian'),
+                'ungHo'=>$request->input('ungHo'),
+                'khaiBao'=>$request->input('KhaiBao'),
             ]);
         if ($result) {
             Session::flash('success', 'Dữ liệu đã được cập nhật thành công.');

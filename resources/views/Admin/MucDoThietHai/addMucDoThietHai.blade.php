@@ -3,8 +3,17 @@
     <script src="/ckeditor/ckeditor.js"></script>
 @endsection
 @section('content')
+
     <form action="" method="POST">
         <div class="card-body">
+            <div class="form-group">
+                <label for="">Đợt lũ lụt</label>
+                <select class="form-control" id="selectIDDM" name="idDotLuLut" onchange="filterData()">
+                    @foreach ($dlls as $id)
+                        <option value="{{ $id->idDotLuLut }}">{{ $id->tenDotLuLut }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="form-group">
                 <label for="">Tên mức độ</label>
                 <input type="text" name="tenMucDo" class="form-control" id="" placeholder="Tên mức độ">

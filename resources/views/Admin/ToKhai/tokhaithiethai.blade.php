@@ -107,45 +107,56 @@
 </header>
 <div class="container" style="margin-top: 100px">
     <h1 style="text-align: center">Khai báo thiệt hại</h1>
-    <form action="/GuiUngHo" method="POST" id="formgui">
+    <form action="/HoGiaDinh/GuiToKhai" method="POST" id="formgui">
         <div class="form-group">
             <label>Mã hộ:</label>
-            @if (\Illuminate\Support\Facades\Auth::check())
-                <p>{{\Illuminate\Support\Facades\Auth::user()->hoTen}}</p>
-            @else
-                <p style="color: red">*Hiện bạn chưa đăng nhập. Thông tin sẽ được lưu thành khách vãng lai </p>
-            @endif
+            <input type="text" name="idHoGiaDinh" readonly value="{{\Illuminate\Support\Facades\Auth::user()->hoTen}}"></input>
         </div>
         <div class="form-group">
             <label for="name">Đợt lũ lụt:</label>
-            <select class="hanghoa-select form-control" data-search="true" name="dotlulut">
-                @foreach($DotLuLut as $dll)
-                    <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>
-                @endforeach
+            <select class="hanghoa-select form-control" id="selectedIDMDTH" data-search="true" name="idDotLuLut" onchange="filterData()">
+                @if($DotLuLut->count() ==0)
+                    <option value="-1">Không có đợt lũ nào cho phép khai báo thiệt hại</option>
+                @else
+                    @foreach($DotLuLut as $dll)
+                        <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>
+                    @endforeach
+                @endif
             </select>
         </div>
-
-        <div class="form-group">
-            <label for="description">Mô tả thiệt hại:</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+        <div id="data-select">
+            <div class="form-group">
+                <label for="description">Mô tả thiệt hại:</label>
+                <textarea class="form-control" id="description" name="thietHaiVeTaiSan" rows="4" required>{{$result->count()>0?$result[0]->thietHaiVeTaiSan:''}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="name">Ước tính tổng thiệt hại:</label>
+                <input type="number" class="form-control" id="money" name="UocTinhTongThietHai" value="{{$result->count()>0?$result[0]->uocTinhTongThietHai:'0'}}" min="0" step="1000" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Mức độ thiệt hại dự kiến:</label>
+                <select class="hanghoa-select form-control" data-search="true" name="idMucDoThietHai">
+                    @foreach($MucDos as $dll)
+                        <option  value="{{$dll->idMucDoThietHai}}" {{$result->count()>0?$result[0]->idMucDoThietHai==$dll->idMucDoThietHai?'selected':'':''}}>{{$dll->tenMucDo}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @if($result->count()>0)
+                <div class="form-group">
+                    <label for="name">Trạng thái phê duyệt:</label>
+                    <input type="text" value="{{$result[0]->trangThaiPheDuyet}}" readonly></input>
+                </div>
+            @endif
         </div>
-        <div class="form-group">
-            <label for="name">Ước tính tổng thiệt hại:</label>
-            <input type="number" class="form-control" id="money" name="money" value="0" min="0" step="1000" required>
-        </div>
-        <div class="form-group">
-            <label for="name">Mức độ thiệt hại dự kiến:</label>
-            <select class="hanghoa-select form-control" data-search="true" name="dotlulut">
-                @foreach($MucDos as $dll)
-                    <option  value="{{$dll->idMucDoThietHai}}">{{$dll->tenMucDo}}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="date">Ngày khai báo:</label>
-            <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
+{{--        <div class="form-group">--}}
+{{--            <label for="date">Ngày khai báo:</label>--}}
+{{--            <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}" required>--}}
+{{--        </div>--}}
+        @if($DotLuLut->count() ==0)
+            <p style="color: red">*Không có đợt lũ nào cho phép khai báo thiệt hại</p>
+        @else
+            <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
+        @endif
         @csrf
     </form>
 
@@ -155,10 +166,32 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-
 <script>
-    $(document).ready(function() {
+    function filterData() {
+        var idDanhMuc = document.getElementById("selectedIDMDTH").value;
+        var url = "/HoGiaDinh/filterMDTH1?idDLL=" + idDanhMuc;
+        console.log(url);
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "html",
+            success: function(data) {
+                $("#data-select").html(data);
+                loadScript();
+                console.log(data);
+            },
+            error: function() {
+                alert("Lỗi khi tải dữ liệu.");
+            }
+        });
+    }
+</script>
+<script>
+    function loadScript() {
         $('.hanghoa-select').select2();
+    }
+    $(document).ready(function() {
+        loadScript();
     });
 </script>
 </body>

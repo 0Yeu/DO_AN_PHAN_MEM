@@ -25,9 +25,6 @@ Route::get('/', function () {
 Route::get('/DangKyUngHo', function () {
     return (new LoginController)->DangKyUngHo();
 })->name('DangKyUngHo');
-Route::get('/KhaiBaoThietHai', function () {
-    return (new LoginController)->KhaiBaoThietHai();
-})->name('KhaiBaoThietHai');
 Route::post('/GuiUngHo', function (Illuminate\Http\Request $request) {
     return (new LoginController)->GuiUngHo($request);
 });
@@ -149,6 +146,8 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::post('/guiDuKien', function (Illuminate\Http\Request $request) {
                 return (new \App\Http\Controllers\Admin\PhanBoController())->guiPhanBo($request);
             });
+            Route::get('filterMDTH',[\App\Http\Controllers\Admin\PhanBoController::class,'filterMDTH']);
+            Route::get('filterMDTHS',[\App\Http\Controllers\Admin\PhanBoController::class,'filterMDTHS']);
 
 
 // UserController.php
@@ -171,9 +170,6 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
 
 Route::middleware(['auth', 'CheckQuyen:2'])->group(function (){
     // Các route chỉ được truy cập bởi user có quyền 2
-    Route::prefix('user')-> group(function () {
-        Route::get('/', [\App\Http\Controllers\User\UserController::class, 'index'])->name('user');
-    });
 });
 
 Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
@@ -181,7 +177,25 @@ Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
     Route::post('/phe-duyet-all', [\App\Http\Controllers\Admin\Users\LoginController::class,'pheDuyetAll'])->name('phe-duyet-all');
 });
 
-Route::middleware(['auth', 'CheckQuyen:1,2,3'])->group(function (){
-    // Các route chỉ được truy cập bởi user có quyền 1, 2 hoặc 3
-    Route::get('logout',[\App\Http\Controllers\Admin\Users\LoginController::class,'logout']);
+Route::middleware(['auth', 'CheckQuyen:1,2,3'])->group(function () {
+    // Các route chỉ được truy cập bởi user có quyền 1 hoặc 3
+    Route::prefix('HoGiaDinh')->group(function () {
+        Route::get('/', function () {
+            return (new \App\Http\Controllers\Admin\HoGiaDinhController())->HomeHGD();
+        })->name('HoGiaDinh');
+        Route::get('/KhaiBaoThietHai', function () {
+            return (new LoginController)->KhaiBaoThietHai();
+        })->name('KhaiBaoThietHai');
+        Route::post('/GuiToKhai', function (Illuminate\Http\Request $request) {
+            return (new LoginController)->GuiToKhai($request);
+        });
+        Route::get('filterMDTH1',[\App\Http\Controllers\Admin\PhanBoController::class,'filterMDTH1']);
+    });
+    Route::middleware(['auth', 'CheckQuyen:1,2,3,4'])->group(function () {
+        // Các route chỉ được truy cập bởi user có quyền 1 hoặc 3
+        Route::prefix('user')->group(function () {
+            Route::get('/', [\App\Http\Controllers\User\UserController::class, 'index'])->name('user');
+        });
+        Route::get('logout', [\App\Http\Controllers\Admin\Users\LoginController::class, 'logout']);
+    });
 });

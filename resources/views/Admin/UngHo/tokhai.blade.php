@@ -102,7 +102,7 @@
     </nav>
 </header>
 <div class="container" style="margin-top: 100px">
-    <h1>Đăng ký ủng hộ</h1>
+    <h1 STYLE="text-align: center">Đăng ký ủng hộ</h1>
     <form action="/GuiUngHo" method="POST" id="formgui">
         <div class="form-group">
             <label>Tên người ủng hộ:</label>
@@ -115,9 +115,14 @@
         <div class="form-group">
             <label for="name">Đợt lũ lụt:</label>
             <select class="hanghoa-select form-control" data-search="true" name="dotlulut">
-                @foreach($DotLuLut as $dll)
-                    <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>
-                @endforeach
+                @if($DotLuLut->count() ==0)
+                    <option>Không có đợt ủng hộ nào đang mở</option>
+                @else
+                    @foreach($DotLuLut as $dll)
+                        <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>
+                    @endforeach
+                @endif
+
             </select>
         </div>
 
@@ -144,7 +149,12 @@
             <label for="date">Ngày ủng hộ:</label>
             <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}" required>
         </div>
-        <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
+        @if($DotLuLut->count() ==0)
+            <p style="color: red">*Không có đợt ủng hộ nào đang mở</p>
+        @else
+            <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
+        @endif
+
         @csrf
     </form>
 
