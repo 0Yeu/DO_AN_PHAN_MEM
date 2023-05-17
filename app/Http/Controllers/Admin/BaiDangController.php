@@ -24,7 +24,7 @@ class BaiDangController extends Controller
     public function create()
     {
         //
-        $dlls = DB::table('DotLuLut')->get();
+        $dlls = DB::table('DotLuLut')->where('ungHo','=',2)->get();
         return view("admin.baidang.taobaidang",[
             'title'=>'Tạo bài kêu gọi',
             'dlls'=>$dlls
@@ -38,7 +38,7 @@ class BaiDangController extends Controller
     {
         //
         $request->validate([
-            'hinhanh' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'hinhanh' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $fileName = $request->file('hinhanh')->getClientOriginalName(); // lấy tên gốc của tệp
         $fileName = time() . '_' . $fileName;
@@ -51,15 +51,14 @@ class BaiDangController extends Controller
                     'ngayBatDau' => $request->input('ngayBatDau'),
                     'ngayKetThuc' => $request->input('ngayKetThuc'),
                     'hinhAnh' => '../storage/images/' . $fileName,
-                    'soTien' => $request->input('soTien'),
                     'noiDung' => $request->input('ghiChu'),
                 ]
             );
+            Session::flash('success','Thêm bài đăng thành công');
             return redirect()->route('admin');
-            Session::flash('succes','Thêm danh mục thành công');
+
         }catch (\ErrorException $e){
-            Session::flash('error',$e->getMessage());
-            dd($e);
+            Session::flash('errors',$e->getMessage());
             return redirect()->route('admin');
         }
         return redirect()->route('admin');
@@ -89,32 +88,56 @@ class BaiDangController extends Controller
     {
         //
         $request->validate([
-            'hinhanh' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'hinhanh' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $fileName = $request->file('hinhanh')->getClientOriginalName(); // lấy tên gốc của tệp
-        $fileName = time() . '_' . $fileName;
-        $request->file('hinhanh')->storeAs('public/images', $fileName); // lưu tệp vào thư mục public/images với tên gốc của tệp
-        try {
-            DB::table('BaiDang')
-                ->where('idBaiDang', $request->input('idBaiDang'))
-                ->update(
-                [
-                    'tenDotCuuTro' => $request->input('tenDotCuuTro'),
-                    'idDotLuLut' => $request->input('idDotLuLut'),
-                    'ngayBatDau' => $request->input('ngayBatDau'),
-                    'ngayKetThuc' => $request->input('ngayKetThuc'),
-                    'hinhAnh' => '../storage/images/' . $fileName,
-                    'soTien' => $request->input('soTien'),
-                    'noiDung' => $request->input('ghiChu'),
-                ]
-            );
-            return redirect()->route('admin');
-            Session::flash('succes','Thêm danh mục thành công');
-        }catch (\ErrorException $e){
-            Session::flash('error',$e->getMessage());
-            dd($e);
-            return redirect()->route('admin');
+        if ($request->file('hinhanh')!= null){
+            $fileName = $request->file('hinhanh')->getClientOriginalName(); // lấy tên gốc của tệp
+            $fileName = time() . '_' . $fileName;
+            $request->file('hinhanh')->storeAs('public/images', $fileName); // lưu tệp vào thư mục public/images với tên gốc của tệp
+            try {
+                DB::table('BaiDang')
+                    ->where('idBaiDang', $request->input('idBaiDang'))
+                    ->update(
+                        [
+                            'tenDotCuuTro' => $request->input('tenDotCuuTro'),
+                            'idDotLuLut' => $request->input('idDotLuLut'),
+                            'ngayBatDau' => $request->input('ngayBatDau'),
+                            'ngayKetThuc' => $request->input('ngayKetThuc'),
+                            'hinhAnh' => '../storage/images/' . $fileName,
+                            'soTien' => $request->input('soTien'),
+                            'noiDung' => $request->input('ghiChu'),
+                        ]
+                    );
+                Session::flash('success','Chỉnh sửa bài đăng thành công');
+                return redirect()->route('admin');
+            }catch (\ErrorException $e){
+                Session::flash('errors',$e->getMessage());
+                dd($e);
+                return redirect()->route('admin');
+            }
+        }else{
+            try {
+                DB::table('BaiDang')
+                    ->where('idBaiDang', $request->input('idBaiDang'))
+                    ->update(
+                        [
+                            'tenDotCuuTro' => $request->input('tenDotCuuTro'),
+                            'idDotLuLut' => $request->input('idDotLuLut'),
+                            'ngayBatDau' => $request->input('ngayBatDau'),
+                            'ngayKetThuc' => $request->input('ngayKetThuc'),
+                            'soTien' => $request->input('soTien'),
+                            'noiDung' => $request->input('ghiChu'),
+                        ]
+                    );
+                Session::flash('success','Chỉnh sửa bài đăng thành công');
+                return redirect()->route('admin');
+            }catch (\ErrorException $e){
+                Session::flash('errors',$e->getMessage());
+                dd($e);
+                return redirect()->route('admin');
+            }
         }
+
         return redirect()->route('admin');
     }
 
@@ -135,7 +158,12 @@ class BaiDangController extends Controller
         $menu = DB::table('BaiDang')
             ->where('idBaiDang', $request->id)->first();
         if ($menu) {
-            DB::table('BaiDang')->where('idBaiDang', '=', $request->id)->delete();
+            $result=DB::table('BaiDang')->where('idBaiDang', '=', $request->id)->delete();
+        }
+        if ($result) {
+            Session::flash('success', 'Đã xóa');
+        } else {
+            Session::flash('error', 'Có lỗi xảy ra. Không thể cập nhật dữ liệu.');
         }
         return redirect()->route('admin');
     }

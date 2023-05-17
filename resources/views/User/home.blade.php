@@ -27,12 +27,14 @@
                             <p class="card-text">{{ $baiDang->soTien }}</p>
                         </div>
                         <a href="#" class="btn btn-primary">Chi tiết</a>
-                        <a href="#" class="btn btn-warning">Đăng ký ủng hộ</a>
+                        <a href="/DangKyUngHo" class="btn btn-warning">Đăng ký ủng hộ</a>
                     </div>
                 </div>
             @endforeach
         </div>
+
         {{-- <div class="card-tools float-right">
+
             <ul class="pagination pagination-sm">
                 @if ($BaiDangs->onFirstPage())
                     <li class="disabled"><span class="page-link">&laquo;</span></li>

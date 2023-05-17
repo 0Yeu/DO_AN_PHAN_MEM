@@ -17,9 +17,12 @@
                 <td>{{ $item->tenDanhMuc}}</td>
                 <td>{!! $item->moTa !!}</td>
                 <td>
-                    <a class="btn btn-warning" href="/admin/menu/editDanhMuc?idDanhMuc={{$item->idDanhMuc}}">Chỉnh sửa</a>
-                    <a class="btn btn-danger" href="/admin/menu/destroy?idDanhMuc={{$item->idDanhMuc}}">Xóa
-                        <i class="fas fa-trash"></i>
+                    <a class="btn btn-warning" href="/admin/menu/editDanhMuc?idDanhMuc={{$item->idDanhMuc}}"><span class="material-symbols-outlined">
+                            edit
+                        </span></a>
+                    <a class="btn btn-danger" href="/admin/menu/destroy?idDanhMuc={{$item->idDanhMuc}}"><span class="material-symbols-outlined">
+                        delete
+                        </span>
                     </a>
 
                 </td>

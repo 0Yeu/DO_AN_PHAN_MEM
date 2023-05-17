@@ -76,4 +76,20 @@ class MainController extends Controller
     {
         //
     }
+    public function indexCTV()
+    {
+        //
+        $BaiDangs = DB::table('BaiDang')
+            ->orderBy('idBaiDang', 'asc')
+            ->paginate(8);
+//        return response()->json([
+//            'success' => true,
+//            'message' => 'Posts retrieved successfully',
+//            'data' => $BaiDangs
+//        ]);
+        return view('CTV.home',[
+            'title'=>'Trang quản trị',
+            'BaiDangs'=> $BaiDangs
+        ]);
+    }
 }

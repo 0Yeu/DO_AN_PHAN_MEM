@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +30,8 @@ class CheckQuyen
             }
         }
         if (Auth::check()){
-            return redirect()->route('user')->withErrors([
+            Session::flash("error",'Bạn không có quyền truy cập vào trang này.');
+            return redirect()->route('home')->withErrors([
                 'message' => 'Bạn không có quyền truy cập vào trang này.'
             ]);
         }
