@@ -1,4 +1,4 @@
-@extends('Admin.main')
+@extends('CTV.main')
 @section('content')
     <div class="container">
         <h1>Danh sách ủng hộ</h1>

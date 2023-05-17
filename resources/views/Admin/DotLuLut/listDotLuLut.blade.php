@@ -12,6 +12,7 @@
             <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Thời gian xảy ra</th>
             <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Cho phép ủng hộ</th>
             <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Cho phép khai báo thiệt hại</th>
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Cho phép phân bổ</th>
             <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Trạng thái</th>
         </tr>
         </thead>
@@ -27,6 +28,11 @@
                     <td>Có</td>
                 @endif
                 @if($item->khaiBao==1)
+                    <td>Không</td>
+                @else
+                    <td>Có</td>
+                @endif
+                @if($item->phanBo==1)
                     <td>Không</td>
                 @else
                     <td>Có</td>

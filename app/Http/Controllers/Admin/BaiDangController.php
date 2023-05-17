@@ -24,7 +24,7 @@ class BaiDangController extends Controller
     public function create()
     {
         //
-        $dlls = DB::table('DotLuLut')->get();
+        $dlls = DB::table('DotLuLut')->where('ungHo','=',2)->get();
         return view("admin.baidang.taobaidang",[
             'title'=>'Tạo bài kêu gọi',
             'dlls'=>$dlls

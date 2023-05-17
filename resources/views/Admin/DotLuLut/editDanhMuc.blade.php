@@ -35,6 +35,17 @@
                     @endif
                 </select>
             </div>
+            <div class="form-group">
+                <label for="">Cho phép phân bổ</label>
+                <select class="form-control" name="phanBo">
+                    <option value="1">Không</option>
+                    @if($menu->phanBo!=1)
+                        <option value="2" selected>Có</option>
+                    @else
+                        <option value="2">Có</option>
+                    @endif
+                </select>
+            </div>
         </div>
         <!-- /.card-body -->
 

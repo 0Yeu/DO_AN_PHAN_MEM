@@ -28,6 +28,13 @@
                     <option value="2">Có</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="">Cho phép phân bổ</label>
+                <select class="form-control" name="phanBo">
+                    <option value="1">Không</option>
+                    <option value="2">Có</option>
+                </select>
+            </div>
         </div>
         <!-- /.card-body -->
 

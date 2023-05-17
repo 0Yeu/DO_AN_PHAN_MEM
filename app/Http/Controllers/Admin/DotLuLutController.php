@@ -60,6 +60,7 @@ class DotLuLutController extends Controller
                 'thoiGian' => $request->input('thoiGian'),
                 'ungHo'=>$request->input('ungHo'),
                 'khaiBao'=>$request->input('KhaiBao'),
+                'phanBo'=>$request->input('phanBo'),
             ]
         );
         if ($result) {
@@ -103,6 +104,7 @@ class DotLuLutController extends Controller
                 'thoiGian'=>$request->input('thoiGian'),
                 'ungHo'=>$request->input('ungHo'),
                 'khaiBao'=>$request->input('KhaiBao'),
+                'phanBo'=>$request->input('phanBo'),
             ]);
         if ($result) {
             Session::flash('success', 'Dữ liệu đã được cập nhật thành công.');

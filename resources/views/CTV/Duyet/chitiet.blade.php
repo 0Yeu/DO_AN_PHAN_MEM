@@ -1,4 +1,4 @@
-@extends('Admin.main')
+@extends('CTV.main')
 @section('content')
     <div class="container">
         <h1>Chi tiết ủng hộ</h1>
@@ -32,7 +32,7 @@
                             <input type="hidden" name="idHangCuuTro[]" value="{{$chiTiet->idHangCuuTro}}">
                         </td>
                         <td>{{$chiTiet->soLuong}}</td>
-                        @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<2)
+                        @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<3)
                             @if($chiTiet->trangThaiPheDuyet!=1)
                                 <td><input type="number" name="soLuongThucNhan[]" value="{{$chiTiet->soLuongThucNhan}}" min="0"></td>
                             @else
@@ -47,14 +47,14 @@
                         @else
                             <td class="trang-thai-phe-duyet">Đã duyệt</td>
                         @endif
-                        @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<2)
+                        @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<3)
                             <td><p id="btnPheDuyet" class="btn btn-success btn-phe-duyet" data-id="{{$chiTiet->idHangCuuTro}}" onclick="pheDuyet(this)">Phê duyệt</p></td>
                         @endif
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<2)
+            @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<3)
                 <td> <button type="button" class="btn btn-success btn-phe-duyet" id="btn_pheDuyetAll" type="submit" data-id="{{$chiTiet->idHangCuuTro}}">Phê duyệt tất cả</button></td>
             @endif
         </form>

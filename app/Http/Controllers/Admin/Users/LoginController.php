@@ -20,6 +20,12 @@ class LoginController extends Controller
         if (Auth::check())
             if (Auth::user()->idQuyen==1){
                 return redirect()->route('admin');
+            }elseif (Auth::user()->idQuyen==2){
+                return redirect()->route('CTV');
+            }elseif (Auth::user()->idQuyen==3){
+                return redirect()->route('HoGiaDinh');
+            }elseif (Auth::user()->idQuyen==4){
+                return redirect()->route('user');
             }
         return view('Admin.Users.login');
     }
@@ -70,10 +76,13 @@ class LoginController extends Controller
                 if ($user->idQuyen=='1'){
                     return redirect()->route('admin');
                 }else{
-                    if ($user->idQuyen=='3'){
-                        return redirect()->route('HoGiaDinh');
+                    if ($user->idQuyen=='2'){
+                        return redirect()->route('CTV');
                     }else{
-                        return redirect()->route('user');
+                        if ($user->idQuyen=='3') {
+                            return redirect()->route('HoGiaDinh');
+                        }else{return redirect()->route('user');}
+
                     }
                 }
             }else{
@@ -143,6 +152,7 @@ class LoginController extends Controller
         $hanghoa = $request->input('hanghoa');
         $soLuong = $request->input('soluong');
         $count = count($hanghoa);
+        $tienUngHo=$request->input('money');
 //        dd($request);
         for ($i = 0; $i < $count; $i++) {
             $product = $hanghoa[$i];
@@ -159,8 +169,14 @@ class LoginController extends Controller
             'thoiGianUngHo' => $request->input('thoigian'),
             'TrangThaiPheDuyet' => 'Chờ phê duyệt',
         ]);
-
         $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
+        DB::table('ChiTietUngHoTien')->insert(
+            [
+                'idUngHo'=>$latestUngHo->idUngHo,
+                'tienUngHo' => $tienUngHo,
+            ]
+        );
+
 //        dd($latestUngHo);
         foreach ($data as $product => $quantity) {
             echo $product . ' - ' . $quantity;
@@ -182,9 +198,28 @@ class LoginController extends Controller
             ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
             ->select('UngHo.*', 'NguoiDung.hoTen as tenNguoiDung')
             ->get();
-        return view('Admin.UngHo.danhsach',[
-            'ungHoList'=>$ungHoList
-        ]);
+        if (Auth::check()){
+            if (Auth::user()->idQuyen==1 ){
+                return view('Admin.Duyet.danhsach',[
+                    'title'=>'Danh sách ủng hộ',
+                    'ungHoList'=>$ungHoList
+                ]);
+            }elseif (Auth::user()->idQuyen==2 ){
+                return view('CTV.Duyet.danhsach',[
+                    'title'=>'Danh sách ủng hộ',
+                    'ungHoList'=>$ungHoList
+                ]);
+            }else{
+                return view('Admin.UngHo.danhsach',[
+                    'title'=>'Danh sách ủng hộ',
+                    'ungHoList'=>$ungHoList
+                ]);
+            }
+        }else
+            return view('Admin.UngHo.danhsach',[
+                'title'=>'Danh sách ủng hộ',
+                'ungHoList'=>$ungHoList
+            ]);
     }
     public function ChiTietUngHo(Request $request){
 //        dd($request);
@@ -192,10 +227,31 @@ class LoginController extends Controller
             ->join('HangCuuTro', 'ChiTietUngHoHang.idHangCuuTro', '=', 'HangCuuTro.idHangCuuTro')
             ->join('UngHo', 'ChiTietUngHoHang.idUngHo', '=', 'UngHo.idUngHo')
             ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
-            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen','NguoiDung.idNguoiDung')
+            ->join('chiTietUngHoTien','chiTietUngHoTien.idUngHo','=','UngHo.idUngHo')
+            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen','NguoiDung.idNguoiDung','chiTietUngHoTien.tienUngHo')
             ->where('ChiTietUngHoHang.idUngHo', $request->id)
             ->get();
-
+        if(Auth::check()){
+            if (Auth::user()->idQuyen==1 ){
+                return view('Admin.Duyet.chitiet',[
+                    'title'=>'Chi tiết ủng hộ',
+                    'chiTietList'=>$chiTietList,
+                    'idUngHo'=>$request->id
+                ]);
+            }elseif (Auth::user()->idQuyen==2 ){
+                return view('CTV.Duyet.chitiet',[
+                    'title'=>'Chi tiết ủng hộ',
+                    'chiTietList'=>$chiTietList,
+                    'idUngHo'=>$request->id
+                ]);
+            }else{
+                return view('Admin.UngHo.chitiet',[
+                    'title'=>'Chi tiết ủng hộ',
+                    'chiTietList'=>$chiTietList,
+                    'idUngHo'=>$request->id
+                ]);
+            }
+        }else
         return view('Admin.UngHo.chitiet',[
             'chiTietList'=>$chiTietList,
             'idUngHo'=>$request->id
@@ -260,8 +316,12 @@ class LoginController extends Controller
         }else{
             $MucDos = DB::table('MucDoThietHai')->where('idDotLuLut',-1)->get();
         }
-        $result=DB::table('ThietHai')->where('idHoGiaDinh','=',Auth::user()->hoTen)->where('idDotLuLut','=',$DotLuLut[0]->idDotLuLut)->get();
+//        dd(1);
+        if ($DotLuLut->count()>0)
+            $result=DB::table('ThietHai')->where('idHoGiaDinh','=',Auth::user()->hoTen)->where('idDotLuLut','=',$DotLuLut[0]->idDotLuLut)->get();
+        else $result=DB::table('ThietHai')->where('idHoGiaDinh','=',Auth::user()->hoTen)->where('idDotLuLut','=',-1)->get();;
         return view('Admin.ToKhai.tokhaithiethai',[
+            'title'=>'Khai báo thiệt hại',
             'HangCT'=>$HangCT,
             'DotLuLut'=>$DotLuLut,
             'MucDos'=>$MucDos,
@@ -272,18 +332,22 @@ class LoginController extends Controller
     {
         //
 //        dd($request);
+        $choice=$request->input('choice');
+        $thietHaiVeNguoi=$request->input('thietHaiVeNguoi');
         $idHoGiaDinh = $request->input('idHoGiaDinh');
         $idDotLuLut = $request->input('idDotLuLut');
         $thietHaiVeTaiSan = $request->input('thietHaiVeTaiSan');
         $UocTinhTongThietHai = $request->input('UocTinhTongThietHai');
         $idMucDoThietHai = $request->input('idMucDoThietHai');
 //        dd($idHoGiaDinh,$idDotLuLut,$thietHaiVeTaiSan,$UocTinhTongThietHai,$idMucDoThietHai);
+        $choice=="co"?$thietHaiVeNguoi=$thietHaiVeNguoi:$thietHaiVeNguoi=0;
 
         $result=DB::table('ThietHai')->where('idHoGiaDinh','=',$idHoGiaDinh)->where('idDotLuLut','=',$idDotLuLut)->get();
         if ($result->count()==0){
             $abc=DB::table('ThietHai')->insert([
                 'idHoGiaDinh' => $idHoGiaDinh,
                 'idDotLuLut' => $idDotLuLut,
+                'thietHaiVeNguoi' =>$thietHaiVeNguoi,
                 'thietHaiVeTaiSan' => $thietHaiVeTaiSan,
                 'uocTinhTongThietHai' => $UocTinhTongThietHai,
                 'idMucDoThietHai'=>$idMucDoThietHai,
@@ -295,6 +359,7 @@ class LoginController extends Controller
                 ->update([
                     'thietHaiVeTaiSan' => $thietHaiVeTaiSan,
                     'uocTinhTongThietHai' => $UocTinhTongThietHai,
+                    'thietHaiVeNguoi' =>$thietHaiVeNguoi,
                     'idMucDoThietHai'=>$idMucDoThietHai,
                     'trangThaiPheDuyet' =>'Chờ phê duyệt'
             ]);
@@ -305,5 +370,100 @@ class LoginController extends Controller
             Session::flash('error','Đã xảy ra lỗi');
         }
         return redirect()->route('HoGiaDinh');
+    }
+    public function DanhSachUngHoTien(){
+        $dlls=DB::table("DotLuLut")->get();
+        $total = DB::table(DB::raw('(SELECT SUM(tienThucNhan) AS tongTienUngHo FROM chiTietUngHoTien WHERE trangThaiPheDuyet <> 1) AS uht'))
+            ->crossJoin(DB::raw('(SELECT SUM(soTien) AS tongSoTien FROM ChiTietPhanBoTien) AS pbt'))
+            ->select(DB::raw('CASE
+                    WHEN (uht.tongTienUngHo - pbt.tongSoTien) IS NULL THEN uht.tongTienUngHo
+                    ELSE (uht.tongTienUngHo - pbt.tongSoTien)
+                    END AS total'))
+            ->first();
+
+        $result = $total->total;
+        $ungHoList = DB::table('chiTietUngHoTien')
+            ->join('UngHo','UngHo.idUngHo','=','chiTietUngHoTien.idUngHo')
+            ->join('DotLuLut','UngHo.idDotLuLut','=','DotLuLut.idDotLuLut')
+            ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
+            ->select('chiTietUngHoTien.*', 'NguoiDung.hoTen as tenNguoiDung','DotLuLut.tenDotLuLut','NguoiDung.idNguoiDung')
+            ->paginate(10);
+        if (Auth::user()->idQuyen==1 ){
+            return view('Admin.KhoTien.listDanhMuc',[
+                'title'=>'Danh sách ủng hộ',
+                'menus'=>$ungHoList,
+                'dlls'=>$dlls,
+                'result'=>$result
+            ]);
+        }else
+            return view('Admin.UngHo.danhsach',[
+                'ungHoList'=>$ungHoList
+            ]);
+    }
+    public function ChiTietUngHoTien(Request $request){
+//        dd($request);
+        $chiTietList = DB::table('ChiTietUngHoHang')
+            ->join('HangCuuTro', 'ChiTietUngHoHang.idHangCuuTro', '=', 'HangCuuTro.idHangCuuTro')
+            ->join('UngHo', 'ChiTietUngHoHang.idUngHo', '=', 'UngHo.idUngHo')
+            ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
+            ->join('chiTietUngHoTien','chiTietUngHoTien.idUngHo','=','UngHo.idUngHo')
+            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen','NguoiDung.idNguoiDung','chiTietUngHoTien.tienUngHo')
+            ->where('ChiTietUngHoHang.idUngHo', $request->id)
+            ->get();
+        if (Auth::user()->idQuyen==1 ){
+            return view('Admin.Duyet.chitiet',[
+                'title'=>'Chi tiết ủng hộ',
+                'chiTietList'=>$chiTietList,
+                'idUngHo'=>$request->id
+            ]);
+        }else
+            return view('Admin.UngHo.chitiet',[
+                'chiTietList'=>$chiTietList,
+                'idUngHo'=>$request->id
+            ]);
+    }
+    public function pheDuyetTien(Request $request)
+    {
+        // Lấy dữ liệu từ Ajax request
+        $idCTUngHoTien = $request->input('idCTUngHoTien');
+        $tienThucNhan = $request->input('tienThucNhan');
+        // Cập nhật trạng thái và số lượng thực nhận bằng cách sử dụng DB facade
+        $result= DB::table('chiTietUngHoTien')
+            ->where('idCTUngHoTien', $idCTUngHoTien)
+            ->update([
+                'trangThaiPheDuyet' => 3, // Đã phê duyệt
+                'tienThucNhan' => $tienThucNhan
+            ]);
+        // Trả về kết quả thành công (hoặc bất kỳ thông báo nào bạn muốn)
+        if ($result)
+            return response()->json(['success' => true]);
+        else return response()->json(['errors' => true]);
+    }
+    public function pheDuyetTienAll(Request $request)
+    {
+        // Lấy dữ liệu từ Ajax request
+        $idHangCuuTroList = $request->input('idHangCuuTroList');
+        $soLuongThucNhanList = $request->input('soLuongThucNhanList');
+        $idUngHo = $request->input('idUngHo');
+
+// Sử dụng vòng lặp for để duyệt qua từng phần tử trong danh sách idHangCuuTroList
+        for ($i = 0; $i < count($soLuongThucNhanList); $i++) {
+            $idHangCuuTro = $idHangCuuTroList[$i];
+            $soLuongThucNhan = $soLuongThucNhanList[$i];
+
+            // Cập nhật trạng thái và số lượng thực nhận bằng cách sử dụng DB facade
+            DB::table('chiTietungHoHang')
+                ->where('idHangCuuTro', $idHangCuuTro)
+                ->where('idungho', $idUngHo) // Thêm điều kiện idungho
+                ->update([
+                    'trangThaiPheDuyet' => 2, // Đã phê duyệt
+                    'soLuongThucNhan' => $soLuongThucNhan
+                ]);
+        }
+
+
+
+        // Trả về kết quả thành công (hoặc bất kỳ thông báo nào bạn muốn
+        return response()->json(['success' => true]);
     }
 }

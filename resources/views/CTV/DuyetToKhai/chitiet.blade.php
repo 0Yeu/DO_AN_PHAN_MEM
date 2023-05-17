@@ -1,6 +1,9 @@
-@extends('Admin.main')
+@extends('CTV.main')
+@section('head')
+
+@endsection
 @section('content')
-    <div class="container">
+    <div class="container" style="margin-top: 100px">
         <h1>Chi tiết ủng hộ</h1>
         @if($chiTietList[0]->idQuyen==1)
             <h4>Khách vãng lai</h4>

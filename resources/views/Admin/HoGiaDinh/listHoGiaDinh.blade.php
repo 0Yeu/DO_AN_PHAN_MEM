@@ -3,7 +3,6 @@
     <a href="/admin/hoGiaDinh/addHoGiaDinh" class="btn btn-primary float-right"  style="margin-top: 20px;width: 200px"><i class="fas fa-plus"></i> Thêm hộ gia đình</a>
     <div class="form-group">
         <label for="idDanhMuc">Loại hộ gia đình</label>
-
         <select class="form-control" id="selectIDDM" name="idLoaiHoGD" onchange="filterData()">
             <option value="-1">Tất cả</option>
             @foreach ($dlls as $id)
@@ -65,8 +64,6 @@
             @else
                 <li class="page-item" ><a class="page-link" href="{{ $menus->previousPageUrl() }}" rel="prev">&laquo;</a></li>
             @endif
-
-
             @if ($menus->hasMorePages())
                 <li class="page-item"><a class="page-link" href="{{ $menus->nextPageUrl() }}" rel="next">&raquo;</a></li>
             @else
