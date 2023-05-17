@@ -149,27 +149,21 @@
                 </marquee>
             </div>
 
-        </div>
-    </div>
-    <div class="d-flex ">
-        <h2 class=" text-danger">*</h2>
-        <h2>Tin mới nhất!</h2>
-    </div>
-    <div class="row">
-        @foreach($BaiDangs as $baiDang)
-            <div class="col-lg-4 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;scale: inherit">
-                    </div>
-                    <div class="card-body">
-                        <h3>{{$baiDang->tenDotCuuTro}}</h3>
-                        <p class="card-text">{!! $baiDang->noiDung !!}</p>
-                    </div>
-                    <div class="card-footer">
-                        <p>{{$baiDang->ngayBatDau}}
-                        <div class="text-end">
-                            <a href="#" class="text-primary">Xem chi tiết</a>
+
+    <div class="container my-5">
+        <div class="row">
+            <?php $i=0 ?>
+            @foreach($BaiDangs as $baiDang)
+                <div class="col-lg-3 mb-3">
+                    <div class="card h-100">
+                        <div class="card-img-top">
+                            <img src="{{$baiDang->hinhAnh}}" class="img-fluid" style="height: 200px;scale: inherit">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>
+                            <p class="card-text">{!! $baiDang->noiDung !!}</p>
+                            <p class="card-text">{{ $baiDang->soTien }}</p>
+
                         </div>
                         </p>
                     </div>
