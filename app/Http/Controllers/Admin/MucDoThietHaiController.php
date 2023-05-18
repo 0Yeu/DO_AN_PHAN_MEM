@@ -59,7 +59,7 @@ class MucDoThietHaiController extends Controller
             [
                 'idDotLuLut'=>$request->input('idMucDoLuLut'),
                 'tenMucDo' => $request->input('tenMucDo'),
-                'ghiChu' => $request->input('ghiChu'),
+                'moTa' => $request->input('ghiChu'),
             ]
         );
         return redirect()->route('listMucDoThietHai',[
@@ -94,9 +94,9 @@ class MucDoThietHaiController extends Controller
         DB::table('MucDoThietHai')
             ->where('idMucDoThietHai', $request->idMucDoThietHai)
             ->update([
-                'idDotLuLut'=>$request->input('idMucDoLuLut'),
+                'idDotLuLut'=>$request->input('idDotLuLut'),
                 'tenMucDo' => $request->input('tenMucDo'),
-                'ghiChu'=>$request->input('ghiChu'),
+                'moTa'=>$request->input('ghiChu'),
             ]);
         return redirect()->route('listMucDoThietHai');
     }

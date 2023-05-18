@@ -63,6 +63,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>Cứu trợ lũ lụt</title>
     <style>
         .card-text+p{
@@ -72,6 +73,21 @@
             display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;height: 70px!important; ;max-height: 70px;
         }
     </style>
+    @if(\Illuminate\Support\Facades\Auth::check())
+        @if(\Illuminate\Support\Facades\Auth::user()->idQuyen==1)
+            <script>
+                window.location.href = "/admin";
+            </script>
+        @elseif(\Illuminate\Support\Facades\Auth::user()->idQuyen==2)
+            <script>
+                window.location.href = "/CTV";
+            </script>
+        @elseif(\Illuminate\Support\Facades\Auth::user()->idQuyen==3)
+            <script>
+                window.location.href = "/HoGiaDinh";
+            </script>
+        @endif
+    @endif
 </head>
 <body>
 <header>
@@ -84,7 +100,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="navbar-brand" aria-current="page" href="/">Cứu Trợ Lũ Lụt</a>
+                            <a class="navbar-brand" aria-current="page" href="/">Cứu Trợ Lũ Lụt</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/DangKyUngHo">Đăng ký ủng hộ</a>
@@ -100,7 +116,16 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <a class="nav-link" href="/login"><button class="btn btn-primary" type="submit">Đăng nhập</button></a>
+                @if(\Illuminate\Support\Facades\Auth::check())
+                    @if(\Illuminate\Support\Facades\Auth::user()->idQuyen==4)
+                        <a class="navbar-brand" aria-current="page" style="margin-right: 0px!important;margin-left: 16px" href="/">{{\Illuminate\Support\Facades\Auth::user()->hoTen}}</a>
+                        <a class="nav-link" href="/logout"><button class="btn btn-light" style="margin-left: 0px!important;" type="submit">Đăng xuất</button></a>
+                    @else
+                        <a class="nav-link" href="/logout"><button class="btn btn-light" type="submit">Đăng xuất</button></a>
+                    @endif
+                @else
+                    <a class="nav-link" href="/login"><button class="btn btn-light" type="submit">Đăng nhập</button></a>
+                @endif
             </div>
         </div>
     </nav>

@@ -25,7 +25,7 @@
                     <td>{{ $item->tenMucDo}}</td>
                     <td>Chưa phân bổ</td>
                     <td>
-
+                        <a href="/chitietphanbo?id={{$item->idThietHai}}">Chi tiết</a>
                     </td>
                 </tr>
             @endforeach
@@ -40,7 +40,6 @@
                 </tr>
                 </tr>
             @endforeach
-
             </tbody>
         </table>
     </div>
@@ -49,8 +48,7 @@
 <script>
     function filterData() {
         var idDanhMuc = document.getElementById("selectIDDM").value;
-        var idXa = document.getElementById("selectedIDXa").value;
-        var url = "/admin/hoGiaDinh/filterHGD?idLoaiHGD=" + idDanhMuc+"&idXa="+idXa;
+        var url = "/admin/PhanBo/filterPB?idDLL=" + idDanhMuc;
         console.log(url);
         $.ajax({
             url: url,

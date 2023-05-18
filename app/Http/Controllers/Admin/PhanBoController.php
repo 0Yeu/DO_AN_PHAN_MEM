@@ -288,4 +288,50 @@ class PhanBoController extends Controller
             'menus'=>$result,
         ]);
     }
+    public function filterPB(Request $request)
+    {
+        $idDLL = $request->input('idDLL');
+        $hoGiaDinhChuaPhanBo = DB::table('ThietHai AS th')
+            ->join('MucDoThietHai','MucDoThietHai.idMucDoThietHai','=','th.idMucDoThietHai')
+//            ->join('','MucDoThietHai.idMucDoThietHai','=','th.idMucDoThietHai')
+            ->select('th.*','MucDoThietHai.tenMucDo')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('chiTietPhanBoHang AS ctp')
+                    ->join('dotPhanBo AS dpb', 'ctp.idPhanBo', '=', 'dpb.idPhanBo')
+                    ->join('HoGiaDinh', 'dpb.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh');
+            })
+            ->where('th.trangThaiPheDuyet', 'LIKE', 'Đã phê duyệt')
+            ->where('th.idDotLuLut','=',$idDLL)
+            ->distinct()
+            ->get();
+        $hoGiaDinhDaPhanBo = DB::table('ThietHai AS th')
+            ->select('th.*')
+            ->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('chiTietPhanBoHang AS ctp')
+                    ->join('dotPhanBo AS dpb', 'ctp.idPhanBo', '=', 'dpb.idPhanBo')
+                    ->join('HoGiaDinh', 'dpb.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh');
+            })
+            ->where('th.trangThaiPheDuyet', 'LIKE', 'Đã phê duyệt')
+            ->where('th.idDotLuLut','=',$idDLL)
+            ->distinct()
+            ->get();
+//        dd($hoGiaDinhChuaPhanBo,$hoGiaDinhDaPhanBo);
+        $dlls=DB::table('DotLuLut')->get();
+        if (Auth::user()->idQuyen==1 ){
+            return view('Admin.PhanBo.tableListPB',[
+                'title'=>'Danh sách tờ khai',
+                'hoGiaDinhChuaPhanBo'=>$hoGiaDinhChuaPhanBo,
+                'hoGiaDinhDaPhanBo'=>$hoGiaDinhDaPhanBo,
+                'dlls'=>$dlls
+            ]);
+        }else
+            return view('CTV.PhanBo.listPhanBo',[
+                'title'=>'Danh sách tờ khai',
+                'hoGiaDinhChuaPhanBo'=>$hoGiaDinhChuaPhanBo,
+                'hoGiaDinhDaPhanBo'=>$hoGiaDinhDaPhanBo,
+                'dlls'=>$dlls
+            ]);
+    }
 }

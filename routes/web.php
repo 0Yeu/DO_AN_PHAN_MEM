@@ -157,9 +157,15 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::post('/guiDuKien', function (Illuminate\Http\Request $request) {
                 return (new \App\Http\Controllers\Admin\PhanBoController())->guiPhanBo($request);
             });
+
+            Route::post('/guiphanbo', function (Illuminate\Http\Request $request) {
+                return (new \App\Http\Controllers\Admin\PhanBoController())->guiPhanBo($request);
+            });
+
             Route::get('filterMDTH',[\App\Http\Controllers\Admin\PhanBoController::class,'filterMDTH']);
             Route::get('filterMDTH3',[\App\Http\Controllers\Admin\PhanBoController::class,'filterMDTH3']);
             Route::get('filterMDTHS',[\App\Http\Controllers\Admin\PhanBoController::class,'filterMDTHS']);
+            Route::get('filterPB',[\App\Http\Controllers\Admin\PhanBoController::class,'filterPB']);
 
 
 // UserController.php
@@ -213,6 +219,12 @@ Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
     Route::any('/chitietphanbo', function (Illuminate\Http\Request $request) {
         return (new \App\Http\Controllers\Admin\DuyetToKhaiController())->ChiTietPhanBo($request);
     })->name('chitietphanbo');
+
+    Route::post('/guiphanbo', function (Illuminate\Http\Request $request) {
+        return (new \App\Http\Controllers\Admin\PhanBoController())->guiPhanBo($request);
+    });
+
+
 
     Route::post('/pheduyettokhaiall', [\App\Http\Controllers\Admin\DuyetToKhaiController::class,'pheDuyetAll'])->name('pheduyettokhaiall');
     Route::post('/pheduyettokhai', [\App\Http\Controllers\Admin\DuyetToKhaiController::class,'pheDuyet'])->name('pheduyettokhai');

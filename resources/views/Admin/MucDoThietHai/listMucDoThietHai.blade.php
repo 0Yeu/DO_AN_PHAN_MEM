@@ -17,7 +17,7 @@
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mã mức độ</th>
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Loại mức độ</th>
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Tên đợt lũ lụt</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Ghi chú</th>
+                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mô tả</th>
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Trạng thái</th>
             </tr>
             </thead>
@@ -27,7 +27,7 @@
                     <td>{{ $item->idMucDoThietHai }}</td>
                     <td>{{ $item->tenMucDo}}</td>
                     <td>{{$item->tenDotLuLut}}</td>
-                    <td>{!! $item->ghiChu !!}</td>
+                    <td>{!! $item->moTa !!}</td>
                     <td>
                         <a class="btn btn-warning" href="/admin/mucDoThietHai/editMucDoThietHai?idMucDoThietHai={{$item->idMucDoThietHai}}"><span class="material-symbols-outlined">
                             edit

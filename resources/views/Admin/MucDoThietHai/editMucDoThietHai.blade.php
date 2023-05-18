@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label for="">Ghi chú</label>
-                <textarea class="form-control" name="ghiChu" id="content" placeholder="Mô tả">{{$menu->ghiChu}}</textarea>
+                <textarea class="form-control" name="ghiChu" id="content" placeholder="Mô tả">{{$menu->moTa}}</textarea>
             </div>
         </div>
         <!-- /.card-body -->
