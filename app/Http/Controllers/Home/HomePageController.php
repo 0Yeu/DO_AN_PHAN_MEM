@@ -15,11 +15,18 @@ class HomePageController extends Controller
     {
 
         $BaiDangs = DB::table('BaiDang')
+            ->join('DotLuLut','DotLuLut.idDotLuLut','=','BaiDang.idDotLuLut')
             ->orderBy('idBaiDang', 'asc')
-            ->paginate(3);
+            ->paginate(6);
+        $ungHo = DB::table('UngHo')
+            ->get();
+        $chiTietUngHoTien = DB::table('chiTietUngHoTien')
+            ->GET();
         return view("Home.home",[
             'title'=>'HOME',
-            'BaiDangs'=> $BaiDangs
+            'BaiDangs'=> $BaiDangs,
+            'ungHo'=> $ungHo,
+            'CTUHT'=> $chiTietUngHoTien,
         ]);
     }
 

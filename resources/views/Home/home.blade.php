@@ -89,6 +89,7 @@
             max-height: 70px;
         }
     </style>
+
     @if (\Illuminate\Support\Facades\Auth::check())
         @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 1)
             <script>
@@ -193,20 +194,108 @@
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-    @include('admin.alert')
-    <div class="container mt-3 mb-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-info" role="alert">
-                    <marquee behavior="" direction="hh">Trái tim gắn kết, mạnh mẽ vượt lũ lụt, ân ái thắp sáng hy
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+@include('admin.alert')
+<div class="container mt-3 mb-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert">
+                <marquee behavior="" direction="hh">Trái tim gắn kết, mạnh mẽ vượt lũ lụt, ân ái thắp sáng hy
                         vọng. Đoàn kết khắc phục, hướng tới tương lai sáng, môi trường hồi sinh, đời sống thịnh vượng,
                         nhân văn vươn xa, để tình yêu lan tỏa khắp muôn nơi!
-                    </marquee>
+                </marquee>
+            </div>
+            <div class="container my-5">
+                <div class="row">
+                    <?php $i=0 ?>
+                    @foreach($BaiDangs as $baiDang)
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100 w-100">
+                                <div class="card-img-top" style="height: 200px;width: 100%; overflow: hidden;">
+                                    <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;width: 100%;object-fit: cover;">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>
+                                    <p class="card-text">{!! $baiDang->noiDung !!}</p>
+                                    <p class="card-text">{!! $baiDang->tenDotLuLut !!}</p>
+                                    <div class="card-text">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                Ngày kết thúc
+                                            </div>
+                                            <div class="col-sm">
+                                                <p style="text-align: right;margin: 0;padding: 0">{{$baiDang->ngayKetThuc}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                Lượt ủng hộ
+                                            </div>
+                                            <div class="col-sm">
+                                                @php $tongTien=0;$tongLuotUH=0 @endphp
+                                                @foreach($ungHo as $uh)
+                                                    @if($uh->idDotLuLut==$baiDang->idDotLuLut)
+                                                        @php $tongLuotUH++ @endphp
+                                                        @foreach($CTUHT as $u)
+                                                            @if($u->idUngHo==$uh->idUngHo)
+                                                                @php $tongTien=$tongTien+$u->tienThucNhan @endphp
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                @endforeach
+                                                <p style="text-align: right;margin: 0;padding: 0">{{$tongLuotUH}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{$tongTien/$baiDang->soTien*100}}%;" aria-valuenow="{{$tongTien/$baiDang->soTien*100}}%" aria-valuemin="0" aria-valuemax="100">{{$tongTien/$baiDang->soTien*100}}%</div>
+                                    </div>
+                                    <div class="row d-flex">
+                                        <div class="col-sm">
+                                            {{$tongTien}}
+                                        </div>
+                                        <div class="col-sm float-right">
+                                            <p style="text-align: right;margin: 0;padding: 0">{{$baiDang->soTien}}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <a href="/DangKyUngHo" class="btn btn-outline-success" style="margin: 10% 10% 10% 10%; ">Ủng hộ</a>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
+                <div class="card-tools float-right">
+                    <ul class="pagination pagination-sm">
+                        @if ($BaiDangs->onFirstPage())
+                            <li class="disabled"><span class="page-link">&laquo;</span></li>
+                        @else
+                            <li class="page-item" ><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                        @endif
+
+
+                        @if ($BaiDangs->hasMorePages())
+                            <li class="page-item"><a class="page-link" href="{{ $BaiDangs->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                        @else
+                            <li class="disabled"><span class="page-link">&raquo;</span></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+    <div>
+        <div class="card-tools float-right">
+            <ul class="pagination pagination-sm">
+                @if ($BaiDangs->onFirstPage())
+                    <li class="disabled"><span class="page-link">&laquo;</span></li>
+                @else
+                    <li class="page-item" ><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                @endif
 
                 <div class="container my-5">
                     <div class="row">
