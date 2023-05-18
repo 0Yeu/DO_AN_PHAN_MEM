@@ -443,7 +443,7 @@ class LoginController extends Controller
             ]);
         // Trả về kết quả thành công (hoặc bất kỳ thông báo nào bạn muốn)
         if ($result)
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true,'tien']);
         else return response()->json(['errors' => true]);
     }
     public function pheDuyetTienAll(Request $request)

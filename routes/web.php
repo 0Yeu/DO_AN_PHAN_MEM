@@ -133,7 +133,7 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
         Route::prefix('phanQuyen')->group(function (){
             Route::get('addLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'create']);
             Route::post('addLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'store']);
-            Route::get('list',[\App\Http\Controllers\Admin\PhanQuyenController::class,'index'])->name('listLoaiHoGD');
+            Route::get('list',[\App\Http\Controllers\Admin\PhanQuyenController::class,'index']);
             Route::get('destroy',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'destroy']);
             Route::get('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'show']);
             Route::post('editLoaiHoGD',[\App\Http\Controllers\Admin\LoaiHoGDController::class,'edit']);

@@ -1,6 +1,6 @@
 @extends('Admin.main')
 @section('content')
-    <p>Tổng tiền trong kho:{{$result}}</p>
+    <p id="tong-tien">Tổng tiền trong kho:{{$result}}</p>
     <div class="form-group">
         <label for="idDanhMuc">Danh mục</label>
         <select class="form-control" id="selectIDDM" name="idDanhMuc" onchange="filterData()">
@@ -111,6 +111,7 @@
                 var tr = $(selected).closest('tr');
                 tr.find('.trang-thai-phe-duyet').text('Đã duyệt').css('color', 'black');
                 tr.find('input[name="tienThucNhan[]"]').text(tienThucNhan);
+                document.find('#tong-tien').text(response->);
             },
             error: function(xhr, status, error) {
                 // Xử lý lỗi (nếu có)
