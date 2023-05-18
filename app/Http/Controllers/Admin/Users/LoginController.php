@@ -49,7 +49,7 @@ class LoginController extends Controller
                 'taiKhoan'=> $request->input('email'),
                 'email'=>$request->input('email'),
                 'matKhau'=> bcrypt($request->input('password')),
-                'idQuyen'=>'2',
+                'idQuyen'=>'4',
             ]);
         return redirect()->route('login');
     }
@@ -376,7 +376,7 @@ class LoginController extends Controller
         }else{
             Session::flash('error','Đã xảy ra lỗi');
         }
-        return redirect()->route('HoGiaDinh');
+        return redirect()->route('home');
     }
     public function DanhSachUngHoTien(){
         $dlls=DB::table("DotLuLut")->get();

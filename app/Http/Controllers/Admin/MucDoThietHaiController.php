@@ -57,7 +57,7 @@ class MucDoThietHaiController extends Controller
             ->paginate(10);
         DB::table('MucDoThietHai')->insert(
             [
-                'idDotLuLut'=>$request->input('idMucDoLuLut'),
+                'idDotLuLut'=>$request->input('idDotLuLut'),
                 'tenMucDo' => $request->input('tenMucDo'),
                 'moTa' => $request->input('ghiChu'),
             ]
