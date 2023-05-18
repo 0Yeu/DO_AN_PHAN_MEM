@@ -152,13 +152,6 @@ class LoginController extends Controller
         $hanghoa = $request->input('hanghoa');
         $soLuong = $request->input('soluong');
         $tienUngHo=$request->input('money');
-        DB::table('UngHo')->insert([
-            'idNguoiDung' => Auth::check() ? Auth::user()->getAuthIdentifier():1,
-            'idDotLuLut' => $request->input('dotlulut'),
-            'thoiGianUngHo' => $request->input('thoigian'),
-            'TrangThaiPheDuyet' => 'Chờ phê duyệt',
-        ]);
-        $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
         if ($request->has('hanghoa')){
             $count = count($hanghoa);
             if ($count>0 and $tienUngHo>0){
@@ -171,27 +164,36 @@ class LoginController extends Controller
                         $data[$product] = $quantity;
                     }
                 }
-            }
-                foreach ($data as $product => $quantity) {
-                    echo $product . ' - ' . $quantity;
-                    // xử lý với từng product và quality
-                    DB::table('ChiTietUngHoHang')->insert(
+                DB::table('UngHo')->insert([
+                    'idNguoiDung' => Auth::check() ? Auth::user()->getAuthIdentifier():1,
+                    'idDotLuLut' => $request->input('dotlulut'),
+                    'thoiGianUngHo' => $request->input('thoigian'),
+                    'TrangThaiPheDuyet' => 'Chờ phê duyệt',
+                ]);
+                $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
+                if ($tienUngHo>0) {
+                    DB::table('ChiTietUngHoTien')->insert(
                         [
                             'idUngHo' => $latestUngHo->idUngHo,
-                            'idHangCuuTro' => $product,
-                            'soLuong' => $quantity,
-                            'TrangThaiPheDuyet' => 1,
+                            'tienUngHo' => $tienUngHo,
                         ]
                     );
                 }
-        }
-        if ($tienUngHo>0) {
-            DB::table('ChiTietUngHoTien')->insert(
-                [
-                    'idUngHo' => $latestUngHo->idUngHo,
-                    'tienUngHo' => $tienUngHo,
-                ]
-            );
+                if ($count>0){
+                    foreach ($data as $product => $quantity) {
+                        echo $product . ' - ' . $quantity;
+                        // xử lý với từng product và quality
+                        DB::table('ChiTietUngHoHang')->insert(
+                            [
+                                'idUngHo'=>$latestUngHo->idUngHo,
+                                'idHangCuuTro' => $product,
+                                'soLuong' => $quantity,
+                                'TrangThaiPheDuyet' => 1,
+                            ]
+                        );
+                    }
+                }
+            }
         }
         return redirect()->route('home');
     }
