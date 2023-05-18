@@ -151,10 +151,19 @@ class LoginController extends Controller
         $data = [];
         $hanghoa = $request->input('hanghoa');
         $soLuong = $request->input('soluong');
+//        $count = count($hanghoa);
         $tienUngHo=$request->input('money');
+
+        DB::table('UngHo')->insert([
+            'idNguoiDung' => Auth::check() ? Auth::user()->getAuthIdentifier():1,
+            'idDotLuLut' => $request->input('dotlulut'),
+            'thoiGianUngHo' => $request->input('thoigian'),
+            'TrangThaiPheDuyet' => 'Chờ phê duyệt',
+        ]);
+        $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
+
         if ($request->has('hanghoa')){
             $count = count($hanghoa);
-            if ($count>0 and $tienUngHo>0){
                 for ($i = 0; $i < $count; $i++) {
                     $product = $hanghoa[$i];
                     $quantity = $soLuong[$i];
@@ -164,36 +173,25 @@ class LoginController extends Controller
                         $data[$product] = $quantity;
                     }
                 }
-                DB::table('UngHo')->insert([
-                    'idNguoiDung' => Auth::check() ? Auth::user()->getAuthIdentifier():1,
-                    'idDotLuLut' => $request->input('dotlulut'),
-                    'thoiGianUngHo' => $request->input('thoigian'),
-                    'TrangThaiPheDuyet' => 'Chờ phê duyệt',
-                ]);
-                $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
-                if ($tienUngHo>0) {
-                    DB::table('ChiTietUngHoTien')->insert(
-                        [
-                            'idUngHo' => $latestUngHo->idUngHo,
-                            'tienUngHo' => $tienUngHo,
-                        ]
-                    );
-                }
-                if ($count>0){
-                    foreach ($data as $product => $quantity) {
-                        echo $product . ' - ' . $quantity;
-                        // xử lý với từng product và quality
-                        DB::table('ChiTietUngHoHang')->insert(
-                            [
-                                'idUngHo'=>$latestUngHo->idUngHo,
-                                'idHangCuuTro' => $product,
-                                'soLuong' => $quantity,
-                                'TrangThaiPheDuyet' => 1,
-                            ]
-                        );
-                    }
-                }
+            foreach ($data as $product => $quantity) {
+//                echo $product . ' - ' . $quantity;
+                DB::table('ChiTietUngHoHang')->insert(
+                    [
+                        'idUngHo' => $latestUngHo->idUngHo,
+                        'idHangCuuTro' => $product,
+                        'soLuong' => $quantity,
+                        'TrangThaiPheDuyet' => 1,
+                    ]
+                );
             }
+        }
+        if ($tienUngHo>0) {
+            DB::table('ChiTietUngHoTien')->insert(
+                [
+                    'idUngHo' => $latestUngHo->idUngHo,
+                    'tienUngHo' => $tienUngHo,
+                ]
+            );
         }
         return redirect()->route('home');
     }
@@ -232,32 +230,33 @@ class LoginController extends Controller
     }
     public function ChiTietUngHo(Request $request){
 //        dd($request);
+        $id=$request->input('id');
         $chiTietList = DB::table('ChiTietUngHoHang')
             ->join('HangCuuTro', 'ChiTietUngHoHang.idHangCuuTro', '=', 'HangCuuTro.idHangCuuTro')
             ->join('UngHo', 'ChiTietUngHoHang.idUngHo', '=', 'UngHo.idUngHo')
             ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
-            ->join('chiTietUngHoTien','chiTietUngHoTien.idUngHo','=','UngHo.idUngHo')
-            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen','NguoiDung.idNguoiDung','chiTietUngHoTien.tienUngHo')
-            ->where('ChiTietUngHoHang.idUngHo', $request->id)
+            ->select('ChiTietUngHoHang.*', 'HangCuuTro.tenHangCuuTro','HangCuuTro.donViTinh', 'UngHo.thoiGianUngHo','NguoiDung.hoTen','NguoiDung.idQuyen','NguoiDung.idNguoiDung')
+            ->where('ChiTietUngHoHang.idUngHo', $request->input('id'))
             ->get();
+//        dd($chiTietList);
         if(Auth::check()){
             if (Auth::user()->idQuyen==1 ){
                 return view('Admin.Duyet.chitiet',[
                     'title'=>'Chi tiết ủng hộ',
                     'chiTietList'=>$chiTietList,
-                    'idUngHo'=>$request->id
+                    'idUngHo'=>$request->input('id')
                 ]);
             }elseif (Auth::user()->idQuyen==2 ){
                 return view('CTV.Duyet.chitiet',[
                     'title'=>'Chi tiết ủng hộ',
                     'chiTietList'=>$chiTietList,
-                    'idUngHo'=>$request->id
+                    'idUngHo'=>$request->input('id')
                 ]);
             }else{
                 return view('Admin.UngHo.chitiet',[
                     'title'=>'Chi tiết ủng hộ',
                     'chiTietList'=>$chiTietList,
-                    'idUngHo'=>$request->id
+                    'idUngHo'=>$request->input('id')
                 ]);
             }
         }else
