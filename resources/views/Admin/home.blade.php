@@ -17,9 +17,9 @@
             <?php $i=0 ?>
             @foreach($BaiDangs as $baiDang)
                 <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-img-top" style="height: 200px; overflow: hidden;">
-                            <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;object-fit: cover;">
+                    <div class="card h-100 w-100">
+                        <div class="card-img-top" style="height: 200px;width: 100%; overflow: hidden;">
+                            <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;width: 100%;object-fit: cover;">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>

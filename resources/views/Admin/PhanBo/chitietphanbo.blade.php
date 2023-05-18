@@ -104,7 +104,9 @@
                             </thead>
                             <tbody>
                             @if($DKPB->count()>0)
-                                {{$i=0}}
+                                @php
+                                    $i=0
+                                @endphp
                                 @foreach($DKPB as $r)
                                     @if($r->idMucDoThietHai==$tableResult->idMucDoThietHai)
                                         <tr>

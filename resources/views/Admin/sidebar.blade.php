@@ -13,7 +13,7 @@
           <img src="/template/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->hoTen }}</a>
+          <a href="/logout" class="d-block">{{ Auth::user()->hoTen }}</a>
         </div>
       </div>
 
@@ -171,12 +171,13 @@
                     </li>
                 </ul>
             </li>
+{{--            <li class="nav-item">--}}
+{{--                <a href="/logout" class="btn btn-navbar nav-link mb-3" style="position: fixed;bottom: 0">--}}
+{{--                    <p>Đăng xuất</p>--}}
+{{--                </a>--}}
+{{--            </li>--}}
         </ul>
-            <li class="nav-item">
-                <a href="/logout" class="btn btn-navbar nav-link mb-3" style="position: fixed;bottom: 0">
-                    <p>Đăng xuất</p>
-                </a>
-            </li>
+
         </ul>
       </nav>
     </div>
