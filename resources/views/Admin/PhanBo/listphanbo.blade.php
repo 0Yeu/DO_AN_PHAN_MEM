@@ -33,9 +33,10 @@
                 <tr>
                 <tr>
                     <td>{{ $item->idHoGiaDinh }}</td>
-                    <td>{{ $item->idMucDoThietHai}}</td>
+                    <td>{{ $item->tenMucDo}}</td>
                     <td>Đã phân bổ</td>
                     <td>
+                        <a href="/chitietdaphanbo?id={{$item->idThietHai}}">Chi tiết</a>
                     </td>
                 </tr>
                 </tr>

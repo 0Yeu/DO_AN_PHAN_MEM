@@ -59,6 +59,41 @@
             @endif
         </ul>
     </div>
+
+    <table class="table table table-striped" >
+        <thead class="card-header" style="background: #00bb00; margin-top: 20px">
+        <tr class="">
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Đợt lũ lụt</th>
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Hộ gia đình</th>
+            <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Số tiền phân bổ</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($phanBoList as $item)
+            <tr>
+                <td>{{ $item->tenDotLuLut }}</td>
+                <td>{{ $item->idHoGiaDinh}}</td>
+                <td>{{ $item->soTien }}</td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
+    <div class="card-tools float-right">
+        <ul class="pagination pagination-sm">
+            @if ($menus->onFirstPage())
+                <li class="disabled"><span class="page-link">&laquo;</span></li>
+            @else
+                <li class="page-item" ><a class="page-link" href="{{ $menus->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+            @endif
+
+
+            @if ($menus->hasMorePages())
+                <li class="page-item"><a class="page-link" href="{{ $menus->nextPageUrl() }}" rel="next">&raquo;</a></li>
+            @else
+                <li class="disabled"><span class="page-link">&raquo;</span></li>
+            @endif
+        </ul>
+    </div>
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

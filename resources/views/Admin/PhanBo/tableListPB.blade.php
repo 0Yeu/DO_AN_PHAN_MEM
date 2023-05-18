@@ -22,7 +22,7 @@
         <tr>
         <tr>
             <td>{{ $item->idHoGiaDinh }}</td>
-            <td>{{ $item->idMucDoThietHai}}</td>
+            <td>{{ $item->tenMucDo}}</td>
             <td>Đã phân bổ</td>
             <td>
             </td>
