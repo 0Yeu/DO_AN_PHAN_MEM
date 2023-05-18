@@ -107,6 +107,7 @@
                                 @php
                                     $i=0
                                 @endphp
+
                                 @foreach($DKPB as $r)
                                     @if($r->idMucDoThietHai==$tableResult->idMucDoThietHai)
                                         <tr>

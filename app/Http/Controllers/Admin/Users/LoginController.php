@@ -49,7 +49,7 @@ class LoginController extends Controller
                 'taiKhoan'=> $request->input('email'),
                 'email'=>$request->input('email'),
                 'matKhau'=> bcrypt($request->input('password')),
-                'idQuyen'=>'2',
+                'idQuyen'=>'4',
             ]);
         return redirect()->route('login');
     }
@@ -151,7 +151,7 @@ class LoginController extends Controller
         $data = [];
         $hanghoa = $request->input('hanghoa');
         $soLuong = $request->input('soluong');
-//        $count = count($hanghoa);
+
         $tienUngHo=$request->input('money');
 
         DB::table('UngHo')->insert([
@@ -161,6 +161,7 @@ class LoginController extends Controller
             'TrangThaiPheDuyet' => 'Chờ phê duyệt',
         ]);
         $latestUngHo = DB::table('UngHo')->orderBy('idUngHo', 'desc')->first();
+
 
         if ($request->has('hanghoa')){
             $count = count($hanghoa);
@@ -377,7 +378,7 @@ class LoginController extends Controller
         }else{
             Session::flash('error','Đã xảy ra lỗi');
         }
-        return redirect()->route('HoGiaDinh');
+        return redirect()->route('home');
     }
     public function DanhSachUngHoTien(){
         $dlls=DB::table("DotLuLut")->get();
