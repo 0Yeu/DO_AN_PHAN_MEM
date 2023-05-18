@@ -16,6 +16,7 @@ class HangHoaController extends Controller
         //
         $dlls = DB::table('DanhMucHangCuuTro')->get();
         $menus = DB::table('HangCuuTro')
+        ->join('DanhMucHangCuuTro','DanhMucHangCuuTro.idDanhMuc','=','HangCuuTro.idDanhMuc')
             ->orderBy('idHangCuuTro', 'asc')
             ->paginate(10);
         return view('admin/hanghoa/listDanhMuc',[

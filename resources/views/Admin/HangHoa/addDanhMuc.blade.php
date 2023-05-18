@@ -12,7 +12,7 @@
                         <input type="text" name="tenHangCuuTro" class="form-control" id="" placeholder="Tên hàng hóa">
                     </div>
                     <div class="form-group">
-                        <label for="">Đợt  loại hàng hóa</label>
+                        <label for="">Loại hàng hóa</label>
                         <select class="form-control" name="idDanhMuc" id="dotLuLut" >
                             @foreach($dlls as $dll)
                                 <option  value="{{$dll->idDanhMuc}}">{{$dll->tenDanhMuc}}</option>

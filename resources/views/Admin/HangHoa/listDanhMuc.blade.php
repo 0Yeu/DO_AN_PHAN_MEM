@@ -15,7 +15,7 @@
             <thead class="card-header" style="background: #00bb00; margin-top: 20px">
             <tr class="">
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mã Hàng</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Mã danh mục</th>
+                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Tên danh mục</th>
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Tên hàng</th>
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Đơn vị tính</th>
                 <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Số lượng còn</th>
@@ -27,7 +27,7 @@
             @foreach($menus as $item)
                 <tr>
                     <td>{{ $item->idHangCuuTro }}</td>
-                    <td>{{ $item->idDanhMuc}}</td>
+                    <td>{{ $item->tenDanhMuc}}</td>
                     <td>{{ $item->tenHangCuuTro }}</td>
                     <td>{{ $item->donViTinh}}</td>
                     <td>{{ $item->soLuongCon }}</td>

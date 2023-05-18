@@ -1,12 +1,36 @@
-@extends('HoGiaDinh.main')
-@section('head')
-    @parent
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <title>Cứu trợ lũ lụt</title>
+    <style>
+        .card-text+p {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 70px !important;
+            max-height: 70px;
+        }
 
-    <!-- Tải Select2 từ CDN -->
-    <title>Khai báo thiệt hại</title>
+        .card-body+h3 {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 70px !important;
+            ;
+            max-height: 70px;
+        }
+    </style>
     <style type="text/css">
         .select2-selection__rendered{
             padding: 0;
@@ -60,9 +84,74 @@
             background-color: #45a049;
         }
     </style>
-@endsection
-@section('content')
-    <div class="container">
+    @if (\Illuminate\Support\Facades\Auth::check())
+        @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 1)
+            <script>
+                window.location.href = "/admin";
+            </script>
+        @elseif(\Illuminate\Support\Facades\Auth::user()->idQuyen == 2)
+            <script>
+                window.location.href = "/CTV";
+            </script>
+        @endif
+    @endif
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                {{--            <a class="navbar-brand" href="#">Cứu Trợ Lũ Lụt</a> --}}
+                {{--             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> --}}
+                {{--            <span class="navbar-toggler-icon"></span> --}}
+                {{--          </button> --}}
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="navbar-brand" aria-current="page" href="/">Cứu Trợ Lũ Lụt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="/DangKyUngHo">Đăng ký ủng hộ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="/danhsachungho">Danh sách ủng hộ</a>
+                        </li>
+                        @if (\Illuminate\Support\Facades\Auth::check())
+                            @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 3)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/HoGiaDinh/KhaiBaoThietHai">Khai báo thiệt hại</a>
+                                </li>
+                            @endif
+                        @endif
+
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    @if (\Illuminate\Support\Facades\Auth::check())
+                        @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 4)
+                            <a class="navbar-brand" aria-current="page"
+                                style="margin-right: 0px!important;margin-left: 16px"
+                                href="/">{{ \Illuminate\Support\Facades\Auth::user()->hoTen }}</a>
+                            <a class="nav-link" href="/logout"><button class="btn btn-light"
+                                    style="margin-left: 0px!important;" type="submit">Đăng xuất</button></a>
+                        @else
+                            <a class="nav-link" href="/logout"><button class="btn btn-light" type="submit">Đăng
+                                    xuất</button></a>
+                        @endif
+                    @else
+                        <a class="nav-link" href="/login"><button class="btn btn-light" type="submit">Đăng
+                                nhập</button></a>
+                    @endif
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="margin-top: 100px ">
         <div class="row">
             <div class="col-lg-8">
                 <form action="/HoGiaDinh/GuiToKhai" method="POST" id="formgui">
@@ -129,7 +218,7 @@
                     @if($DotLuLut->count() ==0)
                         <p style="color: red">*Không có đợt lũ nào cho phép khai báo thiệt hại</p>
                     @else
-                        <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
+                        <button type="submit" class="btn btn-primary mt-3">Gửi tờ khai</button>
                     @endif
                     @csrf
                 </form>
@@ -149,8 +238,7 @@
             </div>
         </div>
     </div>
-@endsection
-@section('footer')
+<footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
     <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
@@ -216,4 +304,6 @@
             loadScript();
         });
     </script>
-@endsection
+</footer>
+</body>
+</html>

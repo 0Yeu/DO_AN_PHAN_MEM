@@ -1,163 +1,223 @@
-@extends('Admin.main')
+@extends('admin.main')
 @section('head')
+    @parent
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style type="text/css">
+        .select2-selection__rendered{
+            padding: 0;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            padding-left: unset;
+            height: unset;
+            margin-top: unset;
+        }
+        hr:not([size]) {
+            height: 5px;
+            background-color: BLACK;
+            opacity: 1;
+        }
+
+        hr {
+            height: 5px; !important;/* Đặt chiều cao của hr */
+            background-color: black; /* Đặt màu nền của hr */
+            border: none; /* Loại bỏ viền của hr */
+            margin: 20px 0; /* Đặt khoảng cách trên và dưới của hr */
+        }
+
+        select{
+            padding: 0!important;
+        }
+
+        #formgui {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 @endsection
 @section('content')
-    <div class="container" style="margin-top: 100px">
-        <h1 STYLE="text-align: center">Đăng ký ủng hộ</h1>
-        <form action="/GuiUngHo" method="POST" id="formgui">
-            <div class="form-group">
-                <label>Tên người ủng hộ:</label>
-                @if (\Illuminate\Support\Facades\Auth::check())
-                    <p>{{\Illuminate\Support\Facades\Auth::user()->hoTen}}</p>
-                @else
-                    <p style="color: red">*Hiện bạn chưa đăng nhập. Thông tin sẽ được lưu thành khách vãng lai </p>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="name">Đợt lũ lụt:</label>
-                <select class="hanghoa-select form-control" data-search="true" name="dotlulut">
-                    @if($DotLuLut->count() ==0)
-                        <option>Không có đợt ủng hộ nào đang mở</option>
-                    @else
-                        @foreach($DotLuLut as $dll)
-                            <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>
-                        @endforeach
-                    @endif
-
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="value">Hàng hóa ủng hộ:</label>
-                <table class="table table-striped table-valign-middle">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th style="width: 400px;">Tên hàng hóa</th>
-                        <th>Số lượng</th>
-                        <th><button type="button" class="btn btn-success btn-sm btn-add">+</button></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <div class="form-group">
-                <label for="name">Số tiền ủng hộ:</label>
-                <input type="number" class="form-control" id="money" name="money" value="0" min="0" step="1000" required>
+    <div class="container">
+        <h1 style="text-align: center">Phân bổ cho hộ gia đình {{$tableResult->idHoGiaDinh}}</h1>
+        <form action="/admin/PhanBo/guiphanbo" method="POST" id="formgui">
+{{--            <div class="form-group">--}}
+{{--                <label for="name">Đợt lũ lụt:</label>--}}
+{{--                <select class="hanghoa-select form-control" id="selectedIDDLL" data-search="true" name="idDotlulut" onchange="filterData()">--}}
+{{--                    @foreach($DotLuLut as $dll)--}}
+{{--                        <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>--}}
+{{--                    @endforeach--}}
+{{--                </select>--}}
+{{--            </div>--}}
+            <div id="table-data">
+                    <div class="form-group" >
+                        <label for="idMucDoThietHai">{{$tableResult->tenMucDo}}</label>
+                        <input type="hidden" class="form-control" id="idMucDoThietHai" name="idMucDoThietHai[]" value="{{ $tableResult->idMucDoThietHai}}" required>
+                    </div>
+                    <div class="form-group">
+                        <table class="table table-striped table-valign-middle">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th style="width: 400px;">Tên hàng hóa</th>
+                                <th>Số lượng</th>
+                                <th><button type="button" class="btn btn-success btn-sm btn-add">+</button></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if($DKPB->count()>0)
+                                {{$i=0}}
+                                @foreach($DKPB as $r)
+                                    @if($r->idMucDoThietHai==$tableResult->idMucDoThietHai)
+                                        <tr>
+                                            <td>
+                                                {{++$i}}</td>
+                                            <td>
+                                                <input type="hidden" name="sl[]" value="{{$i}}">
+                                                <select class="hanghoa-select form-control" data-search="true" name="idHangCuuTro[]">
+                                                    @foreach($HangCT as $hct)
+                                                        <option value="{{$hct->idHangCuuTro}}" {{$hct->idHangCuuTro==$r->idHangCuuTro?'selected':''}}>{{$hct->tenHangCuuTro}} - {{$hct->donViTinh}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" name="soluongDuKien[]" value="{{$r->soLuongDuKien*$tableResult->soLuongThanhVien}}" min="0">
+                                            </td>
+                                            <td><button class="btn-remove btn btn-danger btn-sm" type="button">X</button></td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <p>Số tiền</p>
+                        @if($DKPBT->idMucDoThietHai==$tableResult->idMucDoThietHai)
+                                    <input type="number" class="form-control" id="money" name="money[]" value="{{$DKPBT->tienDuKien*$tableResult->soLuongThanhVien}}" min="0" step="1000" required>
+                        @else
+                            <input type="number" class="form-control" id="money" name="money[]" value="0" min="0" step="1000" required>
+                        @endif
+                    </div>
+                    <hr/>
             </div>
             <div class="form-group">
                 <label for="date">Ngày ủng hộ:</label>
                 <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}" required>
             </div>
-            @if($DotLuLut->count() ==0)
-                <p style="color: red">*Không có đợt ủng hộ nào đang mở</p>
-            @else
-                <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
-            @endif
 
+            <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
             @csrf
         </form>
-
     </div>
 @endsection
 @section('footer')
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script>
-        // Lấy giá trị CSRF token từ thẻ meta
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        // Thiết lập CSRF token cho mọi yêu cầu Ajax
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            }
-        });
-    </script>
-    <script>
-
-        function pheDuyet(selected) {
-            var idHangCuuTro = $(selected).data('id');
-            var soLuongThucNhan = $(selected).closest('tr').find('input[name="soLuongThucNhan[]"]').val();
-            console.log(idHangCuuTro, soLuongThucNhan);
-
-            // Gửi Ajax request với CSRF token
-            $.ajax({
-                url: '/phe-duyet',
-                method: 'POST',
-                data: {
-                    _token: csrfToken, // Thêm CSRF token vào dữ liệu gửi đi
-                    idHangCuuTro: idHangCuuTro,
-                    soLuongThucNhan: soLuongThucNhan,
-                    idUngHo: {{$idUngHo}}
-                },
-                success: function(response) {
-                    // Xử lý thành công
-                    console.log('Phê duyệt thành công!');
-                    var tr = $(selected).closest('tr');
-                    tr.find('.trang-thai-phe-duyet').text('Đã duyệt').css('color', 'black');
-                    tr.find('input[name="soLuongThucNhan[]"]').text(soLuongThucNhan);
-
-                    // Cập nhật trạng thái và hiển thị thông tin đã cập nhật nếu cần
-                    // ...
-                },
-                error: function(xhr, status, error) {
-                    // Xử lý lỗi (nếu có)
-
-                }
+        function loadScript() {
+            const btnRemoves = document.querySelectorAll('.btn-remove');
+            btnRemoves.forEach((btnRemove) => {
+                btnRemove.addEventListener('click', removeRow);
             });
-        }
-    </script>
-    <script>
-        // Xử lý khi ấn phê duyệt tất cả
-        $(document).ready(function() {
-            $('#btn_pheDuyetAll').click(function() {
-                var soLuongThucNhanList = [];
-                var idHangCuuTroList = [];
+            const btnAdds = document.querySelectorAll('.btn-add');
+            btnAdds.forEach((btnAdd) => {
+                const table = btnAdd.closest('.form-group').querySelector('table');
 
-                // Lặp qua tất cả các input số lượng thực nhận
-                $('input[name="soLuongThucNhan[]"]').each(function() {
-                    var soLuongThucNhan = $(this).val();
-                    console.log(soLuongThucNhan);
-                    soLuongThucNhanList.push(soLuongThucNhan);
+                btnAdd.addEventListener('click', () => {
+                    const rowCount = table.rows.length;
+                    const row = table.tBodies[0].insertRow(-1);
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+                    const cell4 = row.insertCell(3);
+                    cell1.textContent = rowCount;
+                    cell2.innerHTML = `
+        <input type="hidden" name="sl[]" value="${rowCount}">
+        <select class="hanghoa-select form-control" data-search="true" name="idHangCuuTro[]">
+          @foreach($HangCT as $hct)
+                    <option value="{{$hct->idHangCuuTro}}">{{$hct->tenHangCuuTro}} - {{$hct->donViTinh}}</option>
+          @endforeach
+                    </select>`;
+                    cell3.innerHTML = '<input type="number" name="soluongDuKien[]" value="1" min="0">';
+                    cell4.innerHTML = '<button class="btn-remove btn btn-danger btn-sm" type="button">X</button>';
+                    cell4.querySelector('.btn-remove').addEventListener('click', removeRow);
+
+                    // Add event listener for new remove button
+                    const newBtnRemove = row.querySelector('.btn-remove');
+                    newBtnRemove.addEventListener('click', removeRow);
+
+                    // Initialize Select2 for the new row
+                    $(row).find('.hanghoa-select').select2();
                 });
-                $('input[name="idHangCuuTro[]"]').each(function() {
-                    var idHangCuuTro = $(this).val();
-                    idHangCuuTroList.push(idHangCuuTro);
-                });
-                console.log(soLuongThucNhanList,idHangCuuTroList);
-                // Gửi Ajax request với CSRF token
-                $.ajax({
-                    url: '/phe-duyet-all',
-                    method: 'POST',
-                    data: {
-                        _token: csrfToken, // Thêm CSRF token vào dữ liệu gửi đi
-                        idUngHo: {{$idUngHo}},
-                        soLuongThucNhanList: soLuongThucNhanList,
-                        idHangCuuTroList:idHangCuuTroList
-                    },
-                    success: function(response) {
-                        // Xử lý thành công
-                        console.log('Phê duyệt tất cả thành công!');
-                        $('.trang-thai-phe-duyet').text('Đã duyệt').css('color', 'black');
-                        $('input[name="soLuongThucNhan[]"]').each(function(index) {
-                            $(this).val(soLuongThucNhanList[index]);
-                        });
+            });
 
-                        // Cập nhật trạng thái và hiển thị thông tin đã cập nhật nếu cần
-                        // ...
-                    },
-                    error: function(xhr, status, error) {
-                        // Xử lý lỗi (nếu có)
-                        console.log(error);
+            function removeRow() {
+                const row = this.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+                updateRowCount();
+            }
+            function removeRowshhh() {
+                const row = this.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+                updateRowCount();
+            }
 
+            function updateRowCount() {
+                btnAdds.forEach((btnAdd) => {
+                    const table = btnAdd.closest('.form-group').querySelector('table');
+                    const rowCount = table.rows.length;
+                    for (let i = 1; i < rowCount; i++) {
+                        table.rows[i].cells[0].textContent = i;
                     }
                 });
+            }
+
+            $(document).ready(function() {
+                $('.hanghoa-select').select2();
             });
+        }
+        $(document).ready(function() {
+            loadScript();
         });
     </script>
 @endsection
