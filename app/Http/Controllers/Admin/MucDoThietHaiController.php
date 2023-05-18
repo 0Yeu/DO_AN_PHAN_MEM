@@ -55,9 +55,10 @@ class MucDoThietHaiController extends Controller
         $menus = DB::table('MucDoThietHai')
             ->orderBy('idMucDoThietHai', 'asc')
             ->paginate(10);
+//        dd($request);
         DB::table('MucDoThietHai')->insert(
             [
-                'idDotLuLut'=>$request->input('idMucDoLuLut'),
+                'idDotLuLut'=>$request->input('idDotLuLut'),
                 'tenMucDo' => $request->input('tenMucDo'),
                 'moTa' => $request->input('ghiChu'),
             ]

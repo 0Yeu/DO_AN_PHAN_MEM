@@ -1,6 +1,6 @@
 @extends('Admin.main')
 @section('content')
-    <p id="tong-tien">Tổng tiền trong kho:{{$result}}</p>
+    <p>Tổng tiền trong kho:{{$result}}</p>
     <div class="form-group">
         <label for="idDanhMuc">Danh mục</label>
         <select class="form-control" id="selectIDDM" name="idDanhMuc" onchange="filterData()">
@@ -14,33 +14,33 @@
     <div id="table-data">
         <form method="POST" action="/phe-duyet-tien-all">
             @csrf
-        <table class="table table table-striped" >
-            <thead class="card-header" style="background: #00bb00; margin-top: 20px">
-            <tr class="">
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Đợt lũ lụt</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Người ủng hộ</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Giá trị</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Thực nhận</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Trạng thái phê duyệt</th>
-                <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">#</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($menus as $item)
-                <tr>
-                    <td>{{ $item->tenDotLuLut }}</td>
-                    <td>{{ $item->idNguoiDung==1?'Khách vãng lai':$item->tenNguoiDung}}</td>
-                    <td>{{ $item->tienUngHo }}</td>
-                    <td><input type="number" name="tienThucNhan[]" value="{{ $item->tienUngHo}}"></td>
-                    <td class="trang-thai-phe-duyet">{{ $item->trangThaiPheDuyet==1?'Chờ phê duyệt':'Đã phê duyệt'}}</td>
-                    <td><p id="btnPheDuyet" class="btn btn-success btn-phe-duyet" data-id="{{$item->idCTUngHoTien}}" onclick="pheDuyet(this)">Phê duyệt</p></td>
+            <table class="table table table-striped" >
+                <thead class="card-header" style="background: #00bb00; margin-top: 20px">
+                <tr class="">
+                    <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Đợt lũ lụt</th>
+                    <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Người ủng hộ</th>
+                    <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Giá trị</th>
+                    <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Thực nhận</th>
+                    <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">Trạng thái phê duyệt</th>
+                    <th class="jsgrid-header-cell jsgrid-align-center jsgrid-header-sortable">#</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
-{{--            @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<2)--}}
-{{--                <td> <button type="button" class="btn btn-success btn-phe-duyet" id="btn_pheDuyetAll" type="submit" data-id="">Phê duyệt tất cả</button></td>--}}
-{{--            @endif--}}
+                </thead>
+                <tbody>
+                @foreach($menus as $item)
+                    <tr>
+                        <td>{{ $item->tenDotLuLut }}</td>
+                        <td>{{ $item->idNguoiDung==1?'Khách vãng lai':$item->tenNguoiDung}}</td>
+                        <td>{{ $item->tienUngHo }}</td>
+                        <td><input type="number" name="tienThucNhan[]" value="{{ $item->trangThaiPheDuyet==1?$item->tienUngHo:$item->tienThucNhan}}"></td>
+                        <td class="trang-thai-phe-duyet">{{ $item->trangThaiPheDuyet==1?'Chờ phê duyệt':'Đã phê duyệt'}}</td>
+                        <td><p id="btnPheDuyet" class="btn btn-success btn-phe-duyet" data-id="{{$item->idCTUngHoTien}}" onclick="pheDuyet(this)">Phê duyệt</p></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            {{--            @if(\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->idQuyen<2)--}}
+            {{--                <td> <button type="button" class="btn btn-success btn-phe-duyet" id="btn_pheDuyetAll" type="submit" data-id="">Phê duyệt tất cả</button></td>--}}
+            {{--            @endif--}}
         </form>
     </div>
     <div class="card-tools float-right">
@@ -61,25 +61,6 @@
     </div>
 @endsection
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function filterData() {
-        // var idDanhMuc = document.getElementById("selectIDDM").value;
-        // var url = "/admin/hanghoa/filterDanhMuc?idDanhMuc=" + idDanhMuc;
-        //
-        // $.ajax({
-        //     url: url,
-        //     type: "GET",
-        //     dataType: "html",
-        //     success: function(data) {
-        //         $("#table-data").html(data);
-        //         console.log(data);
-        //     },
-        //     error: function() {
-        //         alert("Lỗi khi tải dữ liệu.");
-        //     }
-        // });
-    }
-</script>
 <script>
     // Lấy giá trị CSRF token từ thẻ meta
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -105,19 +86,15 @@
             },
             success: function(response) {
                 // Xử lý thành công
-
                 console.log('Phê duyệt thành công!');
                 console.log(response);
                 var tr = $(selected).closest('tr');
-                tr.find('.trang-thai-phe-duyet').text('Đã duyệt').css('color', 'black');
+                tr.find('.trang-thai-phe-duyet').text('Đã phê duyệt').css('color', 'black');
                 tr.find('input[name="tienThucNhan[]"]').text(tienThucNhan);
-                document.find('#tong-tien').text(response->);
             },
             error: function(xhr, status, error) {
                 // Xử lý lỗi (nếu có)
-
             }
         });
     }
 </script>
-

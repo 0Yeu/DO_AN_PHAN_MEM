@@ -185,7 +185,51 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>
                                     <p class="card-text">{!! $baiDang->noiDung !!}</p>
-                                    <p class="card-text">{{ $baiDang->soTien }}</p>
+                                    <p class="card-text">{!! $baiDang->tenDotLuLut !!}</p>
+                                    <div class="card-text">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                Ngày kết thúc
+                                            </div>
+                                            <div class="col-sm">
+                                                {{$baiDang->ngayKetThuc}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                Lượt ủng hộ
+                                            </div>
+                                            <div class="col-sm">
+                                                @php $tongTien=0;$tongLuotUH=0 @endphp
+                                                @foreach($ungHo as $uh)
+                                                    @if($uh->idDotLuLut==$baiDang->idDotLuLut)
+                                                        @php $tongLuotUH++ @endphp
+                                                        @foreach($CTUHT as $u)
+                                                            @if($u->idUngHo==$uh->idUngHo)
+                                                                @php $tongTien=$tongTien+$u->tienThucNhan @endphp
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
+                                                @endforeach
+                                                {{$tongLuotUH}}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: {{$tongTien/$baiDang->soTien*100}}%;" aria-valuenow="{{$tongTien/$baiDang->soTien*100}}%" aria-valuemin="0" aria-valuemax="100">{{$tongTien/$baiDang->soTien*100}}%</div>
+                                    </div>
+                                    <div class="row d-flex">
+                                        <div class="col-sm">
+                                            {{$tongTien}}
+                                        </div>
+                                        <div class="col-sm float-right">
+                                            <p class="card-text">{{ $baiDang->soTien }}</p>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <a href="/DangKyUngHo" class="btn btn-outline-success" style="margin: 10% 10% 10% 10%; ">Ủng hộ</a>
                             </div>
