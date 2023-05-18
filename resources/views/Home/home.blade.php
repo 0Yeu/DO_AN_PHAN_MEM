@@ -192,7 +192,7 @@
                                                 Ngày kết thúc
                                             </div>
                                             <div class="col-sm">
-                                                {{$baiDang->ngayKetThuc}}
+                                                <p style="text-align: right;margin: 0;padding: 0">{{$baiDang->ngayKetThuc}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -213,7 +213,7 @@
                                                         @endforeach
                                                     @endif
                                                 @endforeach
-                                                {{$tongLuotUH}}
+                                                <p style="text-align: right;margin: 0;padding: 0">{{$tongLuotUH}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -226,7 +226,7 @@
                                             {{$tongTien}}
                                         </div>
                                         <div class="col-sm float-right">
-                                            <p class="card-text">{{ $baiDang->soTien }}</p>
+                                            <p style="text-align: right;margin: 0;padding: 0">{{$baiDang->soTien}}</p>
                                         </div>
                                     </div>
 
