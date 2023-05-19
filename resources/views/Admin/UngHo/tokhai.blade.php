@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        .card-text+p{
-            display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;text-overflow: ellipsis;height: 70px!important;max-height: 70px;
+        .card-text+p {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 70px !important;
+            max-height: 70px;
         }
-        .card-body+h3{
-            display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;height: 70px!important; ;max-height: 70px;
+
+        .card-body+h3 {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 70px !important;
+            ;
+            max-height: 70px;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -19,11 +34,12 @@
     <!-- Tải Select2 từ CDN -->
     <title>Đăng ký ủng hộ</title>
     <style type="text/css">
-        .select2-selection__rendered{
+        .select2-selection__rendered {
             padding: 0;
         }
-        select{
-            padding: 0!important;
+
+        select {
+            padding: 0 !important;
         }
 
         #formgui {
@@ -40,7 +56,8 @@
             font-weight: bold;
         }
 
-        input[type="text"], select {
+        input[type="text"],
+        select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -71,145 +88,164 @@
             background-color: #45a049;
         }
     </style>
-{{--    @include('Admin.head');--}}
+    {{--    @include('Admin.head'); --}}
 </head>
+
 <body>
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="navbar-brand" aria-current="page" href="/">Cứu Trợ Lũ Lụt</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/DangKyUngHo">Đăng ký ủng hộ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/danhsachungho">Danh sách ủng hộ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                <a class="nav-link" href="/login"><button class="btn btn-primary" type="submit">Đăng nhập</button></a>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li class="nav-item">
+                            <a class="navbar-brand" aria-current="page" href="/">Cứu Trợ Lũ Lụt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/DangKyUngHo">Đăng ký ủng hộ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/danhsachungho">Danh sách ủng hộ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    {{-- <a class="nav-link" href="/login"><button class="btn btn-primary" type="submit">Đăng nhập</button></a> --}}
+                    @if (\Illuminate\Support\Facades\Auth::check())
+                        @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 4)
+                            <a class="navbar-brand" aria-current="page"
+                                style="margin-right: 0px!important;margin-left: 16px"
+                                href="/">{{ \Illuminate\Support\Facades\Auth::user()->hoTen }}</a>
+                            <a class="nav-link" href="/logout"><button class="btn btn-light"
+                                    style="margin-left: 0px!important;" type="submit">Đăng xuất</button></a>
+                        @else
+                            <a class="nav-link" href="/logout"><button class="btn btn-light" type="submit">Đăng
+                                    xuất</button></a>
+                        @endif
+                    @else
+                        <a class="nav-link" href="/login"><button class="btn btn-light" type="submit">Đăng
+                                nhập</button></a>
+                    @endif
+                </div>
             </div>
-        </div>
-    </nav>
-</header>
-<div class="container" style="margin-top: 100px">
-    <h1 STYLE="text-align: center">Đăng ký ủng hộ</h1>
-    <form action="/GuiUngHo" method="POST" id="formgui">
-        <div class="form-group">
-            <label>Tên người ủng hộ:</label>
-            @if (\Illuminate\Support\Facades\Auth::check())
-                <p>{{\Illuminate\Support\Facades\Auth::user()->hoTen}}</p>
-            @else
-                <p style="color: red">*Hiện bạn chưa đăng nhập. Thông tin sẽ được lưu thành khách vãng lai </p>
-            @endif
-        </div>
-        <div class="form-group">
-            <label for="name">Đợt lũ lụt:</label>
-            <select class="hanghoa-select form-control" data-search="true" name="dotlulut">
-                @if($DotLuLut->count() ==0)
-                    <option>Không có đợt ủng hộ nào đang mở</option>
+        </nav>
+    </header>
+    <div class="container" style="margin-top: 100px">
+        <h1 STYLE="text-align: center">Đăng ký ủng hộ</h1>
+        <form action="/GuiUngHo" method="POST" id="formgui">
+            <div class="form-group">
+                <label>Tên người ủng hộ:</label>
+                @if (\Illuminate\Support\Facades\Auth::check())
+                    <p>{{ \Illuminate\Support\Facades\Auth::user()->hoTen }}</p>
                 @else
-                    @foreach($DotLuLut as $dll)
-                        <option  value="{{$dll->idDotLuLut}}">{{$dll->tenDotLuLut}}</option>
-                    @endforeach
+                    <p style="color: red">*Hiện bạn chưa đăng nhập. Thông tin sẽ được lưu thành khách vãng lai </p>
                 @endif
+            </div>
+            <div class="form-group">
+                <label for="name">Đợt lũ lụt:</label>
+                <select class="hanghoa-select form-control" data-search="true" name="dotlulut">
+                    @if ($DotLuLut->count() == 0)
+                        <option>Không có đợt ủng hộ nào đang mở</option>
+                    @else
+                        @foreach ($DotLuLut as $dll)
+                            <option value="{{ $dll->idDotLuLut }}">{{ $dll->tenDotLuLut }}</option>
+                        @endforeach
+                    @endif
 
-            </select>
-        </div>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="value">Hàng hóa ủng hộ:</label>
-            <table class="table table-striped table-valign-middle">
-                <thead>
-                <tr>
-                    <th>STT</th>
-                    <th style="width: 400px;">Tên hàng hóa</th>
-                    <th>Số lượng</th>
-                    <th><button type="button" class="btn btn-success btn-sm btn-add">+</button></th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-        <div class="form-group">
-            <label for="name">Số tiền ủng hộ:</label>
-            <input type="number" class="form-control" id="money" name="money" value="0" min="0" step="1000" required>
-        </div>
-        <div class="form-group">
-            <label for="date">Ngày ủng hộ:</label>
-            <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}" required>
-        </div>
-        @if($DotLuLut->count() ==0)
-            <p style="color: red">*Không có đợt ủng hộ nào đang mở</p>
-        @else
-            <button type="submit" class="btn btn-primary">Gửi tờ khai</button>
-        @endif
+            <div class="form-group">
+                <label for="value">Hàng hóa ủng hộ:</label>
+                <table class="table table-striped table-valign-middle">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th style="width: 400px;">Tên hàng hóa</th>
+                            <th>Số lượng</th>
+                            <th><button type="button" class="btn btn-success btn-sm btn-add">+</button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <label for="name">Số tiền ủng hộ:</label>
+                <input type="number" class="form-control" id="money" name="money" value="0" min="0"
+                    step="1000" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Ngày ủng hộ:</label>
+                <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}"
+                    required>
+            </div>
+            @if ($DotLuLut->count() == 0)
+                <p style="color: red">*Không có đợt ủng hộ nào đang mở</p>
+            @else
+                <button type="submit" class="btn btn-primary mt-3">Gửi tờ khai</button>
+            @endif
 
-        @csrf
-    </form>
+            @csrf
+        </form>
 
-</div>
-@section('footer')
-@endsection
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    </div>
+    @section('footer')
+    @endsection
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
-<script>
-    const table = document.querySelector('table');
-    const btnAdd = document.querySelector('.btn-add');
+    <script>
+        const table = document.querySelector('table');
+        const btnAdd = document.querySelector('.btn-add');
 
-    btnAdd.addEventListener('click', () => {
-        const rowCount = table.rows.length;
-        const row = table.tBodies[0].insertRow(-1);
-        const cell1 = row.insertCell(0);
-        const cell2 = row.insertCell(1);
-        const cell3 = row.insertCell(2);
-        const cell4 = row.insertCell(3);
-        cell1.textContent = rowCount;
-        cell2.innerHTML = `
+        btnAdd.addEventListener('click', () => {
+            const rowCount = table.rows.length;
+            const row = table.tBodies[0].insertRow(-1);
+            const cell1 = row.insertCell(0);
+            const cell2 = row.insertCell(1);
+            const cell3 = row.insertCell(2);
+            const cell4 = row.insertCell(3);
+            cell1.textContent = rowCount;
+            cell2.innerHTML = `
               <select class="hanghoa-select form-control" data-search="true" name="hanghoa[]">
-                @foreach($HangCT as $hct)
-                    <option  value="{{$hct->idHangCuuTro}}">{{$hct->tenHangCuuTro}} - {{$hct->donViTinh}}</option>
+                @foreach ($HangCT as $hct)
+                    <option  value="{{ $hct->idHangCuuTro }}">{{ $hct->tenHangCuuTro }} - {{ $hct->donViTinh }}</option>
                 @endforeach
               </select>`;
-        cell3.innerHTML = '<input type="number" name="soluong[]" value="1" min="0">';
-        cell4.innerHTML = '<button class="btn-remove btn btn-danger btn-sm" type="button">X</button>';
-        cell4.querySelector('.btn-remove').addEventListener('click', removeRow);
+            cell3.innerHTML = '<input type="number" name="soluong[]" value="1" min="0">';
+            cell4.innerHTML = '<button class="btn-remove btn btn-danger btn-sm" type="button">X</button>';
+            cell4.querySelector('.btn-remove').addEventListener('click', removeRow);
 
-        // Add event listener for new remove button
-        const newBtnRemove = row.querySelector('.btn-remove');
-        newBtnRemove.addEventListener('click', removeRow);
+            // Add event listener for new remove button
+            const newBtnRemove = row.querySelector('.btn-remove');
+            newBtnRemove.addEventListener('click', removeRow);
+            $(document).ready(function() {
+                $('.hanghoa-select').select2();
+            });
+        });
+
+        function removeRow() {
+            const row = this.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            updateRowCount();
+        }
+
+        function updateRowCount() {
+            const rowCount = table.rows.length;
+            for (let i = 1; i < rowCount; i++) {
+                table.rows[i].cells[0].textContent = i;
+            }
+        }
         $(document).ready(function() {
             $('.hanghoa-select').select2();
         });
-    });
-
-    function removeRow() {
-        const row = this.parentNode.parentNode;
-        row.parentNode.removeChild(row);
-        updateRowCount();
-    }
-
-    function updateRowCount() {
-        const rowCount = table.rows.length;
-        for (let i = 1; i < rowCount; i++) {
-            table.rows[i].cells[0].textContent = i;
-        }
-    }
-    $(document).ready(function() {
-        $('.hanghoa-select').select2();
-    });
-</script>
+    </script>
 </body>
+
 </html>

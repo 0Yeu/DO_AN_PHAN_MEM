@@ -132,15 +132,16 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="/HoGiaDinh/KhaiBaoThietHai">Khai báo thiệt hại</a>
                                 </li>
-                                @else
-                                <li class="nav-item">
-                                    <a class="nav-link disabled" href="/HoGiaDinh/KhaiBaoThietHai">Khai báo thiệt hại</a>
-                                </li>
-                            @endif
                             @else
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/HoGiaDinh/KhaiBaoThietHai">Khai báo thiệt hại</a>
+                                    <a class="nav-link disabled" href="/HoGiaDinh/KhaiBaoThietHai">Khai báo thiệt
+                                        hại</a>
                                 </li>
+                            @endif
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="/HoGiaDinh/KhaiBaoThietHai">Khai báo thiệt hại</a>
+                            </li>
                         @endif
                     </ul>
                     <form class="d-flex">
@@ -152,14 +153,14 @@
                             <a class="navbar-brand" aria-current="page"
                                 style="margin-right: 0px!important;margin-left: 16px"
                                 href="/">{{ \Illuminate\Support\Facades\Auth::user()->hoTen }}</a>
-                            <a class="nav-link" href="/logout"><button class="btn btn-light"
+                            <a class="nav-link" href="/logout"><button class="btn btn-danger"
                                     style="margin-left: 0px!important;" type="submit">Đăng xuất</button></a>
                         @else
-                            <a class="nav-link" href="/logout"><button class="btn btn-light" type="submit">Đăng
+                            <a class="nav-link" href="/logout"><button class="btn btn-danger" type="submit">Đăng
                                     xuất</button></a>
                         @endif
                     @else
-                        <a class="nav-link" href="/login"><button class="btn btn-light" type="submit">Đăng
+                        <a class="nav-link" href="/login"><button class="btn btn-primary" type="submit">Đăng
                                 nhập</button></a>
                     @endif
                 </div>
@@ -194,113 +195,119 @@
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-@include('admin.alert')
-<div class="container mt-3 mb-5">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="alert alert-danger" role="alert">
-                <marquee behavior="" direction="hh">Trái tim gắn kết, mạnh mẽ vượt lũ lụt, ân ái thắp sáng hy
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    @include('admin.alert')
+    <div class="container mt-3 mb-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info" role="alert">
+                    <marquee behavior="" direction="hh">Trái tim gắn kết, mạnh mẽ vượt lũ lụt, ân ái thắp sáng hy
                         vọng. Đoàn kết khắc phục, hướng tới tương lai sáng, môi trường hồi sinh, đời sống thịnh vượng,
                         nhân văn vươn xa, để tình yêu lan tỏa khắp muôn nơi!
-                </marquee>
-            </div>
-            <div class="container my-5">
-                <div class="row">
-                    <?php $i=0 ?>
-                    @foreach($BaiDangs as $baiDang)
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100 w-100">
-                                <div class="card-img-top" style="height: 200px;width: 100%; overflow: hidden;">
-                                    <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;width: 100%;object-fit: cover;">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5>
-                                    <p class="card-text">{!! $baiDang->noiDung !!}</p>
-                                    <p class="card-text">{!! $baiDang->tenDotLuLut !!}</p>
-                                    <div class="card-text">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                Ngày kết thúc
-                                            </div>
-                                            <div class="col-sm">
-                                                <p style="text-align: right;margin: 0;padding: 0">{{$baiDang->ngayKetThuc}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                Lượt ủng hộ
-                                            </div>
-                                            <div class="col-sm">
-                                                @php $tongTien=0;$tongLuotUH=0 @endphp
-                                                @foreach($ungHo as $uh)
-                                                    @if($uh->idDotLuLut==$baiDang->idDotLuLut)
-                                                        @php $tongLuotUH++ @endphp
-                                                        @foreach($CTUHT as $u)
-                                                            @if($u->idUngHo==$uh->idUngHo)
-                                                                @php $tongTien=$tongTien+$u->tienThucNhan @endphp
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                @endforeach
-                                                <p style="text-align: right;margin: 0;padding: 0">{{$tongLuotUH}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: {{$tongTien/$baiDang->soTien*100}}%;" aria-valuenow="{{$tongTien/$baiDang->soTien*100}}%" aria-valuemin="0" aria-valuemax="100">{{$tongTien/$baiDang->soTien*100}}%</div>
-                                    </div>
-                                    <div class="row d-flex">
-                                        <div class="col-sm">
-                                            {{$tongTien}}
-                                        </div>
-                                        <div class="col-sm float-right">
-                                            <p style="text-align: right;margin: 0;padding: 0">{{$baiDang->soTien}}</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <a href="/DangKyUngHo" class="btn btn-outline-success" style="margin: 10% 10% 10% 10%; ">Ủng hộ</a>
-                            </div>
-                        </div>
-                    @endforeach
+                    </marquee>
                 </div>
-                <div class="card-tools float-right">
-                    <ul class="pagination pagination-sm">
-                        @if ($BaiDangs->onFirstPage())
-                            <li class="disabled"><span class="page-link">&laquo;</span></li>
-                        @else
-                            <li class="page-item" ><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-                        @endif
-
-
-                        @if ($BaiDangs->hasMorePages())
-                            <li class="page-item"><a class="page-link" href="{{ $BaiDangs->nextPageUrl() }}" rel="next">&raquo;</a></li>
-                        @else
-                            <li class="disabled"><span class="page-link">&raquo;</span></li>
-                        @endif
-                    </ul>
-                </div>
-            </div>
-    <div>
-        <div class="card-tools float-right">
-            <ul class="pagination pagination-sm">
-                @if ($BaiDangs->onFirstPage())
-                    <li class="disabled"><span class="page-link">&laquo;</span></li>
-                @else
-                    <li class="page-item" ><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-                @endif
-
                 <div class="container my-5">
                     <div class="row">
+                        <?php $i = 0; ?>
+                        @foreach ($BaiDangs as $baiDang)
+                            <div class="col-lg-4 mb-4">
+                                <div class="card h-100 w-100">
+                                    <div class="card-img-top" style="height: 200px;width: 100%; overflow: hidden;">
+                                        <img src="{{ $baiDang->hinhAnh }}" class="img-fluid" alt="..."
+                                            style="height: 200px;width: 100%;object-fit: cover;">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $baiDang->tenDotCuuTro }}</h5>
+                                        <p class="card-text">{!! $baiDang->noiDung !!}</p>
+                                        <p class="card-text">{!! $baiDang->tenDotLuLut !!}</p>
+                                        <div class="card-text">
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    Ngày kết thúc
+                                                </div>
+                                                <div class="col-sm">
+                                                    <p style="text-align: right;margin: 0;padding: 0">
+                                                        {{ $baiDang->ngayKetThuc }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    Lượt ủng hộ
+                                                </div>
+                                                <div class="col-sm">
+                                                    @php
+                                                        $tongTien = 0;
+                                                        $tongLuotUH = 0;
+                                                    @endphp
+                                                    @foreach ($ungHo as $uh)
+                                                        @if ($uh->idDotLuLut == $baiDang->idDotLuLut)
+                                                            @php $tongLuotUH++ @endphp
+                                                            @foreach ($CTUHT as $u)
+                                                                @if ($u->idUngHo == $uh->idUngHo)
+                                                                    @php $tongTien=$tongTien+$u->tienThucNhan @endphp
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    @endforeach
+                                                    <p style="text-align: right;margin: 0;padding: 0">
+                                                        {{ $tongLuotUH }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar"
+                                                style="width: {{ ($tongTien / $baiDang->soTien) * 100 }}%;"
+                                                aria-valuenow="{{ ($tongTien / $baiDang->soTien) * 100 }}%"
+                                                aria-valuemin="0" aria-valuemax="100">
+                                                {{ ($tongTien / $baiDang->soTien) * 100 }}%</div>
+                                        </div>
+                                        <div class="row d-flex">
+                                            <div class="col-sm">
+                                                {{ $tongTien }}
+                                            </div>
+                                            <div class="col-sm float-right">
+                                                <p style="text-align: right;margin: 0;padding: 0">
+                                                    {{ $baiDang->soTien }}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <a href="/DangKyUngHo" class="btn btn-outline-success"
+                                        style="margin: 10% 10% 10% 10%; ">Ủng hộ</a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="card-tools float-right">
+                        <ul class="pagination pagination-sm">
+                            @if ($BaiDangs->onFirstPage())
+                                <li class="disabled"><span class="page-link">&laquo;</span></li>
+                            @else
+                                <li class="page-item"><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}"
+                                        rel="prev">&laquo;</a></li>
+                            @endif
+
+
+                            @if ($BaiDangs->hasMorePages())
+                                <li class="page-item"><a class="page-link" href="{{ $BaiDangs->nextPageUrl() }}"
+                                        rel="next">&raquo;</a></li>
+                            @else
+                                <li class="disabled"><span class="page-link">&raquo;</span></li>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- <div class="row">
                         <h2>Tin mới nhất</h2>
-                        {{-- <div class="col-md-12"> --}}
                         <?php $i = 0; ?>
                         @foreach ($BaiDangs as $baiDang)
                             <div class="col-md-4">
@@ -317,105 +324,119 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{-- </div> --}}
-                    </div>
-                    <div>
-                        <div class="card-tools float-right">
-                            <ul class="pagination pagination-sm">
-                                @if ($BaiDangs->onFirstPage())
-                                    <li class="disabled"><span class="page-link">&laquo;</span></li>
-                                @else
-                                    <li class="page-item"><a class="page-link"
-                                            href="{{ $BaiDangs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
-                                @endif
-
-                                @if ($BaiDangs->hasMorePages())
-                                    <li class="page-item"><a class="page-link" href="{{ $BaiDangs->nextPageUrl() }}"
-                                            rel="next">&raquo;</a></li>
-                                @else
-                                    <li class="disabled"><span class="page-link">&raquo;</span></li>
-                                @endif
+                    </div> --}}
+        {{-- <footer class="footer mt-auto py-3 bg-dark">
+            <div class="container">
+                <span class="text-white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio
+                    obcaecati consequatur, animi illum omnis iusto aspernatur sit at esse odio.</span>
+            </div>
+        </footer> --}}
+        {{-- <div class="container ">
+            <footer class="py-5 ">
+                <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                    <div class="row">
+                        <div class="col-6 col-md-2 mb-3">
+                            <h5>Section</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#"
+                                        class="nav-link p-0 text-muted">Features</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#"
+                                        class="nav-link p-0 text-muted">Pricing</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a>
+                                </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <h2>Tin phổ biến</h2>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <img src="/images/4.png" class="img-fluid">
-                                    </div>
-                                    <div class="card-body">
-                                        <h3>Đợt lũ lụt A</h3>
-                                        <p style="text-align:justify;">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam est atque
-                                            natus
-                                            doloremque nam nulla eveniet repudiandae at inventore veritatis.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <p>04/04/2023-30/04/2023
-                                        <div class="text-end">
-                                            <u class="text-primary">Xem chi tiết</u>
-                                        </div>
-                                        </p>
-                                    </div>
+
+                        <div class="col-6 col-md-2 mb-3">
+                            <h5>Section</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#"
+                                        class="nav-link p-0 text-muted">Features</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#"
+                                        class="nav-link p-0 text-muted">Pricing</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-6 col-md-2 mb-3">
+                            <h5>Section</h5>
+                            <ul class="nav flex-column">
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#"
+                                        class="nav-link p-0 text-muted">Features</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#"
+                                        class="nav-link p-0 text-muted">Pricing</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a>
+                                </li>
+                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-5 offset-md-1 mb-3">
+                            <form>
+                                <h5>Subscribe to our newsletter</h5>
+                                <p>Monthly digest of what's new and exciting from us.</p>
+                                <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                                    <label for="newsletter1" class="visually-hidden">Email address</label>
+                                    <input id="newsletter1" type="text" class="form-control"
+                                        placeholder="Email address">
+                                    <button class="btn btn-primary" type="button">Subscribe</button>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <img src="/images/4.png" class="img-fluid">
-                                    </div>
-                                    <div class="card-body">
-                                        <h3>Đợt lũ lụt A</h3>
-                                        <p style="text-align:justify;">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam est atque
-                                            natus
-                                            doloremque nam nulla eveniet repudiandae at inventore veritatis.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <p>04/04/2023-30/04/2023
-                                        <div class="text-end">
-                                            <u class="text-primary">Xem chi tiết</u>
-                                        </div>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <img src="/images/4.png" class="img-fluid">
-                                    </div>
-                                    <div class="card-body">
-                                        <h3>Đợt lũ lụt A</h3>
-                                        <p style="text-align:justify;">
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam est atque
-                                            natus
-                                            doloremque nam nulla eveniet repudiandae at inventore veritatis.
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <p>04/04/2023-30/04/2023
-                                        <div class="text-end">
-                                            <u class="text-primary">Xem chi tiết</u>
-                                        </div>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <footer class="footer mt-auto py-3 bg-dark">
-                    <div class="container">
-                        <span class="text-white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio
-                            obcaecati consequatur, animi illum omnis iusto aspernatur sit at esse odio.</span>
-                    </div>
-                </footer>
+
+                <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+                    <p>© 2022 Company, Inc. All rights reserved.</p>
+                    <ul class="list-unstyled d-flex">
+                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24"
+                                    height="24">
+                                    <use xlink:href="#twitter"></use>
+                                </svg></a></li>
+                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24"
+                                    height="24">
+                                    <use xlink:href="#instagram"></use>
+                                </svg></a></li>
+                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24"
+                                    height="24">
+                                    <use xlink:href="#facebook"></use>
+                                </svg></a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div> --}}
+
+        <div class="footer">
+            <footer class="py-3 my-4 bg-dark ">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
+                </ul>
+                <p class="text-center text-white">© 2022 Company, Inc</p>
+            </footer>
+        </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">

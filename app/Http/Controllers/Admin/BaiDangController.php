@@ -51,6 +51,7 @@ class BaiDangController extends Controller
                     'ngayBatDau' => $request->input('ngayBatDau'),
                     'ngayKetThuc' => $request->input('ngayKetThuc'),
                     'hinhAnh' => '../storage/images/' . $fileName,
+                    'soTien' => $request->input('soTien'),
                     'noiDung' => $request->input('ghiChu'),
                 ]
             );

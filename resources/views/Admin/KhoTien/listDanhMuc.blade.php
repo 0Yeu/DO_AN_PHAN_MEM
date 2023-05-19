@@ -1,6 +1,7 @@
 @extends('Admin.main')
 @section('content')
-    <p>Tổng tiền trong kho:{{$result}}</p>
+    {{-- <p>Tổng tiền trong kho:{{$result}}</p> --}}
+
     <div class="form-group">
         <label for="idDanhMuc">Danh mục</label>
         <select class="form-control" id="selectIDDM" name="idDanhMuc" onchange="filterData()">
@@ -43,6 +44,7 @@
             {{--            @endif--}}
         </form>
     </div>
+    <h2>Tổng tiền trong kho: {{$result}} VNĐ</h2>
     <div class="card-tools float-right">
         <ul class="pagination pagination-sm">
             @if ($menus->onFirstPage())

@@ -55,9 +55,9 @@
                         <td>{{ $item->tenMucDoThietHai }}</td>
                         <td>{{ $item->trangThaiPheDuyet}}</td>
                         <td>
-                            <a class="btn btn-warning" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idThietHai}}">Chi tiết</a>
+                            {{-- <a class="btn btn-warning" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idThietHai}}">Chi tiết</a>
                             <a class="btn btn-success" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idThietHai}}">Phê duyệt</a>
-                            <a class="btn btn-danger" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idThietHai}}">Từ chối</a>
+                            <a class="btn btn-danger" href="/admin/hanghoa/editDanhMuc?idHangCuuTro={{$item->idThietHai}}">Từ chối</a> --}}
                         </td>
                     </tr>
                 @endforeach
