@@ -65,8 +65,8 @@
             </table>
         </div>
 
-        <button class="btn btn-success" type="submit" name="pheduyetall">Phê duyệt tất cả</button>
-        <button class="btn btn-danger" type="submit" name="tuchoiall">Từ chối tất cả</button>
+        <button class="btn btn-success" type="submit" name="pheduyetall">Phê duyệt</button>
+        <button class="btn btn-danger" type="submit" name="tuchoiall">Từ chối</button>
         @csrf
     </form>
     <div class="card-tools float-right">

@@ -80,7 +80,38 @@
                     <a href="/logout" class="btn btn-navbar nav-link mb-3" style="position: fixed;bottom: 0">
                         <p>Đăng xuất</p>
                     </a>
-                </li> --}}
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="/danhsachungho" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách ủng hộ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/danhsachtokhai" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách tờ khai</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item phanbo">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Phân bổ
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="/danhsachphanbo" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách phân bổ</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>
