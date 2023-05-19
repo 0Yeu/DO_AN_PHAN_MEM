@@ -108,7 +108,7 @@
                         <li class="nav-item">
                             <a href="/danhsachunghotien " class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Quản lý kho tiền</p>
+                                <p>Quản lý tiền ủng hộ</p>
                             </a>
                         </li>
                     </ul>
@@ -126,13 +126,13 @@
                         <li class="nav-item">
                             <a href="/danhsachungho" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách ủng hộ</p>
+                                <p>DS Ủng hộ hàng</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/danhsachtokhai" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh sách tờ khai</p>
+                                <p>DS tờ khai thiệt hại</p>
                             </a>
                         </li>
                     </ul>

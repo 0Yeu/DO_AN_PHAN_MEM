@@ -82,64 +82,54 @@
             <input type="hidden" name="idDotLuLut" value="{{$tableResult->idDotLuLut}}">
             <input type="hidden" name="idHoGiaDinh" value="{{$tableResult->idHoGiaDinh}}">
             <div id="table-data">
-                    <div class="form-group" >
-                        <label for="idMucDoThietHai">{{$tableResult->tenMucDo}}</label>
-                        <input type="hidden" class="form-control" id="idMucDoThietHai" name="idMucDoThietHai" value="{{ $tableResult->idMucDoThietHai}}" required>
-                    </div>
-                    <div class="form-group">
-                        <table class="table table-striped table-valign-middle">
-                            <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th style="width: 400px;">Tên hàng hóa</th>
-                                <th>Số lượng</th>
-                                <th><button type="button" class="btn btn-success btn-sm btn-add">+</button></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($DKPB->count()>0)
-                                @php
-                                    $i=0
-                                @endphp
-                                @foreach($DKPB as $r)
-                                    @if($r->idMucDoThietHai==$tableResult->idMucDoThietHai)
-                                        <tr>
-                                            <td>
-                                                {{++$i}}</td>
-                                            <td>
-                                                <input type="hidden" name="sl[]" value="{{$i}}">
-                                                <select class="hanghoa-select form-control" data-search="true" name="idHangCuuTro[]">
-                                                    @foreach($HangCT as $hct)
-                                                        <option value="{{$hct->idHangCuuTro}}" {{$hct->idHangCuuTro==$r->idHangCuuTro?'selected':''}}>{{$hct->tenHangCuuTro}} - {{$hct->donViTinh}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="number" name="soluongDuKien[]" value="{{$r->soLuongDuKien*$tableResult->soLuongThanhVien}}" min="0" max="{{$r->soLuongCon}}">/{{$r->soLuongCon}}
-                                            </td>
-                                            <td><button class="btn-remove btn btn-danger btn-sm" type="button">X</button></td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="form-group">
-                        <p>Số tiền</p>
-                        @if($DKPBT->idMucDoThietHai==$tableResult->idMucDoThietHai)
-                                    <input type="number" class="form-control" id="money" name="money" value="{{$DKPBT->tienDuKien*$tableResult->soLuongThanhVien}}" min="0" step="1000" required>
-                        @else
-                            <input type="number" class="form-control" id="money" name="money" value="0" min="0" step="1000" required>
+                <div class="form-group">
+                    <table class="table table-striped table-valign-middle">
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th style="width: 400px;">Tên hàng hóa</th>
+                            <th>Số lượng</th>
+                            <th><button type="button" class="btn btn-success btn-sm btn-add">+</button></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if($DKPB->count()>0)
+                            @php
+                                $i=0
+                            @endphp
+                            @foreach($DKPB as $r)
+                                    <tr>
+                                        <td>
+                                            {{++$i}}</td>
+                                        <td>
+                                            <input type="hidden" name="sl[]" value="{{$i}}">
+                                            <select class="hanghoa-select form-control" data-search="true" name="idHangCuuTro[]">
+                                                @foreach($HangCT as $hct)
+                                                    <option value="{{$hct->idHangCuuTro}}" {{$hct->idHangCuuTro==$r->idHangCuuTro?'selected':''}}>{{$hct->tenHangCuuTro}} - {{$hct->donViTinh}}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" name="soluongDuKien[]" value="{{$r->soLuong}}" min="0">
+                                        </td>
+                                        <td><button class="btn-remove btn btn-danger btn-sm" type="button">X</button></td>
+                                    </tr>
+                            @endforeach
                         @endif
-                    </div>
-                    <hr/>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <p>Số tiền</p>
+                        <input type="number" class="form-control" id="money" name="money" value="{{$DKPBT->soTien}}" min="0" step="1000" required>
+                </div>
+                <hr/>
             </div>
             <div class="form-group">
                 <label for="date">Ngày phân bổ:</label>
                 <input type="date" class="form-control" id="date" name="thoigian" value="{{ date('Y-m-d') }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Xác nhận phân bổ</button>
+{{--            <button type="submit" class="btn btn-primary">Xác nhận phân bổ</button>--}}
             @csrf
         </form>
     </div>

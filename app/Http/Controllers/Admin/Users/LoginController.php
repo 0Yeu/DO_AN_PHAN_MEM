@@ -198,23 +198,25 @@ class LoginController extends Controller
     }
     public function DanhSachUngHo(){
         $ungHoList = DB::table('UngHo')
+            ->join('DotLuLut','DotLuLut.idDotLuLut','=','UngHo.idDotLuLut')
             ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
-            ->select('UngHo.*', 'NguoiDung.hoTen as tenNguoiDung')
+            ->select('UngHo.*', 'NguoiDung.hoTen as tenNguoiDung','DotLuLut.tenDotLuLut')
             ->whereIn('UngHo.idUngHo', function ($query) {
                 $query->select('idUngHo')
                     ->from('ChiTietUngHoHang');
             })
             ->get();
+//        dd($ungHoList);
 
         if (Auth::check()){
             if (Auth::user()->idQuyen==1 ){
                 return view('Admin.Duyet.danhsach',[
-                    'title'=>'Danh sách ủng hộ',
+                    'title'=>'Danh sách ủng hộ hàng',
                     'ungHoList'=>$ungHoList
                 ]);
             }elseif (Auth::user()->idQuyen==2 ){
                 return view('CTV.Duyet.danhsach',[
-                    'title'=>'Danh sách ủng hộ',
+                    'title'=>'Danh sách ủng hộ hàng',
                     'ungHoList'=>$ungHoList
                 ]);
             }else{
@@ -397,9 +399,16 @@ class LoginController extends Controller
             ->join('NguoiDung', 'UngHo.idNguoiDung', '=', 'NguoiDung.idNguoiDung')
             ->select('chiTietUngHoTien.*', 'NguoiDung.hoTen as tenNguoiDung','DotLuLut.tenDotLuLut','NguoiDung.idNguoiDung')
             ->paginate(10);
+        $phanBoList = DB::table('chiTietPhanBoTien')
+            ->join('dotPhanBo','dotPhanBo.idPhanBo','=','chiTietPhanBoTien.idPhanBo')
+            ->join('DotLuLut','dotPhanBo.idDotLuLut','=','DotLuLut.idDotLuLut')
+            ->join('HoGiaDinh', 'dotPhanBo.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh')
+            ->paginate(10);
+//        dd($phanBoList);
         if (Auth::user()->idQuyen==1 ){
             return view('Admin.KhoTien.listDanhMuc',[
                 'title'=>'Danh sách ủng hộ',
+                'phanBoList'=>$phanBoList,
                 'menus'=>$ungHoList,
                 'dlls'=>$dlls,
                 'result'=>$result

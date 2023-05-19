@@ -207,35 +207,36 @@ class DuyetToKhaiController extends Controller
     public function DanhSachPhanBo(){
         $dlls=DB::table('DotLuLut')->get();
         $hoGiaDinhChuaPhanBo = DB::table('ThietHai AS th')
-            ->join('MucDoThietHai','MucDoThietHai.idMucDoThietHai','=','th.idMucDoThietHai')
-            ->select('th.*','MucDoThietHai.tenMucDo')
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
+            ->select('th.*', 'MucDoThietHai.tenMucDo')
+            ->join('MucDoThietHai', 'MucDoThietHai.idMucDoThietHai', '=', 'th.idMucDoThietHai')
+            ->whereNotIn('th.idHoGiaDinh', function ($query) {
+                $query->select('HoGiaDinh.idHoGiaDinh')
                     ->from('chiTietPhanBoHang AS ctp')
                     ->join('dotPhanBo AS dpb', 'ctp.idPhanBo', '=', 'dpb.idPhanBo')
                     ->join('HoGiaDinh', 'dpb.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh');
             })
             ->where('th.trangThaiPheDuyet', 'LIKE', 'Đã phê duyệt')
-            ->where('th.idDotLuLut','=',$dlls[0]->idDotLuLut)
+//            ->where('th.idDotLuLut', 1)
             ->distinct()
             ->get();
 //        dd($hoGiaDinhChuaPhanBo);
         $hoGiaDinhDaPhanBo = DB::table('ThietHai AS th')
-            ->select('th.*')
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
+            ->select('th.*', 'MucDoThietHai.tenMucDo')
+            ->join('MucDoThietHai', 'MucDoThietHai.idMucDoThietHai', '=', 'th.idMucDoThietHai')
+            ->whereIn('th.idHoGiaDinh', function ($query) {
+                $query->select('HoGiaDinh.idHoGiaDinh')
                     ->from('chiTietPhanBoHang AS ctp')
                     ->join('dotPhanBo AS dpb', 'ctp.idPhanBo', '=', 'dpb.idPhanBo')
                     ->join('HoGiaDinh', 'dpb.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh');
             })
             ->where('th.trangThaiPheDuyet', 'LIKE', 'Đã phê duyệt')
-            ->where('th.idDotLuLut','=',$dlls[0]->idDotLuLut)
+//            ->where('th.idDotLuLut', 1)
             ->distinct()
             ->get();
 //        dd($hoGiaDinhChuaPhanBo,$hoGiaDinhDaPhanBo);
         if (Auth::user()->idQuyen==1 ){
             return view('Admin.PhanBo.listPhanBo',[
-                'title'=>'Danh sách tờ khai',
+                'title'=>'Danh sách phân bổ',
                 'hoGiaDinhChuaPhanBo'=>$hoGiaDinhChuaPhanBo,
                 'hoGiaDinhDaPhanBo'=>$hoGiaDinhDaPhanBo,
                 'dlls'=>$dlls
@@ -256,6 +257,7 @@ class DuyetToKhaiController extends Controller
             ->join('HoGiaDinh','HoGiaDinh.idHoGiaDinh','=','ThietHai.idHoGiaDinh')
             ->where('idThietHai','=',$idThietHai)
             ->first();
+//        dd($tableResult);
         $DKPB=DB::table('DuKienPhanBo')
             ->join('HangCuuTro','HangCuuTro.idHangCuuTro','=','DuKienPhanBo.idHangCuuTro')
             ->where('idMucDoThietHai','=',$tableResult->idMucDoThietHai)
@@ -268,7 +270,7 @@ class DuyetToKhaiController extends Controller
 //        dd($tableResult,$DKPB,$DKPBT);
         if (Auth::user()->idQuyen==1 ){
             return view('Admin.PhanBo.chitietphanbo',[
-                'title'=>'Chi tiết ủng hộ',
+                'title'=>'Chi tiết phân bổ',
                 'idUngHo'=>$request->id,
                 'tableResult' =>$tableResult,
                 'DKPB'=>$DKPB,
@@ -276,8 +278,55 @@ class DuyetToKhaiController extends Controller
                 'DKPBT'=>$DKPBT
             ]);
         }else
-            return view('Admin.UngHo.chitiet',[
-                'idUngHo'=>$request->id
+            return view('CTV.PhanBo.chitietphanbo',[
+                'title'=>'Chi tiết phân bổ',
+                'idUngHo'=>$request->id,
+                'tableResult' =>$tableResult,
+                'DKPB'=>$DKPB,
+                'HangCT'=>$HangCT,
+                'DKPBT'=>$DKPBT
+            ]);
+    }
+    public function ChiTietDaPhanBo(Request $request){
+//        dd($request);
+        $idThietHai=$request->input('id');
+        $tableResult=DB::table('Thiethai')
+            ->join('MucDoThietHai','MucDoThietHai.idMucDoThietHai','=','ThietHai.idMucDoThietHai')
+            ->join('HoGiaDinh','HoGiaDinh.idHoGiaDinh','=','ThietHai.idHoGiaDinh')
+            ->where('idThietHai','=',$idThietHai)
+            ->first();
+        $PB=DB::table('dotPhanBo')
+            ->where('dotPhanBo.idDotLuLut','=',$tableResult->idDotLuLut)
+            ->where('dotPhanBo.idHoGiaDinh','=',$tableResult->idHoGiaDinh)
+            ->first();
+//        dd($PB);
+        $DKPB=DB::table('chiTietPhanBoHang')
+            ->join('HangCuuTro','HangCuuTro.idHangCuuTro','=','chiTietPhanBoHang.idHangCuuTro')
+            ->where('idPhanBo','=',$PB->idPhanBo)
+            ->get();
+        $DKPBT=DB::table('chiTietPhanBoTien')
+//            ->join('HangCuuTro','HangCuuTro.idHangCuuTro','=','DuKienPhanBoTien.idHangCuuTro')
+            ->where('idPhanBo','=',$PB->idPhanBo)
+            ->first();
+        $HangCT=DB::table("HangCuuTro")->get();
+//        dd($tableResult,$DKPB,$DKPBT);
+        if (Auth::user()->idQuyen==1 ){
+            return view('Admin.PhanBo.chitietdaphanbo',[
+                'title'=>'Chi tiết phân bổ',
+                'idUngHo'=>$request->id,
+                'tableResult' =>$tableResult,
+                'DKPB'=>$DKPB,
+                'HangCT'=>$HangCT,
+                'DKPBT'=>$DKPBT
+            ]);
+        }else
+            return view('CTV.PhanBo.chitietdaphanbo',[
+                'title'=>'Chi tiết phân bổ',
+                'idUngHo'=>$request->id,
+                'tableResult' =>$tableResult,
+                'DKPB'=>$DKPB,
+                'HangCT'=>$HangCT,
+                'DKPBT'=>$DKPBT
             ]);
     }
 }

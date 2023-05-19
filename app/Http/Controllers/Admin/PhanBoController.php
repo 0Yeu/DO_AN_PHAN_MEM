@@ -292,29 +292,29 @@ class PhanBoController extends Controller
     {
         $idDLL = $request->input('idDLL');
         $hoGiaDinhChuaPhanBo = DB::table('ThietHai AS th')
-            ->join('MucDoThietHai','MucDoThietHai.idMucDoThietHai','=','th.idMucDoThietHai')
-//            ->join('','MucDoThietHai.idMucDoThietHai','=','th.idMucDoThietHai')
-            ->select('th.*','MucDoThietHai.tenMucDo')
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
+            ->select('th.*', 'MucDoThietHai.tenMucDo')
+            ->join('MucDoThietHai', 'MucDoThietHai.idMucDoThietHai', '=', 'th.idMucDoThietHai')
+            ->whereNotIn('th.idHoGiaDinh', function ($query) {
+                $query->select('HoGiaDinh.idHoGiaDinh')
                     ->from('chiTietPhanBoHang AS ctp')
                     ->join('dotPhanBo AS dpb', 'ctp.idPhanBo', '=', 'dpb.idPhanBo')
                     ->join('HoGiaDinh', 'dpb.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh');
             })
             ->where('th.trangThaiPheDuyet', 'LIKE', 'Đã phê duyệt')
-            ->where('th.idDotLuLut','=',$idDLL)
+            ->where('th.idDotLuLut', $idDLL)
             ->distinct()
             ->get();
         $hoGiaDinhDaPhanBo = DB::table('ThietHai AS th')
-            ->select('th.*')
-            ->whereExists(function ($query) {
-                $query->select(DB::raw(1))
+            ->select('th.*', 'MucDoThietHai.tenMucDo')
+            ->join('MucDoThietHai', 'MucDoThietHai.idMucDoThietHai', '=', 'th.idMucDoThietHai')
+            ->whereIn('th.idHoGiaDinh', function ($query) {
+                $query->select('HoGiaDinh.idHoGiaDinh')
                     ->from('chiTietPhanBoHang AS ctp')
                     ->join('dotPhanBo AS dpb', 'ctp.idPhanBo', '=', 'dpb.idPhanBo')
                     ->join('HoGiaDinh', 'dpb.idHoGiaDinh', '=', 'HoGiaDinh.idHoGiaDinh');
             })
             ->where('th.trangThaiPheDuyet', 'LIKE', 'Đã phê duyệt')
-            ->where('th.idDotLuLut','=',$idDLL)
+            ->where('th.idDotLuLut', $idDLL)
             ->distinct()
             ->get();
 //        dd($hoGiaDinhChuaPhanBo,$hoGiaDinhDaPhanBo);
@@ -333,5 +333,107 @@ class PhanBoController extends Controller
                 'hoGiaDinhDaPhanBo'=>$hoGiaDinhDaPhanBo,
                 'dlls'=>$dlls
             ]);
+    }
+    public function xacNhanPhanBo(Request $request)
+    {
+//        dd($request);
+        $data = [];
+
+
+        $tienPhanBo=$request->input('money');
+        $testTB =DB::table('dotPhanBo')
+            ->where('idDotLuLut','=',$request->input('idDotLuLut'))
+            ->where('idHoGiaDinh','=',$request->input('idHoGiaDinh'))
+            ->get();
+//        dd($testTB);
+        if ($testTB->count()>0){
+            DB::table('dotPhanBo')
+                ->where('idDotLuLut','=',$request->input('idDotLuLut'))
+                ->where('idHoGiaDinh','=',$request->input('idHoGiaDinh'))
+                ->update([
+                'idHoGiaDinh' => $request->input('idHoGiaDinh'),
+                'idDotLuLut' => $request->input('idDotLuLut'),
+                'ngayBatDau' => $request->input('thoigian'),
+            ]);
+            DB::table('chiTietPhanBoHang')
+                ->where('idPhanBo','=',$testTB[0]->idPhanBo)
+                ->delete();
+            DB::table('chiTietPhanBoTien')
+                ->where('idPhanBo','=',$testTB[0]->idPhanBo)
+                ->delete();
+            if ($request->has('idHangCuuTro')){
+                $hanghoa = $request->input('idHangCuuTro');
+                $soLuong = $request->input('soluongDuKien');
+                $count = count($hanghoa);
+//                dd($soLuong);
+                for ($i = 0; $i < $count; $i++) {
+                    $product = $hanghoa[$i];
+                    $quantity = $soLuong[$i];
+                    if (isset($data[$product])) {
+                        $data[$product] += $quantity;
+                    } else {
+                        $data[$product] = $quantity;
+                    }
+                }
+                foreach ($data as $product => $quantity) {
+                    DB::table('chiTietPhanBoHang')->insert(
+                        [
+                            'idPhanBo' => $testTB[0]->idPhanBo,
+                            'idHangCuuTro' => $product,
+                            'soLuong' => $quantity,
+                        ]
+                    );
+                }
+            }
+            if ($tienPhanBo>0) {
+                DB::table('chiTietPhanBoTien')->insert(
+                    [
+                        'idPhanBo' => $testTB[0]->idPhanBo,
+                        'soTien' => $tienPhanBo,
+                    ]
+                );
+            }
+        }else{
+            DB::table('dotPhanBo')->insert([
+                'idHoGiaDinh' => $request->input('idHoGiaDinh'),
+                'idDotLuLut' => $request->input('idDotLuLut'),
+                'ngayBatDau' => $request->input('thoigian'),
+            ]);
+            $latestUngHo = DB::table('dotPhanBo')->orderBy('idPhanBo', 'desc')->first();
+            if ($request->has('idHangCuuTro')){
+                $hanghoa = $request->input('idHangCuuTro');
+                $soLuong = $request->input('soluongDuKien');
+                $count = count($hanghoa);
+//                dd($soLuong);
+                for ($i = 0; $i < $count; $i++) {
+                    $product = $hanghoa[$i];
+                    $quantity = $soLuong[$i];
+                    if (isset($data[$product])) {
+                        $data[$product] += $quantity;
+                    } else {
+                        $data[$product] = $quantity;
+                    }
+                }
+                foreach ($data as $product => $quantity) {
+//                echo $product . ' - ' . $quantity;
+                    DB::table('chiTietPhanBoHang')->insert(
+                        [
+                            'idPhanBo' => $latestUngHo->idPhanBo,
+                            'idHangCuuTro' => $product,
+                            'soLuong' => $quantity,
+                        ]
+                    );
+                }
+            }
+            if ($tienPhanBo>0) {
+                DB::table('chiTietPhanBoTien')->insert(
+                    [
+                        'idPhanBo' => $latestUngHo->idPhanBo,
+                        'soTien' => $tienPhanBo,
+                    ]
+                );
+            }
+        }
+        return redirect()->route('danhsachphanbo');
     }
 }

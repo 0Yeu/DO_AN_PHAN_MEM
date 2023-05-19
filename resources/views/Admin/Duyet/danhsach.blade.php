@@ -1,12 +1,13 @@
 @extends('Admin.main')
 @section('content')
     <div class="container">
-        <h1>Danh sách ủng hộ</h1>
+        <h1>Danh sách ủng hộ hàng</h1>
         <table class="table">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Tên người ủng hộ</th>
+                <th>Đợt lũ lụt</th>
                 <th>Thời gian ủng hộ</th>
                 <th>Trạng thái phê duyệt</th>
                 <th>Chi tiết</th>
@@ -21,6 +22,8 @@
                     @else
                         <td>{{$ungHo->tenNguoiDung}}</td>
                     @endif
+
+                    <td>{{$ungHo->tenDotLuLut}}</td>
                     <td>{{$ungHo->thoiGianUngHo}}</td>
                     <td>{{$ungHo->trangThaiPheDuyet}}</td>
                     <td>

@@ -219,9 +219,16 @@ Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
     Route::any('/chitietphanbo', function (Illuminate\Http\Request $request) {
         return (new \App\Http\Controllers\Admin\DuyetToKhaiController())->ChiTietPhanBo($request);
     })->name('chitietphanbo');
+    Route::any('/chitietdaphanbo', function (Illuminate\Http\Request $request) {
+        return (new \App\Http\Controllers\Admin\DuyetToKhaiController())->ChiTietDaPhanBo($request);
+    })->name('chitietdaphanbo');
 
     Route::post('/guiphanbo', function (Illuminate\Http\Request $request) {
         return (new \App\Http\Controllers\Admin\PhanBoController())->guiPhanBo($request);
+    });
+
+    Route::post('/xacnhanphanbo', function (Illuminate\Http\Request $request) {
+        return (new \App\Http\Controllers\Admin\PhanBoController())->xacNhanPhanBo($request);
     });
 
 
