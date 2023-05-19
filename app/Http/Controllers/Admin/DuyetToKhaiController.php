@@ -236,7 +236,7 @@ class DuyetToKhaiController extends Controller
 //        dd($hoGiaDinhChuaPhanBo,$hoGiaDinhDaPhanBo);
         if (Auth::user()->idQuyen==1 ){
             return view('Admin.PhanBo.listPhanBo',[
-                'title'=>'Danh sách tờ khai',
+                'title'=>'Danh sách phân bổ',
                 'hoGiaDinhChuaPhanBo'=>$hoGiaDinhChuaPhanBo,
                 'hoGiaDinhDaPhanBo'=>$hoGiaDinhDaPhanBo,
                 'dlls'=>$dlls
@@ -270,7 +270,7 @@ class DuyetToKhaiController extends Controller
 //        dd($tableResult,$DKPB,$DKPBT);
         if (Auth::user()->idQuyen==1 ){
             return view('Admin.PhanBo.chitietphanbo',[
-                'title'=>'Chi tiết ủng hộ',
+                'title'=>'Chi tiết phân bổ',
                 'idUngHo'=>$request->id,
                 'tableResult' =>$tableResult,
                 'DKPB'=>$DKPB,
@@ -278,8 +278,13 @@ class DuyetToKhaiController extends Controller
                 'DKPBT'=>$DKPBT
             ]);
         }else
-            return view('Admin.UngHo.chitiet',[
-                'idUngHo'=>$request->id
+            return view('CTV.PhanBo.chitietphanbo',[
+                'title'=>'Chi tiết phân bổ',
+                'idUngHo'=>$request->id,
+                'tableResult' =>$tableResult,
+                'DKPB'=>$DKPB,
+                'HangCT'=>$HangCT,
+                'DKPBT'=>$DKPBT
             ]);
     }
     public function ChiTietDaPhanBo(Request $request){
@@ -307,7 +312,7 @@ class DuyetToKhaiController extends Controller
 //        dd($tableResult,$DKPB,$DKPBT);
         if (Auth::user()->idQuyen==1 ){
             return view('Admin.PhanBo.chitietdaphanbo',[
-                'title'=>'Chi tiết ủng hộ',
+                'title'=>'Chi tiết phân bổ',
                 'idUngHo'=>$request->id,
                 'tableResult' =>$tableResult,
                 'DKPB'=>$DKPB,
@@ -315,8 +320,13 @@ class DuyetToKhaiController extends Controller
                 'DKPBT'=>$DKPBT
             ]);
         }else
-            return view('Admin.UngHo.chitiet',[
-                'idUngHo'=>$request->id
+            return view('CTV.PhanBo.chitietdaphanbo',[
+                'title'=>'Chi tiết phân bổ',
+                'idUngHo'=>$request->id,
+                'tableResult' =>$tableResult,
+                'DKPB'=>$DKPB,
+                'HangCT'=>$HangCT,
+                'DKPBT'=>$DKPBT
             ]);
     }
 }

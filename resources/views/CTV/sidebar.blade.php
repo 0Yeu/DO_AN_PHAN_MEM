@@ -66,6 +66,23 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item phanbo">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Phân bổ
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+                        <li class="nav-item">
+                            <a href="/danhsachphanbo" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh sách phân bổ</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
 {{--          </li>--}}
             <li class="nav-item">
