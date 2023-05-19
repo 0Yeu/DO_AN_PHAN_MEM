@@ -138,10 +138,10 @@
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     @if (\Illuminate\Support\Facades\Auth::check())
-                        @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 4)
+                        @if (\Illuminate\Support\Facades\Auth::user()->idQuyen == 3)
                             <a class="navbar-brand" aria-current="page"
                                 style="margin-right: 0px!important;margin-left: 16px"
-                                href="/">{{ \Illuminate\Support\Facades\Auth::user()->hoTen }}</a>
+                                href="/">{{ \Illuminate\Support\Facades\Auth::user()->idHoGiaDinh }}</a>
                             <a class="nav-link" href="/logout"><button class="btn btn-light"
                                     style="margin-left: 0px!important;" type="submit">Đăng xuất</button></a>
                         @else
