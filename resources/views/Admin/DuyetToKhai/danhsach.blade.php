@@ -77,18 +77,18 @@
         @csrf
     </form>
     <div class="card-tools float-right">
-        <ul class="pagination pagination-sm">
+        <ul class="pagination pagination-sm mt-3">
             @if ($menus->onFirstPage())
-                <li class="disabled"><span class="page-link">Previous</span></li>
+                <li class="disabled"><span class="page-link">Trang trước</span></li>
             @else
-                <li class="page-item" ><a class="page-link" href="{{ $menus->previousPageUrl() }}" rel="prev">Previous</a></li>
+                <li class="page-item" ><a class="page-link" href="{{ $menus->previousPageUrl() }}" rel="prev">Trang trước</a></li>
             @endif
 
 
             @if ($menus->hasMorePages())
-                <li class="page-item"><a class="page-link" href="{{ $menus->nextPageUrl() }}" rel="next">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{{ $menus->nextPageUrl() }}" rel="next">Trang sau</a></li>
             @else
-                <li class="disabled"><span class="page-link">Next</span></li>
+                <li class="disabled"><span class="page-link">Trang sau</span></li>
             @endif
         </ul>
     </div>

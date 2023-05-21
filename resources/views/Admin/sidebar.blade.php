@@ -11,24 +11,18 @@
 
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                <div class="image">
-                    <img src="/template/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
-                        alt="User Image">
-                </div>
-                <div class="info">
-
-                    <a href="#" class="d-block">{{ Auth::user()->hoTen }}</a>
-                    {{-- <a href="/logout" class="btn btn-navbar nav-link mb-3">
-                        <p>Đăng xuất</p>
-                    </a> --}}
-                </div>
-                <div class="row">
-                    <a href="/logout" class="ml-3">
-                        <button  type="button" class="btn btn-outline-danger">Đăng xuất</button>
-                    </a>
-                </div>
+            <div class="image">
+                <img src="/template/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{ Auth::user()->hoTen }}</a>
+            </div>
+            <div class="row">
+                <a href="/logout" class="ml-3">
+                    <button type="button" class="btn btn-outline-danger">Đăng xuất</button>
+                </a>
+            </div>
         </div>
-
 
         <!-- SidebarSearch Form -->
         <div class="form-inline mt-3">
@@ -50,7 +44,6 @@
                 <li class="nav-item quanlydanhmuc">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
-                        {{-- <i class="nav-icon bi bi-card-list"></i> --}}
                         <p>
                             Quản lý danh mục
                             <i class="right fas fa-angle-left"></i>
@@ -91,7 +84,6 @@
                 </li>
                 <li class="nav-item quanlykho">
                     <a href="#" class="nav-link">
-                        {{-- <i class="nav-icon fas fa-chart-pie"></i> --}}
                         <i class="nav-icon fa fa-archive" aria-hidden="true"></i>
                         <p>
                             Quản lý kho
@@ -115,7 +107,6 @@
                 </li>
                 <li class="nav-item pheduyet">
                     <a href="#" class="nav-link">
-                        {{-- <i class="nav-icon fas fa-chart-pie"></i> --}}
                         <i class="nav-icon fas fa-file"></i>
                         <p>
                             Phê duyệt

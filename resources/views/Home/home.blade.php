@@ -1,60 +1,3 @@
-{{-- @extends('Home.main') --}}
-{{-- @section('head') --}}
-{{--    <script src="ckedit/ckeditor.js"></script> --}}
-{{--    <style> --}}
-{{--        .card-text+p{ --}}
-{{--            display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;text-overflow: ellipsis; --}}
-{{--        } --}}
-{{--    </style> --}}
-{{-- @endsection --}}
-{{-- @section('content') --}}
-{{--    <div class="preloader flex-column justify-content-center align-items-center"> --}}
-{{--        <img class="animation__shake" src="/template/admin/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60"> --}}
-{{--    </div> --}}
-
-{{--    <div class="container my-5"> --}}
-{{--        <div class="row"> --}}
-{{--            <?php $i = 0; ?> --}}
-{{--            @foreach ($BaiDangs as $baiDang) --}}
-{{--                <div class="col-lg-4 mb-4"> --}}
-{{--                    <div class="card h-100"> --}}
-{{--                        <div class="card-img-top"> --}}
-{{--                            <img src="{{$baiDang->hinhAnh}}" class="img-fluid" alt="..." style="height: 200px;scale: inherit"> --}}
-{{--                        </div> --}}
-{{--                        <div class="card-body"> --}}
-{{--                            <h5 class="card-title">{{$baiDang->tenDotCuuTro}}</h5> --}}
-{{--                            <p class="card-text">{!! $baiDang->noiDung !!}</p> --}}
-{{--                            <p class="card-text">{{ $baiDang->soTien }}</p> --}}
-{{--                        </div> --}}
-{{--                        <a href="#" class="btn btn-primary">Chi tiết</a> --}}
-{{--                    </div> --}}
-{{--                </div> --}}
-{{--            @endforeach --}}
-{{--        </div> --}}
-{{--        <div class="card-tools float-right"> --}}
-{{--            <ul class="pagination pagination-sm"> --}}
-{{--                @if ($BaiDangs->onFirstPage()) --}}
-{{--                    <li class="disabled"><span class="page-link">&laquo;</span></li> --}}
-{{--                @else --}}
-{{--                    <li class="page-item" ><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}" rel="prev">&laquo;</a></li> --}}
-{{--                @endif --}}
-
-
-{{--                @if ($BaiDangs->hasMorePages()) --}}
-{{--                    <li class="page-item"><a class="page-link" href="{{ $BaiDangs->nextPageUrl() }}" rel="next">&raquo;</a></li> --}}
-{{--                @else --}}
-{{--                    <li class="disabled"><span class="page-link">&raquo;</span></li> --}}
-{{--                @endif --}}
-{{--            </ul> --}}
-{{--        </div> --}}
-{{--    </div> --}}
-
-{{-- @endsection --}}
-{{-- @section('footer') --}}
-{{--    <script> --}}
-{{--        CKEDITOR.replace( 'content' ); --}}
-{{--    </script> --}}
-{{-- @endsection --}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -111,10 +54,6 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
-                {{--            <a class="navbar-brand" href="#">Cứu Trợ Lũ Lụt</a> --}}
-                {{--             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"> --}}
-                {{--            <span class="navbar-toggler-icon"></span> --}}
-                {{--          </button> --}}
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
@@ -191,12 +130,12 @@
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
+            <span class="visually-hidden">Trang trước</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
+            <span class="visually-hidden">Trang sau</span>
         </button>
     </div>
     @include('admin.alert')
@@ -259,7 +198,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="progress">
                                             <div class="progress-bar" role="progressbar"
                                                 style="width: {{ ($tongTien / $baiDang->soTien) * 100 }}%;"
@@ -276,7 +214,6 @@
                                                     {{ $baiDang->soTien }}</p>
                                             </div>
                                         </div>
-
                                     </div>
                                     <a href="/DangKyUngHo" class="btn btn-outline-success"
                                         style="margin: 10% 10% 10% 10%; ">Ủng hộ</a>
@@ -292,8 +229,6 @@
                                 <li class="page-item"><a class="page-link" href="{{ $BaiDangs->previousPageUrl() }}"
                                         rel="prev">&laquo;</a></li>
                             @endif
-
-
                             @if ($BaiDangs->hasMorePages())
                                 <li class="page-item"><a class="page-link" href="{{ $BaiDangs->nextPageUrl() }}"
                                         rel="next">&raquo;</a></li>
@@ -305,124 +240,6 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="row">
-                        <h2>Tin mới nhất</h2>
-                        <?php $i = 0; ?>
-                        @foreach ($BaiDangs as $baiDang)
-                            <div class="col-md-4">
-                                <div class="card h-100 w-100">
-                                    <div class="card-header w-100" style="height: 200px;">
-                                        <img src="{{ $baiDang->hinhAnh }}" class="img-fluid h-100 w-100"
-                                            style="object-fit: cover">
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $baiDang->tenDotCuuTro }}</h5>
-                                        <p class="card-text">{!! $baiDang->noiDung !!}</p>
-                                        <p class="card-text">{{ $baiDang->soTien }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div> --}}
-        {{-- <footer class="footer mt-auto py-3 bg-dark">
-            <div class="container">
-                <span class="text-white">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio
-                    obcaecati consequatur, animi illum omnis iusto aspernatur sit at esse odio.</span>
-            </div>
-        </footer> --}}
-        {{-- <div class="container ">
-            <footer class="py-5 ">
-                <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-                    <div class="row">
-                        <div class="col-6 col-md-2 mb-3">
-                            <h5>Section</h5>
-                            <ul class="nav flex-column">
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#"
-                                        class="nav-link p-0 text-muted">Features</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#"
-                                        class="nav-link p-0 text-muted">Pricing</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-6 col-md-2 mb-3">
-                            <h5>Section</h5>
-                            <ul class="nav flex-column">
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#"
-                                        class="nav-link p-0 text-muted">Features</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#"
-                                        class="nav-link p-0 text-muted">Pricing</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-6 col-md-2 mb-3">
-                            <h5>Section</h5>
-                            <ul class="nav flex-column">
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#"
-                                        class="nav-link p-0 text-muted">Features</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#"
-                                        class="nav-link p-0 text-muted">Pricing</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a>
-                                </li>
-                                <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-md-5 offset-md-1 mb-3">
-                            <form>
-                                <h5>Subscribe to our newsletter</h5>
-                                <p>Monthly digest of what's new and exciting from us.</p>
-                                <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                                    <label for="newsletter1" class="visually-hidden">Email address</label>
-                                    <input id="newsletter1" type="text" class="form-control"
-                                        placeholder="Email address">
-                                    <button class="btn btn-primary" type="button">Subscribe</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-                    <p>© 2022 Company, Inc. All rights reserved.</p>
-                    <ul class="list-unstyled d-flex">
-                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24"
-                                    height="24">
-                                    <use xlink:href="#twitter"></use>
-                                </svg></a></li>
-                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24"
-                                    height="24">
-                                    <use xlink:href="#instagram"></use>
-                                </svg></a></li>
-                        <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24"
-                                    height="24">
-                                    <use xlink:href="#facebook"></use>
-                                </svg></a></li>
-                    </ul>
-                </div>
-            </footer>
-        </div> --}}
 
         <div class="footer">
             <footer class="py-3 my-4 bg-dark ">

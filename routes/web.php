@@ -74,14 +74,7 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
             Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
         });
-//        Route::prefix('DotLuLut')->group(function (){
-//            Route::get('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'create']);
-//            Route::post('addDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'store']);
-//            Route::get('listDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'index'])->name('listDanhMuc');
-//            Route::get('destroy',[\App\Http\Controllers\Admin\MenuController::class,'destroy']);
-//            Route::get('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'show']);
-//            Route::post('editDanhMuc',[\App\Http\Controllers\Admin\MenuController::class,'edit']);
-//        });
+
         Route::prefix('dotlulut')->group(function (){
             Route::get('addDotLuLut',[\App\Http\Controllers\Admin\DotLuLutController::class,'create']);
             Route::post('addDotLuLut',[\App\Http\Controllers\Admin\DotLuLutController::class,'store']);
@@ -91,7 +84,6 @@ Route::middleware(['auth','CheckQuyen:1'])->group(function(){
             Route::post('editDanhMuc',[\App\Http\Controllers\Admin\DotLuLutController::class,'edit']);
         });
         Route::prefix('hanghoa')->group(function (){
-//            Route::get('/',[\App\Http\Controllers\Admin\HangHoaController::class,'index'])->name('listhanghoa');
             Route::get('addDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'create']);
             Route::post('addDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'store']);
             Route::get('listDanhMuc',[\App\Http\Controllers\Admin\HangHoaController::class,'index'])->name('listhanghoa');
@@ -240,7 +232,7 @@ Route::middleware(['auth', 'CheckQuyen:1,2'])->group(function (){
 });
 
 Route::middleware(['auth', 'CheckQuyen:1,2,3'])->group(function () {
-    // Các route chỉ được truy cập bởi user có quyền 1 hoặc 3
+    // các route chỉ được truy cập bởi uesr có quyền 1 hoặc 3
     Route::prefix('HoGiaDinh')->group(function () {
         Route::get('/', function () {
             return (new \App\Http\Controllers\Admin\HoGiaDinhController())->HomeHGD();
